@@ -1,14 +1,18 @@
 package com.nurse.healthy.service.Impl;
 
+import com.nurse.healthy.component.RedisCache;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.exception.MyException;
+import com.nurse.healthy.jwt.JWTInfo;
+import com.nurse.healthy.jwt.jwtHelper;
 import com.nurse.healthy.mapper.LoginMapper;
-import com.nurse.healthy.model.entity.Archive;
-import com.nurse.healthy.model.entity.SysLogin;
-import com.nurse.healthy.model.po.RegisterVO;
+import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
+import com.nurse.healthy.model.entity.sys.SysLogin;
+import com.nurse.healthy.model.entity.auth.SysUserLogin;
+import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.LoginService;
-import com.nurse.healthy.util.AESUtill;
-import com.nurse.healthy.vo.ResultBody;
+import com.nurse.healthy.service.SysEmployeeInfoService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -16,32 +20,66 @@ import javax.annotation.Resource;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+
+    //加密密钥
+    @Value("${jwt.rsa-secret}")
+    private String priKeyPath;
+
+    //过期时间
+    @Value("${jwt.expire}")
+    private int expire;
+
     @Resource
     private SnowflakeComponent snowflakeComponent;
 
     @Resource
     private LoginMapper loginMapper;
-    @Override
-    public Boolean register(RegisterVO registerVO) {
-        //密码加密
-        String password = AESUtill.encryptData(registerVO.getPassword());
 
-        SysLogin sysLogin = SysLogin.builder().accountNumber(registerVO.getAccountNumber()).password(password).id(snowflakeComponent.getInstance().nextId()).build();
+    @Resource
+    private SysEmployeeInfoService sysEmployeeInfoService;
 
-        loginMapper.insert(sysLogin);
-        return true;
-    }
+    @Resource
+    private RedisCache redisCache;
+
 
     @Override
-    public Boolean login(String accountNumber, String password) {
+    public UserInfoToken login(SysUserLogin sysUserLogin) {
+
         Example example = new Example(SysLogin.class);
-        example.selectProperties("password");
         Example.Criteria c = example.createCriteria();
-        c.andEqualTo("account_number", accountNumber);
-        SysLogin sysLogin = loginMapper.selectOneByExample(c);
-        if(!password.equals(AESUtill.deci(sysLogin.getPassword()))){
+        c.andEqualTo("employee_code",sysUserLogin.getEmployeeCode());
+        SysLogin sysLogin = loginMapper.selectOneByExample(example);
+
+        if(sysLogin==null){
+            throw new MyException("该账号不存在");
+        }
+
+        if(!sysUserLogin.getPassword().equals(sysLogin.getPassword())){
             throw new MyException("密码错误");
         }
-        return true;
+
+        //查询使用该账号员工的信息
+        //当前用户
+        SysEmployeeInfo sysEmployeeInfo = sysEmployeeInfoService.selectOneInfo(sysUserLogin.getEmployeeCode());
+
+        UserInfoToken userInfoToken = new UserInfoToken();
+
+        String token;
+        try {
+         token = jwtHelper.createToken(new JWTInfo(sysEmployeeInfo.getEmployeeCode(), sysEmployeeInfo.getId() , sysEmployeeInfo.getName()));
+            userInfoToken.setToken(token);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new MyException("token生成失败！");
+        }
+
+        //保存用户信息
+        redisCache.setCacheObject(token, userInfoToken);
+        redisCache.expire(token, expire);
+
+        userInfoToken.setUserId(sysEmployeeInfo.getId());
+
+        return userInfoToken;
     }
+
 }

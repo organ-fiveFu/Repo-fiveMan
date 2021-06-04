@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Nursing.iml" filepath="$PROJECT_DIR$/.idea/Nursing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Nursing-home-SpringBoot-master/employ-sys.iml" filepath="$PROJECT_DIR$/Nursing-home-SpringBoot-master/employ-sys.iml" />
-    </modules>
-  </component>
-</project>

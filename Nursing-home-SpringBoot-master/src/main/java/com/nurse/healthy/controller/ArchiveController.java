@@ -1,7 +1,7 @@
 package com.nurse.healthy.controller;
 
-import com.nurse.healthy.model.entity.Archive;
-import com.nurse.healthy.service.ArchiveService;
+import com.nurse.healthy.model.entity.sys.BasePatientInfo;
+import com.nurse.healthy.service.BasePatientInfoService;
 import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,15 +22,13 @@ import javax.annotation.Resource;
 @Slf4j
 public class ArchiveController {
 
-    @Resource
-    private ArchiveService archiveService;
     /**
      * 查询老人基础档案
      */
     @ApiOperation("老人基本档案分页")
     @PostMapping("/baseArchive")
-    public ResultBody<Archive> baseArchivePage(Integer id){
-    return archiveService.selectInfo();
+    public ResultBody<BasePatientInfo> baseArchivePage(Integer id){
+    return null;
     }
 
     /**

@@ -1,22 +1,17 @@
 package com.nurse.healthy.service;
 
-import com.nurse.healthy.model.entity.Archive;
-import com.nurse.healthy.model.po.RegisterVO;
-import com.nurse.healthy.vo.ResultBody;
+import com.nurse.healthy.model.entity.auth.SysUserLogin;
+import com.nurse.healthy.result.UserInfoToken;
 
 public interface LoginService {
-    /**
-     * 用户注册
-     * @param registerVO
-     * @return
-     */
-    Boolean register(RegisterVO registerVO);
+
 
     /**
      * 用户登录
-     * @param accountNumber
-     * @param password
+     * @param sysUserLogin
      * @return
      */
-    Boolean login(String accountNumber, String password);
+    UserInfoToken login(SysUserLogin sysUserLogin);
+
+
 }
