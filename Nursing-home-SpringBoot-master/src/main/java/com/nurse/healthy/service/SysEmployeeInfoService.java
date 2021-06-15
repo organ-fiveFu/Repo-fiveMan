@@ -9,4 +9,19 @@ public interface SysEmployeeInfoService{
      * @return
      */
     SysEmployeeInfo selectOneInfo(String employeeCode);
+
+
+    /**
+     * 更新密码
+     * @param sysEmployeeInfo
+     * @return
+     */
+    Boolean updatePassword(SysEmployeeInfo sysEmployeeInfo);
+
+
+    /**
+     * 根据主键查询
+     *
+     */
+    SysEmployeeInfo selectById(Long id);
 }

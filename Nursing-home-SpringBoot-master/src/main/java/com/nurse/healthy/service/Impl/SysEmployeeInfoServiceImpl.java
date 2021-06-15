@@ -18,8 +18,20 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     public SysEmployeeInfo selectOneInfo(String employeeCode) {
         Example example = new Example(SysEmployeeInfo.class);
         Example.Criteria c = example.createCriteria();
-        c.andEqualTo("employee_code",employeeCode);
+        c.andEqualTo("employeeCode",employeeCode);
         SysEmployeeInfo sysEmployeeInfo = sysEmployeeInfoMapper.selectOneByExample(example);
         return sysEmployeeInfo;
     }
+
+    @Override
+    public Boolean updatePassword(SysEmployeeInfo sysEmployeeInfo) {
+        sysEmployeeInfoMapper.updateByPrimaryKey(sysEmployeeInfo);
+        return true;
+    }
+
+    @Override
+    public SysEmployeeInfo selectById(Long id) {
+        return sysEmployeeInfoMapper.selectByPrimaryKey(id);
+    }
+
 }

@@ -14,4 +14,12 @@ public interface LoginService {
     UserInfoToken login(SysUserLogin sysUserLogin);
 
 
+    /**
+     * 更新密码
+     * @param userInfo
+     * @return
+     */
+    Boolean updatePassword(String password,UserInfoToken userInfo);
+
+
 }

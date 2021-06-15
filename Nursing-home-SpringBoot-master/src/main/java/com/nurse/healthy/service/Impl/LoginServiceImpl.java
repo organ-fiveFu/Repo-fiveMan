@@ -14,6 +14,7 @@ import com.nurse.healthy.service.LoginService;
 import com.nurse.healthy.service.SysEmployeeInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -47,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
 
         Example example = new Example(SysLogin.class);
         Example.Criteria c = example.createCriteria();
-        c.andEqualTo("employee_code",sysUserLogin.getEmployeeCode());
+        c.andEqualTo("employeeCode",sysUserLogin.getEmployeeCode());
         SysLogin sysLogin = loginMapper.selectOneByExample(example);
 
         if(sysLogin==null){
@@ -64,22 +65,41 @@ public class LoginServiceImpl implements LoginService {
 
         UserInfoToken userInfoToken = new UserInfoToken();
 
+
         String token;
         try {
-         token = jwtHelper.createToken(new JWTInfo(sysEmployeeInfo.getEmployeeCode(), sysEmployeeInfo.getId() , sysEmployeeInfo.getName()));
+         token = "Bearer "+jwtHelper.createToken(new JWTInfo(sysEmployeeInfo.getEmployeeCode(), sysEmployeeInfo.getId() , sysEmployeeInfo.getName()));
             userInfoToken.setToken(token);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new MyException("token生成失败！");
         }
 
+        userInfoToken.setUserId(sysEmployeeInfo.getId());
+        userInfoToken.setName(sysEmployeeInfo.getName());
+        userInfoToken.setEmployeeCode(sysEmployeeInfo.getEmployeeCode());
         //保存用户信息
         redisCache.setCacheObject(token, userInfoToken);
         redisCache.expire(token, expire);
 
-        userInfoToken.setUserId(sysEmployeeInfo.getId());
 
         return userInfoToken;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updatePassword(String password,UserInfoToken userInfo) {
+      SysEmployeeInfo sysEmployeeInfo =  sysEmployeeInfoService.selectById(userInfo.getUserId());
+      sysEmployeeInfo.setPassword(password);
+      sysEmployeeInfoService.updatePassword(sysEmployeeInfo);
+
+      Example example = new Example(SysLogin.class);
+      Example.Criteria c = example.createCriteria();
+
+        SysLogin sysLogin = SysLogin.builder().employeeCode(userInfo.getEmployeeCode()).password(password).build();
+        c.andEqualTo("employeeCode",userInfo.getEmployeeCode());
+        loginMapper.updateByExampleSelective(sysLogin,example);
+        return true;
     }
 
 }

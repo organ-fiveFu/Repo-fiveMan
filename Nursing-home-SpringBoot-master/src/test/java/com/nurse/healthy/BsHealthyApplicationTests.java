@@ -1,5 +1,6 @@
 package com.nurse.healthy;
 
+import com.nurse.healthy.component.RedisCache;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.jwt.JWTInfo;
 import com.nurse.healthy.jwt.jwtHelper;
@@ -34,6 +35,9 @@ class BsHealthyApplicationTests {
     @Resource
     private LoginService loginService;
 
+    @Resource
+    RedisCache redisCache;
+
     @Test
     public void play(){
         System.out.println(snowflakeComponent.getInstance().nextId());
@@ -54,6 +58,10 @@ class BsHealthyApplicationTests {
         sysEmployeeInfo.setId(snowflakeComponent.getInstance().nextId());
         String  token = jwtHelper.createToken(new JWTInfo(sysEmployeeInfo.getEmployeeCode(), sysEmployeeInfo.getId() , sysEmployeeInfo.getName()));
         System.out.println(token);
+    }
+    @Test
+    public void paly3(){
+        System.out.println(redisCache.getCacheObject("eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiY2MiLCJleHAiOjE2MjM3NDA3MjYsInVzZXJJZCI6MTMxLCJlbXBsb3llZV9jb2RlIjoiMjAyMSJ9.6PYOol3owH6Aq93SBJHU9d5WxQ0pIG1ywHxYLHgdQY8").toString());
     }
 
 }

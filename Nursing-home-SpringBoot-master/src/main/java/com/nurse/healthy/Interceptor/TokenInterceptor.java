@@ -42,23 +42,19 @@ public class TokenInterceptor implements HandlerInterceptor {
                 return true;
             }
             //无注解需要验证token
-            String user_header = httpServletRequest.getHeader(AuthConstants.USER_HEADER);
             String token_header = httpServletRequest.getHeader(AuthConstants.TOKEN_HEADER);
-            if (StrUtil.isAllBlank(user_header,token_header)) {
+            if (StrUtil.isAllBlank(token_header)) {
                 throw new MyException("未获取到token");
             }
             // 获取请求头里授权参数
             if (StringUtils.isNotEmpty(token_header)) {
-                String authStr = redisCache.getCacheObject(token_header);
-                if(StringUtils.isNotEmpty(authStr)){
-                    JSONObject jsonObject = JSONUtil.parseObj(authStr);
-                    UserInfoToken userInfoToken = Convert.convert(UserInfoToken.class, jsonObject);
+                UserInfoToken userInfoToken = redisCache.getCacheObject(token_header);
                     if (userInfoToken != null) {
                         setCurrentUser(httpServletRequest, userInfoToken);
                         UserInfoContextHolder.setCurUserInfo(userInfoToken);
                         return true;
                     }
-                }else {
+                else {
                     throw new MyException("token获取信息失败，该用户已登出或过期，请重新登录");
                 }
             }
