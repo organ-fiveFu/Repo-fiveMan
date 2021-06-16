@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -82,6 +84,13 @@ public class LoginController {
         return ResultBody.newSuccessInstance(loginService.updatePassword(password,userInfo));
     }
 
+    @ApiOperation("获取ip")
+    @PostMapping("/getIp")
+    public ResultBody getIp(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String address = request.getRemoteAddr();
+        return ResultBody.newSuccessInstance(address);
+    }
 
 
 }

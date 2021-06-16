@@ -46,12 +46,12 @@
         </dependency>
 
         <!--分页插件-->
+        <!--分页-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.0.0</version>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
         </dependency>
-
 
         <!--swagger相关-->
         <dependency>
