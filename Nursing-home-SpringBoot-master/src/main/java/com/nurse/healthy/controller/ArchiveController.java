@@ -16,13 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
+import java.io.Writer;
 
 /**
- * 老人档案api
+ * 老人基础档案api
  */
 @RestController
-@RequestMapping("/archive")
-@Api(tags = "老人档案")
+@RequestMapping("/baseArchive")
+@Api(tags = "老人基础档案")
 @Slf4j
 public class ArchiveController {
 
