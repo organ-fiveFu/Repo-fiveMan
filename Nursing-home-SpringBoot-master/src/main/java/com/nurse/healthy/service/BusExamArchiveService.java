@@ -1,8 +1,7 @@
 package com.nurse.healthy.service;
 
-import com.nurse.healthy.model.vo.ExamArchivePO;
+import com.nurse.healthy.model.po.ExamArchivePO;
 import com.nurse.healthy.result.UserInfoToken;
-import com.nurse.healthy.vo.ResultBody;
 
 import java.util.List;
 

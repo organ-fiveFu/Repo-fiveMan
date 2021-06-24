@@ -2,7 +2,7 @@ package com.nurse.healthy.controller;
 
 
 import com.nurse.healthy.annoation.CurrentUser;
-import com.nurse.healthy.model.vo.ExamArchivePO;
+import com.nurse.healthy.model.po.ExamArchivePO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.BusExamArchiveService;
 import com.nurse.healthy.vo.ResultBody;

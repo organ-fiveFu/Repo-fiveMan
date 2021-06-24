@@ -1,4 +1,4 @@
-package com.nurse.healthy.model.po;
+package com.nurse.healthy.model.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

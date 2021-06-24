@@ -9,14 +9,11 @@ import com.nurse.healthy.jwt.jwtHelper;
 import com.nurse.healthy.mapper.LoginMapper;
 import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
 import com.nurse.healthy.model.entity.sys.SysLogin;
-import com.nurse.healthy.model.po.RegisterVO;
 import com.nurse.healthy.service.LoginService;
 import com.nurse.healthy.util.AESUtill;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 import tk.mybatis.mapper.entity.Example;
 

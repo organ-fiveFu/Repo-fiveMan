@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.mapper.*;
 import com.nurse.healthy.model.entity.business.*;
-import com.nurse.healthy.model.vo.ExamArchivePO;
+import com.nurse.healthy.model.po.ExamArchivePO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.BusExamArchiveService;
 import com.nurse.healthy.util.OperateUtil;
