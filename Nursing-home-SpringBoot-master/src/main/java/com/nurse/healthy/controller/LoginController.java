@@ -73,15 +73,14 @@ public class LoginController {
     }
 
     /**
-     * 重置密码
+     * 修改密码
      * @param password
-     * @param userInfo
      * @return
      */
     @ApiOperation("修改密码")
     @PostMapping("/updatePassword")
-    public ResultBody updatePassword(String password,@ApiIgnore @CurrentUser UserInfoToken userInfo) {
-        return ResultBody.newSuccessInstance(loginService.updatePassword(password,userInfo));
+    public ResultBody updatePassword(String password,String employeeCode) {
+        return ResultBody.newSuccessInstance(loginService.updatePassword(password,employeeCode));
     }
 
     @ApiOperation("获取ip")

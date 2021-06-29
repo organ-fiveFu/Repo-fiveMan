@@ -13,5 +13,5 @@ public interface SysEmployeeInfoMapper extends BaseRepository<SysEmployeeInfo> {
 
     void del(@Param("list") List<String> ids);
 
-    void resetPassword(SysEmployeeInfo sysEmployeeInfo);
+    void resetPassword(@Param("employeeCode") String employeeCode);
 }

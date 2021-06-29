@@ -19,7 +19,7 @@ public interface SysEmployeeInfoService{
      * @param sysEmployeeInfo
      * @return
      */
-    Boolean updatePassword(SysEmployeeInfo sysEmployeeInfo);
+    void updatePassword(SysEmployeeInfo sysEmployeeInfo);
 
 
     /**
@@ -56,5 +56,5 @@ public interface SysEmployeeInfoService{
      * 重置密码
      * @return
      */
-    void resetPassword(SysEmployeeInfo sysEmployeeInfo);
+    void resetPassword(String employeeCode);
 }
