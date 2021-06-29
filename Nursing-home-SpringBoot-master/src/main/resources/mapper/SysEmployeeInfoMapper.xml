@@ -33,7 +33,9 @@
     </update>
 
     <update id="resetPassword">
-
+update sys_employee_info
+set password = '000000'
+where employee_code = #{employeeCode}
     </update>
 
     <select id="selectAllCode" resultType="java.lang.String">

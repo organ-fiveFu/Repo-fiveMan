@@ -66,8 +66,8 @@ public class EmployeeController {
 
     @ApiOperation("重置密码")
     @PostMapping("/resetPassword")
-    public ResultBody resetPassword(@RequestBody SysEmployeeInfo sysEmployeeInfo){
-        sysEmployeeInfoService.resetPassword(sysEmployeeInfo);
+    public ResultBody resetPassword(String employeeCode){
+        sysEmployeeInfoService.resetPassword(employeeCode);
         return ResultBody.newSuccessInstance();
     }
 

@@ -11,8 +11,8 @@
     </resultMap>
     <update id="resetPassword">
         update sys_login
-        set password = 000000
-        where employeeCode = #{employeeCode}
+        set password = '000000'
+        where employee_code = #{employeeCode}
     </update>
 
 </mapper>

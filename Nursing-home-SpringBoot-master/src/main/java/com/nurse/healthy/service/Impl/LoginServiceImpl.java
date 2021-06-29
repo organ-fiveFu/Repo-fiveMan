@@ -6,6 +6,7 @@ import com.nurse.healthy.exception.MyException;
 import com.nurse.healthy.jwt.JWTInfo;
 import com.nurse.healthy.jwt.jwtHelper;
 import com.nurse.healthy.mapper.LoginMapper;
+import com.nurse.healthy.mapper.SysEmployeeInfoMapper;
 import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
 import com.nurse.healthy.model.entity.sys.SysLogin;
 import com.nurse.healthy.model.entity.auth.SysUserLogin;
@@ -41,6 +42,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private RedisCache redisCache;
+
+    @Resource
+    private SysEmployeeInfoMapper sysEmployeeInfoMapper;
 
 
     @Override
@@ -88,16 +92,19 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updatePassword(String password,UserInfoToken userInfo) {
-      SysEmployeeInfo sysEmployeeInfo =  sysEmployeeInfoService.selectById(userInfo.getUserId());
-      sysEmployeeInfo.setPassword(password);
-      sysEmployeeInfoService.updatePassword(sysEmployeeInfo);
+    public Boolean updatePassword(String password,String employeeCode) {
+        Example example1 = new Example(SysEmployeeInfo.class);
+        Example.Criteria c1 = example1.createCriteria();
+        c1.andEqualTo("employeeCode",employeeCode);
+        SysEmployeeInfo sysEmployeeInfo = sysEmployeeInfoMapper.selectOneByExample(example1);
+        sysEmployeeInfo.setPassword(password);
+        sysEmployeeInfoService.updatePassword(sysEmployeeInfo);
 
-      Example example = new Example(SysLogin.class);
-      Example.Criteria c = example.createCriteria();
+        Example example = new Example(SysLogin.class);
+        Example.Criteria c = example.createCriteria();
 
-        SysLogin sysLogin = SysLogin.builder().employeeCode(userInfo.getEmployeeCode()).password(password).build();
-        c.andEqualTo("employeeCode",userInfo.getEmployeeCode());
+        SysLogin sysLogin = SysLogin.builder().employeeCode(employeeCode).password(password).build();
+        c.andEqualTo("employeeCode",employeeCode);
         loginMapper.updateByExampleSelective(sysLogin,example);
         return true;
     }
@@ -105,6 +112,16 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void resetPassword(String employeeCode) {
         loginMapper.resetPassword(employeeCode);
+    }
+
+    @Override
+    public void addEmployee(String employeeCode) {
+      Long id = snowflakeComponent.getInstance().nextId();
+        SysLogin sysLogin = new SysLogin();
+        sysLogin.setId(id);
+        sysLogin.setEmployeeCode(employeeCode);
+        sysLogin.setPassword("000000");
+        loginMapper.insert(sysLogin);
     }
 
 }

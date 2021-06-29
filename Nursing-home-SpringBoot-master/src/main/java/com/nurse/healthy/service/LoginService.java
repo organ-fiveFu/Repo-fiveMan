@@ -16,14 +16,19 @@ public interface LoginService {
 
     /**
      * 更新密码
-     * @param userInfo
+     * @param employeeCode
      * @return
      */
-    Boolean updatePassword(String password,UserInfoToken userInfo);
+    Boolean updatePassword(String password,String employeeCode);
 
     /**
      * 重置工号密码
      * @param employeeCode
      */
     void resetPassword(String employeeCode);
+
+    /**
+     * 增加账号和密码
+     */
+    void addEmployee(String employeeCode);
 }

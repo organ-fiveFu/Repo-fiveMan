@@ -121,7 +121,7 @@ public class SysEmployeeInfo implements Serializable {
     private Integer isDel;
 
     /**
-     * 查询时添加是否显示停用(0为使用 ，1为停用)
+     * 查询时添加是否显示停用(1为使用 ，0为停用)
      */
     @ApiModelProperty(value = "查询时添加是否显示停用(0为使用 ，1为停用)", required = false)
     @Column(name = "use_flag")

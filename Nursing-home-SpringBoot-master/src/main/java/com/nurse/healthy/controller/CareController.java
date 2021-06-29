@@ -64,7 +64,7 @@ public class CareController {
 
     @ApiOperation("删除护工信息")
     @PostMapping("/del")
-    public ResultBody del(List<String> ids) {
+    public ResultBody del(@RequestBody List<String> ids) {
         careService.del(ids);
         return ResultBody.newSuccessInstance();
     }

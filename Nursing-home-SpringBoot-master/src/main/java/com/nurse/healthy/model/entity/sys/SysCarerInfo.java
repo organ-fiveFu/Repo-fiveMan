@@ -25,7 +25,7 @@ public class SysCarerInfo implements Serializable {
      * 护工编号
      */
     @ApiModelProperty(value = "护工编号", required = false)
-    @Column(name = "employee_code")
+    @Column(name = "care_code")
     private String careCode;
 
     /**

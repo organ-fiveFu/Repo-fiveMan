@@ -38,9 +38,8 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     }
 
     @Override
-    public Boolean updatePassword(SysEmployeeInfo sysEmployeeInfo) {
+    public void updatePassword(SysEmployeeInfo sysEmployeeInfo) {
         sysEmployeeInfoMapper.updateByPrimaryKey(sysEmployeeInfo);
-        return true;
     }
 
     @Override
@@ -61,6 +60,7 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
         }
         OperateUtil.onSaveNew(sysEmployeeInfo,userInfo,id);
         sysEmployeeInfoMapper.insert(sysEmployeeInfo);
+        loginService.addEmployee(sysEmployeeInfo.getEmployeeCode());
     }
 
     @Override
@@ -99,9 +99,9 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
      * 重置密码
      */
     @Override
-    public void resetPassword(SysEmployeeInfo sysEmployeeInfo) {
-        loginService.resetPassword(sysEmployeeInfo.getEmployeeCode());
-        sysEmployeeInfoMapper.resetPassword(sysEmployeeInfo);
+    public void resetPassword(String employeeCode) {
+        loginService.resetPassword(employeeCode);
+        sysEmployeeInfoMapper.resetPassword(employeeCode);
     }
 
 
