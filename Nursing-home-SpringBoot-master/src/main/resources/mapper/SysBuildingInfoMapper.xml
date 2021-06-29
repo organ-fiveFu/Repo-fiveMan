@@ -38,8 +38,8 @@
         SELECT
           id AS "id",
           0 AS "parentId",
-          '' AS "parentName",
-          name AS "name"
+          name AS "name",
+          '' AS "parentName"
         FROM sys_building_info
         WHERE is_del = 0
     </select>
