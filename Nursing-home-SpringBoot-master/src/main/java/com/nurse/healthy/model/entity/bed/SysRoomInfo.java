@@ -12,14 +12,14 @@ import javax.persistence.*;
  * All Rights Reserved.
  * Choice Proprietary and Confidential.
  *
- * SysBedInfo
+ * SysRoomInfo
  *
  * @author linxiazhu-auto-build
- * @since  2021-06-24 17:18:13
+ * @since  2021-06-27 14:46:13
  */
 @Data
-@Table(name = "sys_bed_info")
-public class SysBedInfo implements Serializable {
+@Table(name = "sys_room_info")
+public class SysRoomInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 		/**
@@ -30,25 +30,11 @@ public class SysBedInfo implements Serializable {
     private Long id;
 	
 		/**
-	 * 床位编号
-	 */
-	@ApiModelProperty(value = "床位编号", required = false)
-    @Column(name = "bed_code")
-    private String bedCode;
-	
-		/**
 	 * 房间编号
 	 */
 	@ApiModelProperty(value = "房间编号", required = false)
     @Column(name = "room_code")
     private String roomCode;
-	
-		/**
-	 * 楼层编号
-	 */
-	@ApiModelProperty(value = "楼层编号", required = false)
-    @Column(name = "floor_code")
-    private String floorCode;
 	
 		/**
 	 * 楼宇编号
@@ -58,11 +44,25 @@ public class SysBedInfo implements Serializable {
     private String buildingCode;
 	
 		/**
-	 * 床位名称
+	 * 楼层编号
 	 */
-	@ApiModelProperty(value = "床位名称", required = false)
+	@ApiModelProperty(value = "楼层编号", required = false)
+    @Column(name = "floor_code")
+    private String floorCode;
+	
+		/**
+	 * 房间名称
+	 */
+	@ApiModelProperty(value = "房间名称", required = false)
     @Column(name = "name")
     private String name;
+	
+		/**
+	 * 房间类型
+	 */
+	@ApiModelProperty(value = "房间类型", required = false)
+    @Column(name = "room_type")
+    private String roomType;
 	
 		/**
 	 * 创建人
@@ -98,19 +98,11 @@ public class SysBedInfo implements Serializable {
 	@ApiModelProperty(value = "是否启用", required = false)
     @Column(name = "is_del")
     private Integer isDel;
-	
-		/**
-	 * 入住状态
+
+	/**
+	 * 房间朝向
 	 */
-	@ApiModelProperty(value = "入住状态", required = false)
-    @Column(name = "status")
-    private Integer status;
-	
-		/**
-	 * 查询时添加是否显示停用(0为停用 ，1为使用)
-	 */
-	@ApiModelProperty(value = "查询时添加是否显示停用(0为停用 ，1为使用)", required = false)
-    @Column(name = "use_flag")
-    private Integer useFlag;
-	
+	@ApiModelProperty(value = "房间朝向", required = false)
+	@Column(name = "room_toward")
+	private String roomToward;
 }
