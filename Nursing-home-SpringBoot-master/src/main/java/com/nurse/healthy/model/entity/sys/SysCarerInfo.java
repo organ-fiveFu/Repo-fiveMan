@@ -10,9 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@Table(name = "sys_employee_info")
-public class SysEmployeeInfo implements Serializable {
-
+@Table(name = "sys_carer_info")
+public class SysCarerInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -23,67 +22,60 @@ public class SysEmployeeInfo implements Serializable {
     private Long id;
 
     /**
-     * 员工编号
+     * 护工编号
      */
-    @ApiModelProperty(value = "员工编号", required = false)
+    @ApiModelProperty(value = "护工编号", required = false)
     @Column(name = "employee_code")
-    private String employeeCode;
+    private String careCode;
 
     /**
-     * 员工姓名
+     * 护工姓名
      */
-    @ApiModelProperty(value = "员工姓名", required = false)
+    @ApiModelProperty(value = "护工姓名", required = false)
     @Column(name = "name")
     private String name;
 
     /**
-     * 员工性别
+     * 护工性别
      */
-    @ApiModelProperty(value = "员工性别", required = false)
+    @ApiModelProperty(value = "护工性别", required = false)
     @Column(name = "sex")
     private String sex;
 
     /**
-     * 员工生日
+     * 护工生日
      */
-    @ApiModelProperty(value = "员工生日", required = false)
+    @ApiModelProperty(value = "护工生日", required = false)
     @Column(name = "birthday")
     private String birthday;
 
     /**
-     * 员工年纪
+     * 护工年纪
      */
-    @ApiModelProperty(value = "员工年纪", required = false)
+    @ApiModelProperty(value = "护工年纪", required = false)
     @Column(name = "age")
     private Integer age;
 
     /**
-     * 员工身份证号
+     * 护工身份证号
      */
-    @ApiModelProperty(value = "员工身份证号", required = false)
+    @ApiModelProperty(value = "护工身份证号", required = false)
     @Column(name = "id_card")
     private String idCard;
 
     /**
-     * 员工联系号码
+     * 护工联系号码
      */
-    @ApiModelProperty(value = "员工联系号码", required = false)
+    @ApiModelProperty(value = "护工联系号码", required = false)
     @Column(name = "contact_number")
     private String contactNumber;
 
     /**
-     * 员工联系地址
+     * 护工联系地址
      */
-    @ApiModelProperty(value = "员工联系地址", required = false)
+    @ApiModelProperty(value = "护工联系地址", required = false)
     @Column(name = "address")
     private String address;
-
-    /**
-     * 员工工号密码
-     */
-    @ApiModelProperty(value = "员工工号密码", required = false)
-    @Column(name = "password")
-    private String password;
 
     /**
      * 创建人
@@ -120,17 +112,5 @@ public class SysEmployeeInfo implements Serializable {
     @Column(name = "is_del")
     private Integer isDel;
 
-    /**
-     * 查询时添加是否显示停用(0为使用 ，1为停用)
-     */
-    @ApiModelProperty(value = "查询时添加是否显示停用(0为使用 ，1为停用)", required = false)
-    @Column(name = "use_flag")
-    private Integer useFlag;
-
-
-    @ApiModelProperty(value="是否为管理员 0:不是 1:是")
-    @Column(name = "is_administrator")
-    private Integer isAdministrator;
-
-
 }
+

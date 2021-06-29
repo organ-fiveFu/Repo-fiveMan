@@ -6,6 +6,7 @@ import com.nurse.healthy.model.po.ExamArchivePO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.BusExamArchiveService;
 import com.nurse.healthy.vo.ResultBody;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/examArchive")
+@Api(tags = "体检档案")
 public class ExamArchiveController {
 
     @Resource

@@ -1,6 +1,8 @@
 package com.nurse.healthy.controller.dict;
 
+import com.nurse.healthy.annoation.CurrentUser;
 import com.nurse.healthy.model.entity.sys.SysDictType;
+import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictService;
 import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/dictType")
@@ -24,32 +28,31 @@ public class DictTypeController {
 
     @ApiOperation("新增字典")
     @PostMapping("/add")
-    public ResultBody add(@RequestBody SysDictType sysDictType){
+    public ResultBody add(@RequestBody SysDictType sysDictType, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         log.info("新增字典内容： "+sysDictType);
-        sysDictService.add(sysDictType);
+        sysDictService.add(sysDictType,userInfo);
         return ResultBody.newSuccessInstance();
     }
 
     @ApiOperation("修改字典")
     @PostMapping("/update")
-    public ResultBody update(@RequestBody SysDictType sysDictType){
+    public ResultBody update(@RequestBody SysDictType sysDictType,@ApiIgnore @CurrentUser UserInfoToken userInfo){
         log.info("修改内容： "+sysDictType);
-        sysDictService.update(sysDictType);
+        sysDictService.update(sysDictType,userInfo);
         return ResultBody.newSuccessInstance();
     }
 
     @ApiOperation("查询字典")
     @PostMapping("/select")
-    public ResultBody select(String dictTypeCode){
-        log.info("字典类型code： "+dictTypeCode);
-        return ResultBody.newSuccessInstance(sysDictService.select(dictTypeCode));
+    public ResultBody select(){
+        return ResultBody.newSuccessInstance(sysDictService.select());
     }
 
 
     @ApiOperation("删除字典")
     @PostMapping("/del")
-    public ResultBody del(String dictTypeCode) {
-        sysDictService.del(dictTypeCode);
+    public ResultBody del(@RequestBody List<String> typeCodes) {
+        sysDictService.del(typeCodes);
         return ResultBody.newSuccessInstance();
     }
 

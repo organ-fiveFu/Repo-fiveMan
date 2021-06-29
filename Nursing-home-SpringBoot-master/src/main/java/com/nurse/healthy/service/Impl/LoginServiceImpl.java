@@ -102,4 +102,9 @@ public class LoginServiceImpl implements LoginService {
         return true;
     }
 
+    @Override
+    public void resetPassword(String employeeCode) {
+        loginMapper.resetPassword(employeeCode);
+    }
+
 }

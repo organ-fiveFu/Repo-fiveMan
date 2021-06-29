@@ -21,5 +21,9 @@ public interface LoginService {
      */
     Boolean updatePassword(String password,UserInfoToken userInfo);
 
-
+    /**
+     * 重置工号密码
+     * @param employeeCode
+     */
+    void resetPassword(String employeeCode);
 }
