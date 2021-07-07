@@ -1,18 +1,34 @@
 package com.nurse.healthy.service;
 
-import com.nurse.healthy.model.po.ExamArchivePO;
+import com.nurse.healthy.model.po.business.ExamArchiveInsertPO;
+import com.nurse.healthy.model.po.business.ExamArchiveUpdatePO;
+import com.nurse.healthy.model.vo.business.ExamArchiveQueryVO;
 import com.nurse.healthy.result.UserInfoToken;
-
-import java.util.List;
 
 public interface BusExamArchiveService {
     /**
      * 保存体检档案
-     * @param examArchivePO
-     * @param userInfo
+     * @param examArchiveInsertPO 入参
+     * @param userInfo token
      */
-    void save(ExamArchivePO examArchivePO, UserInfoToken userInfo);
+    boolean save(ExamArchiveInsertPO examArchiveInsertPO, UserInfoToken userInfo);
 
+    /**
+     * 查询体检档案
+     * @author linxiazhu
+     * @date 15:54 2021/7/6
+     * @param archiveId   老人档案id
+     * @return  com.nurse.healthy.model.vo.business.ExamArchiveQueryVO
+     */
+    ExamArchiveQueryVO select(String archiveId);
 
-    List<ExamArchivePO> select(String businessNo);
+    /**
+     * 更新体检档案
+     * @author linxiazhu
+     * @date 15:30 2021/7/6
+     * @param examArchiveUpdatePO  入参
+     * @param userInfoToken   token
+     * @return  boolean
+     */
+    boolean update(ExamArchiveUpdatePO examArchiveUpdatePO, UserInfoToken userInfoToken);
 }

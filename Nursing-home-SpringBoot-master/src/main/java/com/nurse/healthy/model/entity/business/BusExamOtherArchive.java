@@ -28,32 +28,48 @@ public class BusExamOtherArchive implements Serializable {
     private Long examId;
 
     /**
-     * 血常规
+     * 血常规编码
      */
-    @ApiModelProperty(value = "血常规", required = false)
-    @Column(name = "routine_blood")
-    private String routineBlood;
+    @ApiModelProperty(value = "血常规编码", required = false)
+    @Column(name = "routine_blood_code")
+    private String routineBloodCode;
+
+    @ApiModelProperty(value = "血常规名称", required = false)
+    @Column(name = "routine_blood_name")
+    private String routineBloodName;
 
     /**
-     * 尿常规
+     * 尿常规编码
      */
-    @ApiModelProperty(value = "尿常规", required = false)
-    @Column(name = "routine_urine")
-    private String routineUrine;
+    @ApiModelProperty(value = "尿常规编码", required = false)
+    @Column(name = "routine_urine_code")
+    private String routineUrineCode;
+
+    @ApiModelProperty(value = "尿常规名称", required = false)
+    @Column(name = "routine_urine_name")
+    private String routineUrineName;
 
     /**
-     * 肝肾功能
+     * 肝肾功能编码
      */
-    @ApiModelProperty(value = "肝肾功能", required = false)
-    @Column(name = "alt")
-    private String alt;
+    @ApiModelProperty(value = "肝肾功能编码", required = false)
+    @Column(name = "alt_code")
+    private String altCode;
+
+    @ApiModelProperty(value = "肝肾功能名称", required = false)
+    @Column(name = "alt_name")
+    private String altName;
 
     /**
-     * 胸透
+     * 胸透编码
      */
-    @ApiModelProperty(value = "胸透", required = false)
-    @Column(name = "chest_perspective")
-    private String chestPerspective;
+    @ApiModelProperty(value = "胸透编码", required = false)
+    @Column(name = "chest_perspective_code")
+    private String chestPerspectiveCode;
+
+    @ApiModelProperty(value = "胸透名称", required = false)
+    @Column(name = "chest_perspective_name")
+    private String chestPerspectiveName;
 
     /**
      * 胸透签字

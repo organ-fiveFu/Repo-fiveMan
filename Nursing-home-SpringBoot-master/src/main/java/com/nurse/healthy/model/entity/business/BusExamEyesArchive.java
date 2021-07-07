@@ -1,10 +1,13 @@
 package com.nurse.healthy.model.entity.business;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.*;
 
 @Data
 @Table(name = "bus_exam_eyes_archive")
@@ -54,11 +57,15 @@ public class BusExamEyesArchive implements Serializable {
     private BigDecimal cvaRight;
 
     /**
-     * 视觉
+     * 视觉编码
      */
-    @ApiModelProperty(value = "视觉", required = false)
-    @Column(name = "color_vision")
-    private String colorVision;
+    @ApiModelProperty(value = "视觉编码", required = false)
+    @Column(name = "color_vision_code")
+    private String colorVisionCode;
+
+    @ApiModelProperty(value = "视觉名称", required = false)
+    @Column(name = "color_vision_name")
+    private String colorVisionName;
 
     /**
      * 视觉签字

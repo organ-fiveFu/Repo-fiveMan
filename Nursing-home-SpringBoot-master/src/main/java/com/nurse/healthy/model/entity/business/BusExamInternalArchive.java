@@ -56,46 +56,70 @@ public class BusExamInternalArchive implements Serializable {
     private String heartSign;
 
     /**
-     * 营养状况
+     * 营养状况编码
      */
-    @ApiModelProperty(value = "营养状况", required = false)
-    @Column(name = "nutriture")
-    private String nutriture;
+    @ApiModelProperty(value = "营养状况编码", required = false)
+    @Column(name = "nutriture_code")
+    private String nutritureCode;
+
+    @ApiModelProperty(value = "营养状况名称", required = false)
+    @Column(name = "nutriture_name")
+    private String nutritureName;
 
     /**
-     * 心血管
+     * 心血管编码
      */
-    @ApiModelProperty(value = "心血管", required = false)
-    @Column(name = "cardiovascular")
-    private String cardiovascular;
+    @ApiModelProperty(value = "心血管编码", required = false)
+    @Column(name = "cardiovascular_code")
+    private String cardiovascularCode;
+
+    @ApiModelProperty(value = "心血管名称", required = false)
+    @Column(name = "cardiovascular_name")
+    private String cardiovascularName;
 
     /**
-     * 神经
+     * 神经编码
      */
-    @ApiModelProperty(value = "神经", required = false)
-    @Column(name = "nerve")
-    private String nerve;
+    @ApiModelProperty(value = "神经编码", required = false)
+    @Column(name = "nerve_code")
+    private String nerveCode;
+
+    @ApiModelProperty(value = "神经名称", required = false)
+    @Column(name = "nerve_name")
+    private String nerveName;
 
     /**
-     * 肝
+     * 肝编码
      */
-    @ApiModelProperty(value = "肝", required = false)
-    @Column(name = "liver")
-    private String liver;
+    @ApiModelProperty(value = "肝编码", required = false)
+    @Column(name = "liver_code")
+    private String liverCode;
+
+    @ApiModelProperty(value = "肝名称", required = false)
+    @Column(name = "liver_name")
+    private String liverName;
 
     /**
-     * 肺
+     * 肺编码
      */
-    @ApiModelProperty(value = "肺", required = false)
-    @Column(name = "lung")
-    private String lung;
+    @ApiModelProperty(value = "肺编码", required = false)
+    @Column(name = "lung_code")
+    private String lungCode;
+
+    @ApiModelProperty(value = "肺名称", required = false)
+    @Column(name = "lung_name")
+    private String lungName;
 
     /**
-     *  脾
+     * 脾编码
      */
-    @ApiModelProperty(value = " 脾", required = false)
-    @Column(name = "spleen")
-    private String spleen;
+    @ApiModelProperty(value = "脾编码", required = false)
+    @Column(name = "spleen_code")
+    private String spleenCode;
+
+    @ApiModelProperty(value = "脾名称", required = false)
+    @Column(name = "spleen_name")
+    private String spleenName;
 
     /**
      * 其他

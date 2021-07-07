@@ -121,7 +121,7 @@ public class BedServiceImpl implements BedService {
             log.error("更新楼宇信息失败");
             throw ResponseEnum.FILE_INSERT_FAIL.newException("更新楼宇信息失败");
         }
-        return false;
+        return true;
     }
 
     /**

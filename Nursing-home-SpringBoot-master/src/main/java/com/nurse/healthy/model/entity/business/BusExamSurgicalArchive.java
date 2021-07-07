@@ -43,53 +43,77 @@ public class BusExamSurgicalArchive implements Serializable {
     private BigDecimal weight;
 
     /**
-     * 体型
+     * 体重签字
      */
-    @ApiModelProperty(value = "体型", required = false)
+    @ApiModelProperty(value = "体重签字", required = false)
     @Column(name = "shape_sign")
     private String shapeSign;
 
     /**
-     * 皮肤
+     * 皮肤编码
      */
-    @ApiModelProperty(value = "皮肤", required = false)
-    @Column(name = "skin")
-    private String skin;
+    @ApiModelProperty(value = "皮肤编码", required = false)
+    @Column(name = "skin_code")
+    private String skinCode;
+
+    @ApiModelProperty(value = "皮肤名称", required = false)
+    @Column(name = "skin_name")
+    private String skinName;
 
     /**
-     * 四肢
+     * 四肢编码
      */
-    @ApiModelProperty(value = "四肢", required = false)
-    @Column(name = "limbs")
-    private String limbs;
+    @ApiModelProperty(value = "四肢编码", required = false)
+    @Column(name = "limbs_code")
+    private String limbsCode;
+
+    @ApiModelProperty(value = "四肢名称", required = false)
+    @Column(name = "limbs_name")
+    private String limbsName;
 
     /**
-     * 淋巴
+     * 淋巴编码
      */
-    @ApiModelProperty(value = "淋巴", required = false)
-    @Column(name = "lymphatic")
-    private String lymphatic;
+    @ApiModelProperty(value = "淋巴编码", required = false)
+    @Column(name = "lymphatic_code")
+    private String lymphaticCode;
+
+    @ApiModelProperty(value = "淋巴名称", required = false)
+    @Column(name = "lymphatic_name")
+    private String lymphaticName;
 
     /**
-     * 关节
+     * 关节编码
      */
-    @ApiModelProperty(value = "关节", required = false)
-    @Column(name = "joints")
-    private String joints;
+    @ApiModelProperty(value = "关节编码", required = false)
+    @Column(name = "joints_code")
+    private String jointsCode;
+
+    @ApiModelProperty(value = "关节名称", required = false)
+    @Column(name = "joints_name")
+    private String jointsName;
 
     /**
-     * 脊柱
+     * 脊柱编码
      */
-    @ApiModelProperty(value = "脊柱", required = false)
-    @Column(name = "spine")
-    private String spine;
+    @ApiModelProperty(value = "脊柱编码", required = false)
+    @Column(name = "spine_code")
+    private String spineCode;
+
+    @ApiModelProperty(value = "脊柱名称", required = false)
+    @Column(name = "spine_name")
+    private String spineName;
 
     /**
-     * 甲状腺
+     * 甲状腺编码
      */
-    @ApiModelProperty(value = "甲状腺", required = false)
-    @Column(name = "thyroid")
-    private String thyroid;
+    @ApiModelProperty(value = "甲状腺编码", required = false)
+    @Column(name = "thyroid_code")
+    private String thyroidCode;
+
+    @ApiModelProperty(value = "甲状腺名称", required = false)
+    @Column(name = "thyroid_name")
+    private String thyroidName;
 
     /**
      * 其他

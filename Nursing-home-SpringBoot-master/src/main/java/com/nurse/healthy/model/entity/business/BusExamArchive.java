@@ -64,11 +64,11 @@ public class BusExamArchive implements Serializable {
     private String education;
 
     /**
-     * 既往病史
+     * 既往病史编码
      */
-    @ApiModelProperty(value = "既往病史", required = false)
-    @Column(name = "medical_history")
-    private String medicalHistory;
+    @ApiModelProperty(value = "既往病史编码", required = false)
+    @Column(name = "medical_history_code")
+    private String medicalHistoryCode;
 
     /**
      * 备注
@@ -132,5 +132,13 @@ public class BusExamArchive implements Serializable {
     @ApiModelProperty(value = "是否启用", required = false)
     @Column(name = "is_del")
     private Integer isDel;
+
+    @ApiModelProperty(value = "老人档案id", required = false)
+    @Column(name = "archive_id")
+    private Long archiveId;
+
+    @ApiModelProperty(value = "既往病史名称", required = false)
+    @Column(name = "medical_history_name")
+    private String medicalHistoryName;
 
 }

@@ -50,18 +50,26 @@ public class BusExamEntArchive implements Serializable {
     private String hearingSign;
 
     /**
-     * 耳疾
+     * 耳疾编码
      */
-    @ApiModelProperty(value = "耳疾", required = false)
-    @Column(name = "ear")
-    private String ear;
+    @ApiModelProperty(value = "耳疾编码", required = false)
+    @Column(name = "ear_code")
+    private String earCode;
+
+    @ApiModelProperty(value = "耳疾名称", required = false)
+    @Column(name = "ear_name")
+    private String earName;
 
     /**
-     * 嗅觉
+     * 嗅觉编码
      */
-    @ApiModelProperty(value = "嗅觉", required = false)
-    @Column(name = "smell")
-    private String smell;
+    @ApiModelProperty(value = "嗅觉编码", required = false)
+    @Column(name = "smell_code")
+    private String smellCode;
+
+    @ApiModelProperty(value = "嗅觉名称", required = false)
+    @Column(name = "smell_name")
+    private String smellName;
 
     /**
      * 嗅觉签字
@@ -73,16 +81,24 @@ public class BusExamEntArchive implements Serializable {
     /**
      * 口吃
      */
-    @ApiModelProperty(value = "口吃", required = false)
-    @Column(name = "stuttering")
-    private String stuttering;
+    @ApiModelProperty(value = "口吃编码", required = false)
+    @Column(name = "stuttering_code")
+    private String stutteringCode;
+
+    @ApiModelProperty(value = "口吃名称", required = false)
+    @Column(name = "stuttering_name")
+    private String stutteringName;
 
     /**
      * 面部
      */
-    @ApiModelProperty(value = "面部", required = false)
-    @Column(name = "face")
-    private String face;
+    @ApiModelProperty(value = "面部编码", required = false)
+    @Column(name = "face_code")
+    private String faceCode;
+
+    @ApiModelProperty(value = "面部名称", required = false)
+    @Column(name = "face_name")
+    private String faceName;
 
     /**
      * 其他
