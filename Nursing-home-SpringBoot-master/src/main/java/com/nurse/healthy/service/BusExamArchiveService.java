@@ -31,4 +31,14 @@ public interface BusExamArchiveService {
      * @return  boolean
      */
     boolean update(ExamArchiveUpdatePO examArchiveUpdatePO, UserInfoToken userInfoToken);
+
+    /**
+     * 删除体检档案
+     * @author linxiazhu
+     * @date 16:26 2021/7/8
+     * @param archiveId  老人档案id
+     * @param userInfoToken   token
+     * @return  boolean
+     */
+    boolean delete(String archiveId, UserInfoToken userInfoToken);
 }

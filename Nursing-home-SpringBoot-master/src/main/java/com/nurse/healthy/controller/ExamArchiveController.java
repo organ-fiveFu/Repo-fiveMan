@@ -60,8 +60,23 @@ public class ExamArchiveController {
     @ApiOperation("查询体检档案")
     @GetMapping("/select")
     public ResultBody<ExamArchiveQueryVO> select(String archiveId){
-        log.info("查询体检档案入参："+ archiveId);
+        log.info("查询体检档案,archiveId:"+ archiveId);
         return ResultBody.newSuccessInstance(busExamArchiveService.select(archiveId));
+    }
+
+    /**
+     * 删除体检档案
+     * @author linxiazhu
+     * @date 16:26 2021/7/8
+     * @param archiveId  老人档案id
+     * @param userInfoToken   token
+     * @return  com.nurse.healthy.vo.ResultBody<java.lang.Boolean>
+     */
+    @ApiOperation("删除体检档案")
+    @GetMapping("/delete")
+    public ResultBody<Boolean> delete(String archiveId, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
+        log.info("删除体检档案,archiveId:"+ archiveId);
+        return ResultBody.newSuccessInstance(busExamArchiveService.delete(archiveId, userInfoToken));
     }
 
 }

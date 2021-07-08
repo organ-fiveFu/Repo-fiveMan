@@ -304,4 +304,36 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }
         return true;
     }
+
+    /**
+     * 删除体检档案
+     * @author linxiazhu
+     * @date 16:26 2021/7/8
+     * @param archiveId  老人档案id
+     * @param userInfoToken   token
+     * @return  boolean
+     */
+    @Override
+    public boolean delete(String archiveId, UserInfoToken userInfoToken) {
+        //查询体检档案信息
+        Example example = new Example(BusExamArchive.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("archiveId");
+        criteria.andEqualTo("isDel", 0);
+        BusExamArchive busExamArchive = busExamArchiveMapper.selectOneByExample(example);
+        if(StringUtils.isEmpty(busExamArchive)){
+            throw  ResponseEnum.DATA_NOT_FOUND.newException("该档案不存在或已被删除！");
+        }
+        busExamArchive.setUpdateTime(new Date());
+        busExamArchive.setUpdaterId(userInfoToken.getUserId());
+        busExamArchive.setIsDel(1);
+        log.info("删除体检档案,入参busExamArchive:" + busExamArchive);
+        try {
+            busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
+        }catch (Exception e){
+            log.error("删除体检档案数据失败");
+            throw ResponseEnum.FILE_INSERT_FAIL.newException("删除体检档案数据失败");
+        }
+        return true;
+    }
 }
