@@ -318,7 +318,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         //查询体检档案信息
         Example example = new Example(BusExamArchive.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("archiveId");
+        criteria.andEqualTo("archiveId", archiveId);
         criteria.andEqualTo("isDel", 0);
         BusExamArchive busExamArchive = busExamArchiveMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busExamArchive)){
