@@ -5,10 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.mapper.BasePatientInfoMapper;
 import com.nurse.healthy.model.entity.base.BasePatientInfo;
+import com.nurse.healthy.model.po.QueryBasePatientPO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.BasePatientInfoService;
 import com.nurse.healthy.util.OperateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -28,11 +30,17 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
     private SnowflakeComponent snowflakeComponent;
 
     @Override
-    public PageInfo<BasePatientInfo> selectPage() {
-        PageHelper.startPage(1, 10);
+    public PageInfo<BasePatientInfo> selectPage(QueryBasePatientPO queryBasePatientPO) {
+        PageHelper.startPage(queryBasePatientPO.getPageNum(), queryBasePatientPO.getPageSize());
         Example example = new Example(BasePatientInfo.class);
         Example.Criteria C = example.createCriteria();
         C.andEqualTo("isDel",0);
+        if(Strings.isNotBlank(queryBasePatientPO.getName())){
+            C.andLike("name","%"+queryBasePatientPO.getName()+"%");
+        }
+        if(queryBasePatientPO.getArchiveId()!=null){
+            C.andEqualTo("id",queryBasePatientPO.getArchiveId());
+        }
         List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(basePatientInfoList);
         return pageInfo;
@@ -62,7 +70,7 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
         Date date = new Date();
         basePatientInfo.setUpdaterId(userInfo.getUserId());
         basePatientInfo.setUpdateTime(date);
-        basePatientInfoMapper.updateByPrimaryKey(basePatientInfo);
+        basePatientInfoMapper.updateByPrimaryKeySelective(basePatientInfo);
     }
 
     /**

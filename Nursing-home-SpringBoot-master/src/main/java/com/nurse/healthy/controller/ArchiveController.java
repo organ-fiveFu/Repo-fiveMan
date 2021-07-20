@@ -3,6 +3,7 @@ package com.nurse.healthy.controller;
 import com.github.pagehelper.PageInfo;
 import com.nurse.healthy.annoation.CurrentUser;
 import com.nurse.healthy.model.entity.base.BasePatientInfo;
+import com.nurse.healthy.model.po.QueryBasePatientPO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.BasePatientInfoService;
 import com.nurse.healthy.vo.ResultBody;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.io.InputStream;
-import java.io.Writer;
 
 /**
  * 老人基础档案api
@@ -55,9 +54,9 @@ public class ArchiveController {
      * 查询老人基础档案
      */
     @ApiOperation("老人基本档案分页")
-    @PostMapping("/baseArchive")
-    public ResultBody<PageInfo<BasePatientInfo>> baseArchivePage(){
-       return ResultBody.newSuccessInstance(basePatientInfoService.selectPage());
+    @PostMapping("/baseArchivePage")
+    public ResultBody<PageInfo<BasePatientInfo>> baseArchivePage(@RequestBody QueryBasePatientPO queryBasePatientPO){
+       return ResultBody.newSuccessInstance(basePatientInfoService.selectPage(queryBasePatientPO));
     }
 
     /**

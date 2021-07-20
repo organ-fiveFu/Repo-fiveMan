@@ -2,6 +2,7 @@ package com.nurse.healthy.service;
 
 import com.github.pagehelper.PageInfo;
 import com.nurse.healthy.model.entity.base.BasePatientInfo;
+import com.nurse.healthy.model.po.QueryBasePatientPO;
 import com.nurse.healthy.result.UserInfoToken;
 
 public interface BasePatientInfoService {
@@ -10,7 +11,7 @@ public interface BasePatientInfoService {
      * 基本信息分页
      * @return
      */
-    PageInfo<BasePatientInfo> selectPage();
+    PageInfo<BasePatientInfo> selectPage(QueryBasePatientPO queryBasePatientPO);
 
     /**
      * 新增档案
