@@ -1,5 +1,6 @@
 package com.nurse.healthy.mapper;
 
+import com.nurse.healthy.base.BaseRepository;
 import com.nurse.healthy.model.entity.assessment.BusTrialStayAssessment;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
@@ -16,6 +17,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @since  2021-07-14 14:46:43
  */
 @Repository
-public interface BusTrialStayAssessmentMapper extends Mapper<BusTrialStayAssessment> {
+public interface BusTrialStayAssessmentMapper extends BaseRepository<BusTrialStayAssessment> {
 	
 }
