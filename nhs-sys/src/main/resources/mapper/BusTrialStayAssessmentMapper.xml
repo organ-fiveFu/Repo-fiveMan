@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.BusTrialStayAssessmentMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.BusTrialStayAssessment" id="busTrialStayAssessmentMap">
+        <result property="id" column="id"/>
+        <result property="businessNo" column="business_no"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="bedCode" column="bed_code"/>
+        <result property="floorCode" column="floor_code"/>
+        <result property="admissionTime" column="admission_time"/>
+        <result property="lifeAbility" column="life_ability"/>
+        <result property="lifeAbilityEvaluator" column="life_ability_evaluator"/>
+        <result property="lifeEvaluateTime" column="life_evaluate_time"/>
+        <result property="cognitiveAbility" column="cognitive_ability"/>
+        <result property="cognitiveAbilityEvaluator" column="cognitive_ability_evaluator"/>
+        <result property="cognitiveEvaluateTime" column="cognitive_evaluate_time"/>
+        <result property="emotionBehavior" column="emotion_behavior"/>
+        <result property="emotionBehaviorEvaluator" column="emotion_behavior_evaluator"/>
+        <result property="emotionBehaviorEvaluateTime" column="emotion_behavior_evaluate_time"/>
+        <result property="health" column="health"/>
+        <result property="healthEvaluator" column="health_evaluator"/>
+        <result property="healthEvaluateTime" column="health_evaluate_time"/>
+        <result property="specialRequirement" column="special_requirement"/>
+        <result property="specialRequirementEvaluator" column="special_requirement_evaluator"/>
+        <result property="specialRequirementTime" column="special_requirement_time"/>
+        <result property="assessmentTeamSuggest" column="assessment_team_suggest"/>
+        <result property="assessmentTeamSign" column="assessment_team_sign"/>
+        <result property="teamSignTime" column="team_sign_time"/>
+        <result property="deanSuggest" column="dean_suggest"/>
+        <result property="deanSign" column="dean_sign"/>
+        <result property="deanSignTime" column="dean_sign_time"/>
+        <result property="patientSuggest" column="patient_suggest"/>
+        <result property="patientSign" column="patient_sign"/>
+        <result property="patientSignTime" column="patient_sign_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+        <result property="buildingCode" column="building_code"/>
+        <result property="archiveId" column="archive_id"/>
+    </resultMap>
+
+</mapper>

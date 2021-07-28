@@ -1,0 +1,17 @@
+package com.vblessings.nhs.mapper;
+
+import com.vblessings.nhs.base.BaseRepository;
+import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface SysEmployeeInfoMapper extends BaseRepository<SysEmployeeInfo> {
+    List<String> selectAllCode();
+
+    void del(@Param("list") List<String> ids);
+
+    void resetPassword(@Param("employeeCode") String employeeCode);
+}

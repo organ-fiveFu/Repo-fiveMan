@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.BusDonationRecordMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.BusDonationRecord" id="busDonationRecordMap">
+        <result property="id" column="id"/>
+        <result property="donationDate" column="donation_date"/>
+        <result property="donor" column="donor"/>
+        <result property="donorWillingness" column="donor_willingness"/>
+        <result property="contributions" column="contributions"/>
+        <result property="donationItem" column="donation_item"/>
+        <result property="amount" column="amount"/>
+        <result property="valuation" column="valuation"/>
+        <result property="donationItemsDisposal" column="donation_items_disposal"/>
+        <result property="personInCharge" column="person_in_charge"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+    <update id="delDonation">
+        update bus_donation_record
+        set is_del = 1
+        where id =#{id}
+    </update>
+
+
+</mapper>

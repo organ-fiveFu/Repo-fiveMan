@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.BusInterestGroupRecordMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.BusInterestGroupRecord" id="busInterestGroupRecordMap">
+        <result property="id" column="id"/>
+        <result property="groupActivity" column="group_activity"/>
+        <result property="activityDate" column="activity_date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="activitySite" column="activity_site"/>
+        <result property="number" column="number"/>
+        <result property="activeContent" column="active_content"/>
+        <result property="signature" column="signature"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+    <update id="delInterestGroup">
+        update bus_interest_group_record
+        set is_del=1
+        where id =#{id}
+    </update>
+    <select id="selectByTime" resultMap="busInterestGroupRecordMap">
+      select * from  bus_interest_group_record
+        <where>
+        <if test="groupActivityDate !=null">
+            date_format(activity_date,'%Y-%m-%d ') = date_format(#{groupActivityDate},'%Y-%m-%d')
+        </if>
+        <if test="search !=null and search !=''">
+            and signature like concat('%',#{search},'%')
+        </if>
+        and is_del = 0
+        </where>
+    </select>
+
+</mapper>

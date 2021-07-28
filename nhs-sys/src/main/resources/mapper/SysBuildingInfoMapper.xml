@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.SysBuildingInfoMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.SysBuildingInfo" id="sysBuildingInfoMap">
+        <result property="id" column="id"/>
+        <result property="buildingCode" column="building_code"/>
+        <result property="name" column="name"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+    <select id="queryBedTree" resultType="com.vblessings.BedTreeVO">
+        SELECT
+          t1.id AS "id",
+          t2.id AS "parentId",
+          t1.name AS "name",
+          t2.name AS "parentName"
+        FROM sys_floor_info t1
+        LEFT JOIN sys_building_info t2 ON t1.building_code = t2.building_code
+          AND t2.is_del = 0
+        WHERE t1.is_del = 0
+        UNION ALL
+        SELECT
+          t2.id AS "id",
+          t4.id AS "parentId",
+          t2.name AS "name",
+          t4.name AS "parentName"
+        FROM sys_room_info t2
+        LEFT JOIN sys_floor_info t4 ON t2.building_code = t4.building_code
+          AND t2.floor_code = t4.floor_code AND t4.is_del = 0
+        WHERE t2.is_del = 0
+        UNION ALL
+        SELECT
+          id AS "id",
+          0 AS "parentId",
+          name AS "name",
+          '' AS "parentName"
+        FROM sys_building_info
+        WHERE is_del = 0
+    </select>
+
+</mapper>
