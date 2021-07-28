@@ -2,19 +2,14 @@ package com.nurse.healthy.controller;
 
 
 import com.nurse.healthy.annoation.CurrentUser;
-import com.nurse.healthy.model.entity.business.BusComplaintsRecord;
-import com.nurse.healthy.model.entity.business.BusDonationRecord;
-import com.nurse.healthy.model.entity.business.BusInterestGroupRecord;
-import com.nurse.healthy.model.entity.business.BusSatisfactionMeasurement;
+import com.nurse.healthy.model.entity.business.*;
+import com.nurse.healthy.model.po.businessVO.QueryCheckVO;
 import com.nurse.healthy.model.po.businessVO.QueryComplaintVO;
 import com.nurse.healthy.model.po.businessVO.QueryDonationPO;
 import com.nurse.healthy.model.po.businessVO.QueryInterestGroupVO;
 import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
-import com.nurse.healthy.service.BusComplaintsRecordService;
-import com.nurse.healthy.service.BusDonationRecordService;
-import com.nurse.healthy.service.BusInterestGroupRecordService;
-import com.nurse.healthy.service.BusSatisfactionMeasurementService;
+import com.nurse.healthy.service.*;
 import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,6 +42,9 @@ public class ComprehensiveController {
 
     @Resource
     private BusComplaintsRecordService busComplaintsRecordService;
+
+    @Resource
+    private BusCarerCheckService busCarerCheckService;
 
 
     /**
@@ -177,4 +175,25 @@ public class ComprehensiveController {
         busComplaintsRecordService.delComplaint(id);
         return ResultBody.newSuccessInstance();
     }
+
+    /**
+     * 新增护工考核
+     */
+    @ApiOperation("新增护工考核")
+    @PostMapping("/addCheck")
+    public ResultBody addCheck(@RequestBody BusCarerCheck busCarerCheck, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busCarerCheckService.addCheck(busCarerCheck,userInfo);
+        return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 查询投诉记录（根据主题）
+     *
+     */
+    @ApiOperation("查询护工考核")
+    @PostMapping("/pageCheck")
+    public ResultBody<PageVO<BusCarerCheck>> pageCheck(@RequestBody QueryCheckVO queryCheckVO){
+        return ResultBody.newSuccessInstance(busCarerCheckService.pageCheck(queryCheckVO));
+    }
+
 }

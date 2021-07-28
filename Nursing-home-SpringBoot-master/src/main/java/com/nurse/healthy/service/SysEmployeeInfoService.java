@@ -50,7 +50,7 @@ public interface SysEmployeeInfoService{
      */
     List<SysEmployeeInfo> select(String employeeCode);
 
-    void del(List<String> ids);
+    void del(String ids);
 
     /**
      * 重置密码

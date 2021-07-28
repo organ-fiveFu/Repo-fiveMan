@@ -8,10 +8,7 @@ import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -57,9 +54,9 @@ public class EmployeeController {
     }
 
 
-    @ApiOperation("删除护工信息")
-    @PostMapping("/del")
-    public ResultBody del(List<String> ids) {
+    @ApiOperation("删除员工信息")
+    @GetMapping("/del")
+    public ResultBody del(String ids) {
         sysEmployeeInfoService.del(ids);
         return ResultBody.newSuccessInstance();
     }

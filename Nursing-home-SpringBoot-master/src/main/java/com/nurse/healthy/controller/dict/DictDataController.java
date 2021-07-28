@@ -13,10 +13,7 @@ import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -54,11 +51,20 @@ public class DictDataController {
     }
 
     @ApiOperation("根据字典code删除字典")
-    @PostMapping("/del")
-    public ResultBody del(List<String> dictCodes) {
+    @GetMapping("/del")
+    public ResultBody del(String dictCodes) {
         sysDictDataService.del(dictCodes);
         return ResultBody.newSuccessInstance();
     }
+
+/*
+
+    @ApiOperation("查询字典明细下拉")
+    @PostMapping("/selectPullDown")
+    public ResultBody<PageVO<SysDictData>> select(@RequestBody QueryDictPO queryDictPO){
+        return ResultBody.newSuccessInstance(sysDictDataService.select(queryDictPO));
+    }
+*/
 
 
 }

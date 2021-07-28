@@ -90,8 +90,9 @@ public class SysDictDataServiceImpl implements SysDictDataService {
     }
 
     @Override
-    public void del(List<String> dictCodes) {
-        sysDictDataMapper.updateIsDel(dictCodes);
+    public void del(String dictCodes) {
+        String[] code = dictCodes.split(",");
+        sysDictDataMapper.updateIsDel(code);
     }
 
     @Override

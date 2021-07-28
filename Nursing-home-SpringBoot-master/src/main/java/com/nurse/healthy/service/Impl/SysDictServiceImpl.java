@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,10 +91,11 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     @Transactional
-    public void del(List<String> typeCodes) {
+    public void del(String typeCodes) {
         //判断大类型下有没有明细
+        List<String> result = Arrays.asList(typeCodes.split(","));
         for (String typeCode:
-        typeCodes) {
+                result) {
             Example example = new Example(SysDictData.class);
             example.selectProperties("dictCode");
             example.createCriteria().andEqualTo("dictTypeCode",typeCode);

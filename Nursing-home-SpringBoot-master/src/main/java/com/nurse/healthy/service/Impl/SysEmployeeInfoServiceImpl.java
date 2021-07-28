@@ -91,8 +91,9 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     }
 
     @Override
-    public void del(List<String> ids) {
-        sysEmployeeInfoMapper.del(ids);
+    public void del(String ids) {
+        String[] id = ids.split(",");
+        sysEmployeeInfoMapper.del(id);
     }
 
     /**

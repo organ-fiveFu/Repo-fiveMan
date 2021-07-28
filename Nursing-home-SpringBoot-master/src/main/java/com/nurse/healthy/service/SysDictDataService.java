@@ -16,7 +16,7 @@ public interface SysDictDataService {
 
     PageVO<SysDictData> select(QueryDictPO queryDictPO);
 
-    void del(List<String> dictCodes);
+    void del(String dictCodes);
 
     /**
      * 根据code获取name

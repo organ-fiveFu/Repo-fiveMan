@@ -30,7 +30,7 @@ public interface SysDictService {
      * 删除字典大类
      * @param typeCodes
      */
-    void del(List<String> typeCodes);
+    void del(String typeCodes);
 
 
 }
