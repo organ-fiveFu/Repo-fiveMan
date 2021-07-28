@@ -1,10 +1,14 @@
 package com.nurse.healthy.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.exception.MyException;
 import com.nurse.healthy.mapper.SysDictDataMapper;
+import com.nurse.healthy.model.entity.business.BusComplaintsRecord;
 import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.po.QueryDictPO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictDataService;
 import com.nurse.healthy.util.OperateUtil;
@@ -54,7 +58,9 @@ public class SysDictDataServiceImpl implements SysDictDataService {
     }
 
     @Override
-    public List<SysDictData> select(QueryDictPO queryDictPO) {
+    public PageVO<SysDictData> select(QueryDictPO queryDictPO) {
+        Page<SysDictData> result = PageHelper.startPage(queryDictPO.getPageNum(), queryDictPO.getPageSize());
+
         Example example = new Example(SysDictData.class);
         Example.Criteria criteria = example.createCriteria();
 
@@ -79,7 +85,8 @@ public class SysDictDataServiceImpl implements SysDictDataService {
             }
         }
         List<SysDictData>  sysDictDataList = sysDictDataMapper.selectByExample(example);
-        return sysDictDataList;
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysDictDataList);
+
     }
 
     @Override

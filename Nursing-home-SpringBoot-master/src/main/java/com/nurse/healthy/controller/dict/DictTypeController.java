@@ -44,8 +44,8 @@ public class DictTypeController {
 
     @ApiOperation("查询字典")
     @PostMapping("/select")
-    public ResultBody select(){
-        return ResultBody.newSuccessInstance(sysDictService.select());
+    public ResultBody select(String keyWord){
+        return ResultBody.newSuccessInstance(sysDictService.select(keyWord));
     }
 
 

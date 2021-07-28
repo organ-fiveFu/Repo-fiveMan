@@ -24,7 +24,7 @@ public interface SysDictService {
      * @param
      * @return
      */
-    List<SysDictType> select();
+    List<SysDictType> select(String keyWord);
 
     /**
      * 删除字典大类

@@ -9,6 +9,7 @@ import com.nurse.healthy.model.entity.sys.SysDictType;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictService;
 import com.nurse.healthy.util.OperateUtil;
+import com.nurse.healthy.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,9 +66,24 @@ public class SysDictServiceImpl implements SysDictService {
     }
 
     @Override
-    public List<SysDictType> select() {
+    public List<SysDictType> select(String keyWord) {
         Example example = new Example(SysDictType.class);
-        example.createCriteria().andEqualTo("isDel",0);
+        Example.Criteria c = example.createCriteria();
+        c.andEqualTo("isDel",0);
+        if(keyWord!=null){
+            if(StringUtil.isChinese(keyWord)){
+                c.andLike("dictTypeName","%"+keyWord+"%");
+            }
+            if(StringUtil.isNumeric(keyWord)){
+                c.andEqualTo("dictTypeCode",keyWord);
+            }
+            if(StringUtil.isEnglish(keyWord)){
+                Example.Criteria criteria1 = example.createCriteria();
+                criteria1.orLike("wubiCode",keyWord)
+                        .orLike("pinyinCode",keyWord);
+                example.and(criteria1);
+            }
+        }
         List<SysDictType> sysDictTypeList = sysDictTypeMapper.selectByExample(example);
         return sysDictTypeList;
     }

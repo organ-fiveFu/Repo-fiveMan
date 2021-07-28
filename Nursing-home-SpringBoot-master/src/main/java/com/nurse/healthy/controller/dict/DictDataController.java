@@ -2,9 +2,11 @@ package com.nurse.healthy.controller.dict;
 
 
 import com.nurse.healthy.annoation.CurrentUser;
+import com.nurse.healthy.model.entity.business.BusComplaintsRecord;
 import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.entity.sys.SysDictType;
 import com.nurse.healthy.model.po.QueryDictPO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictDataService;
 import com.nurse.healthy.vo.ResultBody;
@@ -47,7 +49,7 @@ public class DictDataController {
 
     @ApiOperation("查询字典明细")
     @PostMapping("/select")
-    public ResultBody select(@RequestBody QueryDictPO queryDictPO){
+    public ResultBody<PageVO<SysDictData>> select(@RequestBody QueryDictPO queryDictPO){
         return ResultBody.newSuccessInstance(sysDictDataService.select(queryDictPO));
     }
 

@@ -2,6 +2,7 @@ package com.nurse.healthy.service;
 
 import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.po.QueryDictPO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface SysDictDataService {
 
     void update(SysDictData sysDictData, UserInfoToken userInfo);
 
-    List<SysDictData> select(QueryDictPO queryDictPO);
+    PageVO<SysDictData> select(QueryDictPO queryDictPO);
 
     void del(List<String> dictCodes);
 
