@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.BusInterestGroupRecordMapper">
+<mapper namespace="com.vblessings.nhs.mapper.BusInterestGroupRecordMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.BusInterestGroupRecord" id="busInterestGroupRecordMap">
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusInterestGroupRecord" id="busInterestGroupRecordMap">
         <result property="id" column="id"/>
         <result property="groupActivity" column="group_activity"/>
         <result property="activityDate" column="activity_date"/>

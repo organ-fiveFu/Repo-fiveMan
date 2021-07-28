@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.BusTrialStayAssessmentMapper">
+<mapper namespace="com.vblessings.nhs.mapper.BusTrialStayAssessmentMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.BusTrialStayAssessment" id="busTrialStayAssessmentMap">
+    <resultMap type="com.vblessings.nhs.model.entity.assessment.BusTrialStayAssessment" id="busTrialStayAssessmentMap">
         <result property="id" column="id"/>
         <result property="businessNo" column="business_no"/>
         <result property="name" column="name"/>

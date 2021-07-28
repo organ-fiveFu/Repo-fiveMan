@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.BusComplaintsRecordMapper">
+<mapper namespace="com.vblessings.nhs.mapper.BusComplaintsRecordMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.BusComplaintsRecord" id="busComplaintsRecordMap">
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusComplaintsRecord" id="busComplaintsRecordMap">
         <result property="id" column="id"/>
         <result property="complaintDate" column="complaint_date"/>
         <result property="complaintPeople" column="complaint_people"/>

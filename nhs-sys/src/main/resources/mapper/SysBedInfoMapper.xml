@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.SysBedInfoMapper">
+<mapper namespace="com.vblessings.nhs.mapper.SysBedInfoMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.SysBedInfo" id="sysBedInfoMap">
+    <resultMap type="com.vblessings.nhs.model.entity.bed.SysBedInfo" id="sysBedInfoMap">
         <result property="id" column="id"/>
         <result property="bedCode" column="bed_code"/>
         <result property="roomCode" column="room_code"/>

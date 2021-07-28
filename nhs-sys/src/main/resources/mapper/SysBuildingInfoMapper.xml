@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.SysBuildingInfoMapper">
+<mapper namespace="com.vblessings.nhs.mapper.SysBuildingInfoMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.SysBuildingInfo" id="sysBuildingInfoMap">
+    <resultMap type="com.vblessings.nhs.model.entity.bed.SysBuildingInfo" id="sysBuildingInfoMap">
         <result property="id" column="id"/>
         <result property="buildingCode" column="building_code"/>
         <result property="name" column="name"/>
@@ -14,7 +14,7 @@
         <result property="updateTime" column="update_time"/>
         <result property="isDel" column="is_del"/>
     </resultMap>
-    <select id="queryBedTree" resultType="com.vblessings.BedTreeVO">
+    <select id="queryBedTree" resultType="com.vblessings.nhs.model.vo.bed.BedTreeVO">
         SELECT
           t1.id AS "id",
           t2.id AS "parentId",

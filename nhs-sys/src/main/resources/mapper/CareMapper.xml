@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.CareMapper">
+<mapper namespace="com.vblessings.nhs.mapper.CareMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.SysCarerInfo" id="sysCarerInfoMap">
+    <resultMap type="com.vblessings.nhs.model.entity.sys.SysCarerInfo" id="sysCarerInfoMap">
         <result property="id" column="id"/>
         <result property="careCode" column="employee_code"/>
         <result property="name" column="name"/>

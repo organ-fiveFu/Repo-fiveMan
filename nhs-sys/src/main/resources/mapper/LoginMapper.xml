@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vblessings.LoginMapper">
+<mapper namespace="com.vblessings.nhs.mapper.LoginMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.vblessings.SysLogin" id="sysLoginMap">
+    <resultMap type="com.vblessings.nhs.model.entity.sys.SysLogin" id="sysLoginMap">
         <result property="id" column="id"/>
         <result property="employeeCode" column="employee_code"/>
         <result property="password" column="password"/>
