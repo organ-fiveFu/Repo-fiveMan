@@ -6,6 +6,7 @@ import com.vblessings.nhs.mapper.SysDictDataMapper;
 import com.vblessings.nhs.mapper.SysDictTypeMapper;
 import com.vblessings.nhs.model.entity.sys.SysDictData;
 import com.vblessings.nhs.model.entity.sys.SysDictType;
+import com.vblessings.nhs.model.vo.base.PullDownVo;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.SysDictService;
 import com.vblessings.nhs.util.OperateUtil;
@@ -16,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,20 +90,42 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     @Transactional
-    public void del(List<String> typeCodes) {
+    public void del(String typeCodes) {
         //判断大类型下有没有明细
+        List<String> result = Arrays.asList(typeCodes.split(","));
         for (String typeCode:
-        typeCodes) {
+                result) {
             Example example = new Example(SysDictData.class);
             example.selectProperties("dictCode");
             example.createCriteria().andEqualTo("dictTypeCode",typeCode);
 
-          List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
-          List<String> dictDataList = sysDictDataList.stream().map(SysDictData::getDictCode).collect(Collectors.toList());
-          if(dictDataList!=null && !dictDataList.isEmpty()){
-              throw new MyException("该字典类型下存在明细不可删除");
-          }
+            List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
+            List<String> dictDataList = sysDictDataList.stream().map(SysDictData::getDictCode).collect(Collectors.toList());
+            if(dictDataList!=null && !dictDataList.isEmpty()){
+                throw new MyException("该字典类型下存在明细不可删除");
+            }
             sysDictTypeMapper.delByTypeCode(typeCode);
         }
+    }
+
+    @Override
+    public Map selectPullDown(List<String> dictTypeCodes) {
+        Example example = new Example(SysDictData.class);
+        example.selectProperties("dictTypeCode","dictCode","dictName");
+        Example.Criteria c = example.createCriteria();
+        c.andIn("dictTypeCode",dictTypeCodes).andEqualTo("isDel",0);
+        List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
+        Map<String, List<PullDownVo>> map = new HashMap<>();
+        List<PullDownVo> list= new ArrayList<>();
+        for (SysDictData s:
+                sysDictDataList) {
+            PullDownVo pullDownVo = new PullDownVo();
+            pullDownVo.setDictTypeCode(s.getDictTypeCode());
+            pullDownVo.setKey(s.getDictCode());
+            pullDownVo.setName(s.getDictName());
+            list.add(pullDownVo);
+        }
+        return list.stream().collect(
+                Collectors.groupingBy(PullDownVo::getDictTypeCode));
     }
 }

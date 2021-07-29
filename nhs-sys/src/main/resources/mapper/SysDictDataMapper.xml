@@ -24,8 +24,8 @@
         update sys_dict_data
         set is_del = 1
         where dict_code in
-        <foreach collection="list"  item="item"  open="(" separator="," close=")">
-            #{item}
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
         </foreach>
     </update>
     <select id="selectByTypeCode" resultType="java.lang.String">

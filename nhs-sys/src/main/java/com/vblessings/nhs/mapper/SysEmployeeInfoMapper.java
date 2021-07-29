@@ -11,7 +11,7 @@ import java.util.List;
 public interface SysEmployeeInfoMapper extends BaseRepository<SysEmployeeInfo> {
     List<String> selectAllCode();
 
-    void del(@Param("list") List<String> ids);
+    void del(String[] ids);
 
     void resetPassword(@Param("employeeCode") String employeeCode);
 }

@@ -2,19 +2,14 @@ package com.vblessings.nhs.controller;
 
 
 import com.vblessings.nhs.annoation.CurrentUser;
-import com.vblessings.nhs.model.entity.business.BusComplaintsRecord;
-import com.vblessings.nhs.model.entity.business.BusDonationRecord;
-import com.vblessings.nhs.model.entity.business.BusInterestGroupRecord;
-import com.vblessings.nhs.model.entity.business.BusSatisfactionMeasurement;
+import com.vblessings.nhs.model.entity.business.*;
+import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
 import com.vblessings.nhs.model.po.businessVO.QueryComplaintVO;
 import com.vblessings.nhs.model.po.businessVO.QueryDonationPO;
 import com.vblessings.nhs.model.po.businessVO.QueryInterestGroupVO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
-import com.vblessings.nhs.service.BusComplaintsRecordService;
-import com.vblessings.nhs.service.BusDonationRecordService;
-import com.vblessings.nhs.service.BusInterestGroupRecordService;
-import com.vblessings.nhs.service.BusSatisfactionMeasurementService;
+import com.vblessings.nhs.service.*;
 import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,6 +42,9 @@ public class ComprehensiveController {
 
     @Resource
     private BusComplaintsRecordService busComplaintsRecordService;
+
+    @Resource
+    private BusCarerCheckService busCarerCheckService;
 
 
     /**
@@ -176,5 +174,25 @@ public class ComprehensiveController {
     public ResultBody delComplaint(Long id){
         busComplaintsRecordService.delComplaint(id);
         return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 新增护工考核
+     */
+    @ApiOperation("新增护工考核")
+    @PostMapping("/addCheck")
+    public ResultBody addCheck(@RequestBody BusCarerCheck busCarerCheck, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busCarerCheckService.addCheck(busCarerCheck,userInfo);
+        return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 查询投诉记录（根据主题）
+     *
+     */
+    @ApiOperation("查询护工考核")
+    @PostMapping("/pageCheck")
+    public ResultBody<PageVO<BusCarerCheck>> pageCheck(@RequestBody QueryCheckVO queryCheckVO){
+        return ResultBody.newSuccessInstance(busCarerCheckService.pageCheck(queryCheckVO));
     }
 }

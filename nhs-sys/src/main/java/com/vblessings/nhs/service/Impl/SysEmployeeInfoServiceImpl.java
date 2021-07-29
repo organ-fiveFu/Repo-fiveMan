@@ -1,14 +1,18 @@
 package com.vblessings.nhs.service.Impl;
 
-import com.github.pagehelper.util.StringUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
 import com.vblessings.nhs.mapper.SysEmployeeInfoMapper;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
+import com.vblessings.nhs.model.po.QueryEmployeePO;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.LoginService;
 import com.vblessings.nhs.service.SysEmployeeInfoService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -79,20 +83,29 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     }
 
     @Override
-    public List<SysEmployeeInfo> select(String employeeCode) {
+    public PageVO<SysEmployeeInfo> select(QueryEmployeePO queryEmployeePO) {
+        Page<SysEmployeeInfo> result = PageHelper.startPage(queryEmployeePO.getPageNum(), queryEmployeePO.getPageSize());
         Example example = new Example(SysEmployeeInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        if(StringUtil.isNotEmpty(employeeCode)){
-            criteria.andEqualTo("employeeCode",employeeCode);
+        if(queryEmployeePO.getKeyWord()!=null){
+            if(StringUtil.isChinese(queryEmployeePO.getKeyWord())){
+                criteria.andLike("name","%"+queryEmployeePO.getKeyWord()+"%");
+            }
+            //如果是数字说明查code
+            if(StringUtil.isNumeric(queryEmployeePO.getKeyWord())){
+                criteria.andEqualTo("employeeCode",queryEmployeePO.getKeyWord());
+            }
         }
         List<SysEmployeeInfo> sysEmployeeInfoList = sysEmployeeInfoMapper.selectByExample(example);
-        return sysEmployeeInfoList;
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysEmployeeInfoList);
+
     }
 
     @Override
-    public void del(List<String> ids) {
-        sysEmployeeInfoMapper.del(ids);
+    public void del(String ids) {
+        String[] id = ids.split(",");
+        sysEmployeeInfoMapper.del(id);
     }
 
     /**

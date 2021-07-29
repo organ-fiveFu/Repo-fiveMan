@@ -2,20 +2,19 @@ package com.vblessings.nhs.controller.dict;
 
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.model.entity.sys.SysDictType;
+import com.vblessings.nhs.model.vo.base.PullDownVo;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.SysDictService;
 import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/dictType")
@@ -43,17 +42,22 @@ public class DictTypeController {
     }
 
     @ApiOperation("查询字典")
-    @PostMapping("/select")
+    @GetMapping("/select")
     public ResultBody select(String keyWord){
         return ResultBody.newSuccessInstance(sysDictService.select(keyWord));
     }
 
 
     @ApiOperation("删除字典")
-    @PostMapping("/del")
-    public ResultBody del(@RequestBody List<String> typeCodes) {
+    @GetMapping("/del")
+    public ResultBody del(String typeCodes) {
         sysDictService.del(typeCodes);
         return ResultBody.newSuccessInstance();
+    }
+    @ApiOperation("查询字典明细下拉")
+    @PostMapping("/selectPullDown")
+    public ResultBody<Map<String,List<PullDownVo>>> selectPullDown(@RequestBody List<String> dictTypeCodes){
+        return ResultBody.newSuccessInstance(sysDictService.selectPullDown(dictTypeCodes));
     }
 
 }

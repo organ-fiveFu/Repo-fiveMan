@@ -11,5 +11,5 @@ import java.util.List;
 public interface SysDictDataMapper extends BaseRepository<SysDictData> {
     List<String> selectByTypeCode(String dictTypeCode);
 
-    void updateIsDel(@Param("list") List<String> dictCodes);
+    void updateIsDel(String[] codes);
 }

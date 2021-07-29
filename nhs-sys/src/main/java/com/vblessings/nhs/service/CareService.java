@@ -1,9 +1,9 @@
 package com.vblessings.nhs.service;
 
 import com.vblessings.nhs.model.entity.sys.SysCarerInfo;
+import com.vblessings.nhs.model.po.KeyWordPO;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
-
-import java.util.List;
 
 public interface CareService {
     /**
@@ -22,14 +22,14 @@ public interface CareService {
 
     /**
      * 查询护工信息
-     * @param careCode
+     * @param keyWordPO
      * @return
      */
-    List<SysCarerInfo> select(String careCode);
+    PageVO<SysCarerInfo> select(KeyWordPO keyWordPO);
 
     /**
      * 删除护工信息
      * @param ids
      */
-    void del(List<String> ids);
+    void del(String ids);
 }

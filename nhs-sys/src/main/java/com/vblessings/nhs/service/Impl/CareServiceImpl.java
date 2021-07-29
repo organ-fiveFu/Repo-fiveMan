@@ -1,13 +1,17 @@
 package com.vblessings.nhs.service.Impl;
 
-import com.github.pagehelper.util.StringUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
 import com.vblessings.nhs.mapper.CareMapper;
 import com.vblessings.nhs.model.entity.sys.SysCarerInfo;
+import com.vblessings.nhs.model.po.KeyWordPO;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.CareService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -56,20 +60,29 @@ public class CareServiceImpl implements CareService {
     }
 
     @Override
-    public List<SysCarerInfo> select(String careCode) {
+    public PageVO<SysCarerInfo> select(KeyWordPO keyWordPO) {
+        Page<SysCarerInfo> result = PageHelper.startPage(keyWordPO.getPageNum(), keyWordPO.getPageSize());
         Example example = new Example(SysCarerInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        if(StringUtil.isNotEmpty(careCode)){
-            criteria.andEqualTo("careCode",careCode);
+        if(keyWordPO.getKeyWord()!=null){
+            if(StringUtil.isChinese(keyWordPO.getKeyWord())){
+                criteria.andLike("name","%"+keyWordPO.getKeyWord()+"%");
+            }
+            //如果是数字说明查code
+            if(StringUtil.isNumeric(keyWordPO.getKeyWord())){
+                criteria.andEqualTo("careCode",keyWordPO.getKeyWord());
+            }
         }
         List<SysCarerInfo> sysCarerInfoList = careMapper.selectByExample(example);
-        return sysCarerInfoList;
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysCarerInfoList);
+
     }
 
     @Override
     @Transactional
-    public void del(List<String> ids) {
-        careMapper.del(ids);
+    public void del(String ids) {
+        String[] id = ids.split(",");
+        careMapper.del(id);
     }
 }

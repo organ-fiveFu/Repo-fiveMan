@@ -2,20 +2,18 @@ package com.vblessings.nhs.controller;
 
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
+import com.vblessings.nhs.model.po.QueryEmployeePO;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.SysEmployeeInfoService;
 import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -52,20 +50,20 @@ public class EmployeeController {
 
     @ApiOperation("查询员工信息")
     @PostMapping("/select")
-    public ResultBody select(String employeeCode){
-        return ResultBody.newSuccessInstance(sysEmployeeInfoService.select(employeeCode));
+    public ResultBody<PageVO<SysEmployeeInfo>> select(@RequestBody QueryEmployeePO queryEmployeePO){
+        return ResultBody.newSuccessInstance(sysEmployeeInfoService.select(queryEmployeePO));
     }
 
 
-    @ApiOperation("删除护工信息")
-    @PostMapping("/del")
-    public ResultBody del(List<String> ids) {
+    @ApiOperation("删除员工信息")
+    @GetMapping("/del")
+    public ResultBody del(String ids) {
         sysEmployeeInfoService.del(ids);
         return ResultBody.newSuccessInstance();
     }
 
     @ApiOperation("重置密码")
-    @PostMapping("/resetPassword")
+    @GetMapping("/resetPassword")
     public ResultBody resetPassword(String employeeCode){
         sysEmployeeInfoService.resetPassword(employeeCode);
         return ResultBody.newSuccessInstance();

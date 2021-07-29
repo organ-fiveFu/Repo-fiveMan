@@ -1,9 +1,9 @@
 package com.vblessings.nhs.service;
 
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
+import com.vblessings.nhs.model.po.QueryEmployeePO;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
-
-import java.util.List;
 
 public interface SysEmployeeInfoService{
     /**
@@ -45,12 +45,12 @@ public interface SysEmployeeInfoService{
 
     /**
      * 查询员工信息
-     * @param employeeCode
+     * @param queryEmployeePO
      * @return
      */
-    List<SysEmployeeInfo> select(String employeeCode);
+    PageVO<SysEmployeeInfo> select(QueryEmployeePO queryEmployeePO);
 
-    void del(List<String> ids);
+    void del(String ids);
 
     /**
      * 重置密码

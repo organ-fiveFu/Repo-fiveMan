@@ -27,15 +27,14 @@
         update sys_employee_info
         set is_del = 1
         where id in
-        <foreach collection="list" item="item" open="(" separator="," close=")" >
-            #{item}
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
         </foreach>
     </update>
 
     <update id="resetPassword">
-update sys_employee_info
-set password = '000000'
-where employee_code = #{employeeCode}
+        update sys_employee_info set password = '000000'
+        where employee_code = #{employeeCode}
     </update>
 
     <select id="selectAllCode" resultType="java.lang.String">

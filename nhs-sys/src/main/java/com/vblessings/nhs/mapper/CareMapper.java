@@ -11,5 +11,5 @@ import java.util.List;
 public interface CareMapper extends BaseRepository<SysCarerInfo> {
     List<String> selectAllCode();
 
-    void del(@Param("list") List<String> ids);
+    void del(String[] ids);
 }
