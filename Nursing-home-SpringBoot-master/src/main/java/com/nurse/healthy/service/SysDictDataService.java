@@ -25,4 +25,6 @@ public interface SysDictDataService {
      * @return
      */
     Map<String,String> getDictName(String dictTypeCode,List<String> dictCodeList);
+
+    Map<String,List<String>> selectPullDown(String code);
 }

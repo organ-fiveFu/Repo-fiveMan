@@ -123,4 +123,9 @@ public class SysDictDataServiceImpl implements SysDictDataService {
         return result;
     }
 
+    @Override
+    public Map<String, List<String>> selectPullDown(String code) {
+        return null;
+    }
+
 }

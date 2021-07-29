@@ -1,6 +1,7 @@
 package com.nurse.healthy.service;
 
 import com.nurse.healthy.model.entity.sys.SysDictType;
+import com.nurse.healthy.model.vo.base.PullDownVo;
 import com.nurse.healthy.result.UserInfoToken;
 
 import java.util.List;
@@ -33,4 +34,5 @@ public interface SysDictService {
     void del(String typeCodes);
 
 
+    Map<String,List<PullDownVo>> selectPullDown(List<String> dictTypeCodes);
 }

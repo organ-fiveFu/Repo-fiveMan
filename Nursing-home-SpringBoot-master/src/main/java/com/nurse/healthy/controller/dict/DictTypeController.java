@@ -2,6 +2,7 @@ package com.nurse.healthy.controller.dict;
 
 import com.nurse.healthy.annoation.CurrentUser;
 import com.nurse.healthy.model.entity.sys.SysDictType;
+import com.nurse.healthy.model.vo.base.PullDownVo;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictService;
 import com.nurse.healthy.vo.ResultBody;
@@ -13,6 +14,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/dictType")
@@ -40,7 +42,7 @@ public class DictTypeController {
     }
 
     @ApiOperation("查询字典")
-    @PostMapping("/select")
+    @GetMapping("/select")
     public ResultBody select(String keyWord){
         return ResultBody.newSuccessInstance(sysDictService.select(keyWord));
     }
@@ -51,6 +53,11 @@ public class DictTypeController {
     public ResultBody del(String typeCodes) {
         sysDictService.del(typeCodes);
         return ResultBody.newSuccessInstance();
+    }
+    @ApiOperation("查询字典明细下拉")
+    @PostMapping("/selectPullDown")
+    public ResultBody<Map<String,List<PullDownVo>>> selectPullDown(@RequestBody List<String> dictTypeCodes){
+        return ResultBody.newSuccessInstance(sysDictService.selectPullDown(dictTypeCodes));
     }
 
 }

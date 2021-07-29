@@ -2,22 +2,18 @@ package com.nurse.healthy.controller;
 
 import com.nurse.healthy.annoation.CurrentUser;
 import com.nurse.healthy.model.entity.sys.SysCarerInfo;
-import com.nurse.healthy.model.entity.sys.SysDictType;
+import com.nurse.healthy.model.po.KeyWordPO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.CareService;
 import com.nurse.healthy.vo.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 护工api
@@ -57,14 +53,14 @@ public class CareController {
 
     @ApiOperation("查询护工信息")
     @PostMapping("/select")
-    public ResultBody select(String careCode){
-        return ResultBody.newSuccessInstance(careService.select(careCode));
+    public ResultBody<PageVO<SysCarerInfo>> select(@RequestBody KeyWordPO keyWordPO){
+        return ResultBody.newSuccessInstance(careService.select(keyWordPO));
     }
 
 
     @ApiOperation("删除护工信息")
-    @PostMapping("/del")
-    public ResultBody del(@RequestBody List<String> ids) {
+    @GetMapping("/del")
+    public ResultBody del(String ids) {
         careService.del(ids);
         return ResultBody.newSuccessInstance();
     }

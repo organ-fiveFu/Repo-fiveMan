@@ -1,10 +1,14 @@
 package com.nurse.healthy.service.Impl;
 
-import com.github.pagehelper.util.StringUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.nurse.healthy.component.SnowflakeComponent;
 import com.nurse.healthy.exception.MyException;
 import com.nurse.healthy.mapper.SysEmployeeInfoMapper;
+import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
+import com.nurse.healthy.model.po.QueryEmployeePO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.LoginService;
 import com.nurse.healthy.service.SysEmployeeInfoService;
@@ -12,6 +16,7 @@ import com.nurse.healthy.util.OperateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+import com.nurse.healthy.util.StringUtil;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -79,15 +84,23 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     }
 
     @Override
-    public List<SysEmployeeInfo> select(String employeeCode) {
+    public PageVO<SysEmployeeInfo> select(QueryEmployeePO queryEmployeePO) {
+        Page<SysEmployeeInfo> result = PageHelper.startPage(queryEmployeePO.getPageNum(), queryEmployeePO.getPageSize());
         Example example = new Example(SysEmployeeInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        if(StringUtil.isNotEmpty(employeeCode)){
-            criteria.andEqualTo("employeeCode",employeeCode);
+        if(queryEmployeePO.getKeyWord()!=null){
+            if(StringUtil.isChinese(queryEmployeePO.getKeyWord())){
+                criteria.andLike("name","%"+queryEmployeePO.getKeyWord()+"%");
+            }
+            //如果是数字说明查code
+            if(StringUtil.isNumeric(queryEmployeePO.getKeyWord())){
+                criteria.andEqualTo("employeeCode",queryEmployeePO.getKeyWord());
+            }
         }
         List<SysEmployeeInfo> sysEmployeeInfoList = sysEmployeeInfoMapper.selectByExample(example);
-        return sysEmployeeInfoList;
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysEmployeeInfoList);
+
     }
 
     @Override

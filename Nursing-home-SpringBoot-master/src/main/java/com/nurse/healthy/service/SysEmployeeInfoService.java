@@ -1,6 +1,9 @@
 package com.nurse.healthy.service;
 
+import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
+import com.nurse.healthy.model.po.QueryEmployeePO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 
 import java.util.List;
@@ -45,10 +48,10 @@ public interface SysEmployeeInfoService{
 
     /**
      * 查询员工信息
-     * @param employeeCode
+     * @param queryEmployeePO
      * @return
      */
-    List<SysEmployeeInfo> select(String employeeCode);
+    PageVO<SysEmployeeInfo> select(QueryEmployeePO queryEmployeePO);
 
     void del(String ids);
 

@@ -1,7 +1,10 @@
 package com.nurse.healthy.controller;
 
 import com.nurse.healthy.annoation.CurrentUser;
+import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.entity.sys.SysEmployeeInfo;
+import com.nurse.healthy.model.po.QueryEmployeePO;
+import com.nurse.healthy.model.vo.PageVO;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysEmployeeInfoService;
 import com.nurse.healthy.vo.ResultBody;
@@ -49,8 +52,8 @@ public class EmployeeController {
 
     @ApiOperation("查询员工信息")
     @PostMapping("/select")
-    public ResultBody select(String employeeCode){
-        return ResultBody.newSuccessInstance(sysEmployeeInfoService.select(employeeCode));
+    public ResultBody<PageVO<SysEmployeeInfo>> select(@RequestBody QueryEmployeePO queryEmployeePO){
+        return ResultBody.newSuccessInstance(sysEmployeeInfoService.select(queryEmployeePO));
     }
 
 
@@ -62,7 +65,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("重置密码")
-    @PostMapping("/resetPassword")
+    @GetMapping("/resetPassword")
     public ResultBody resetPassword(String employeeCode){
         sysEmployeeInfoService.resetPassword(employeeCode);
         return ResultBody.newSuccessInstance();

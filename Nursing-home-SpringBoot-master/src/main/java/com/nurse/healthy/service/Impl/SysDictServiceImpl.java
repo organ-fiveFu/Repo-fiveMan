@@ -6,6 +6,7 @@ import com.nurse.healthy.mapper.SysDictDataMapper;
 import com.nurse.healthy.mapper.SysDictTypeMapper;
 import com.nurse.healthy.model.entity.sys.SysDictData;
 import com.nurse.healthy.model.entity.sys.SysDictType;
+import com.nurse.healthy.model.vo.base.PullDownVo;
 import com.nurse.healthy.result.UserInfoToken;
 import com.nurse.healthy.service.SysDictService;
 import com.nurse.healthy.util.OperateUtil;
@@ -16,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,5 +106,26 @@ public class SysDictServiceImpl implements SysDictService {
           }
             sysDictTypeMapper.delByTypeCode(typeCode);
         }
+    }
+
+    @Override
+    public Map selectPullDown(List<String> dictTypeCodes) {
+        Example example = new Example(SysDictData.class);
+        example.selectProperties("dictTypeCode","dictCode","dictName");
+        Example.Criteria c = example.createCriteria();
+        c.andIn("dictTypeCode",dictTypeCodes).andEqualTo("isDel",0);
+        List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
+        Map<String, List<PullDownVo>> map = new HashMap<>();
+        List<PullDownVo> list= new ArrayList<>();
+        for (SysDictData s:
+                sysDictDataList) {
+            PullDownVo pullDownVo = new PullDownVo();
+            pullDownVo.setDictTypeCode(s.getDictTypeCode());
+            pullDownVo.setKey(s.getDictCode());
+            pullDownVo.setName(s.getDictName());
+            list.add(pullDownVo);
+        }
+        return list.stream().collect(
+                Collectors.groupingBy(PullDownVo::getDictTypeCode));
     }
 }

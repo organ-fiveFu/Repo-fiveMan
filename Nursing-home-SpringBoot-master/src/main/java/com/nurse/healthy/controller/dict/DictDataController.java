@@ -18,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/dictDate")
@@ -57,14 +58,7 @@ public class DictDataController {
         return ResultBody.newSuccessInstance();
     }
 
-/*
 
-    @ApiOperation("查询字典明细下拉")
-    @PostMapping("/selectPullDown")
-    public ResultBody<PageVO<SysDictData>> select(@RequestBody QueryDictPO queryDictPO){
-        return ResultBody.newSuccessInstance(sysDictDataService.select(queryDictPO));
-    }
-*/
 
 
 }
