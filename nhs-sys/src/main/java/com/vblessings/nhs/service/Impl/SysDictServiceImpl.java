@@ -121,8 +121,8 @@ public class SysDictServiceImpl implements SysDictService {
                 sysDictDataList) {
             PullDownVo pullDownVo = new PullDownVo();
             pullDownVo.setDictTypeCode(s.getDictTypeCode());
-            pullDownVo.setKey(s.getDictCode());
-            pullDownVo.setName(s.getDictName());
+            pullDownVo.setValue(s.getDictCode());
+            pullDownVo.setLabel(s.getDictName());
             list.add(pullDownVo);
         }
         return list.stream().collect(

@@ -6,7 +6,7 @@ import lombok.Data;
 public class PullDownVo {
     private  String  dictTypeCode;
 
-    private String key;
+    private String value;
 
-    private String name;
+    private String label;
 }
