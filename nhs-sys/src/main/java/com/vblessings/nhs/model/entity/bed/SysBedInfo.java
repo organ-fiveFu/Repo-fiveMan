@@ -1,11 +1,13 @@
 package com.vblessings.nhs.model.entity.bed;
 
-import lombok.Data;
-import sun.awt.SunHints;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 
 /**
  * Copyright (c) 2017 Choice, Inc.
@@ -104,7 +106,7 @@ public class SysBedInfo implements Serializable {
 	 */
 	@ApiModelProperty(value = "入住状态", required = false)
     @Column(name = "status")
-    private Integer status;
+    private String status;
 	
 		/**
 	 * 查询时添加是否显示停用(0为停用 ，1为使用)

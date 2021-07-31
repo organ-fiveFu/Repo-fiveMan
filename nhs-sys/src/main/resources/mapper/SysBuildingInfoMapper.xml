@@ -19,7 +19,12 @@
           t1.id AS "id",
           t2.id AS "parentId",
           t1.name AS "name",
-          t2.name AS "parentName"
+          t2.name AS "parentName",
+          t1.id AS "key",
+          t1.floor_code AS "code",
+          t1.name AS "title",
+          t1.floor_code AS "floorCode",
+          t1.building_code AS "buildingCode"
         FROM sys_floor_info t1
         LEFT JOIN sys_building_info t2 ON t1.building_code = t2.building_code
           AND t2.is_del = 0
@@ -29,7 +34,12 @@
           t2.id AS "id",
           t4.id AS "parentId",
           t2.name AS "name",
-          t4.name AS "parentName"
+          t4.name AS "parentName",
+          t2.id AS "key",
+          t2.room_code AS "code",
+          t2.name AS "title",
+          t2.floor_code AS "floorCode",
+          t2.building_code AS "buildingCode"
         FROM sys_room_info t2
         LEFT JOIN sys_floor_info t4 ON t2.building_code = t4.building_code
           AND t2.floor_code = t4.floor_code AND t4.is_del = 0
@@ -37,9 +47,14 @@
         UNION ALL
         SELECT
           id AS "id",
-          0 AS "parentId",
+          1 AS "parentId",
           name AS "name",
-          '' AS "parentName"
+          '杭州富阳颐乐老年护理中心' AS "parentName",
+          id AS "key",
+		  building_code AS "code",
+          name AS "title",
+		  '' AS "floorCode",
+		  building_code AS "buildingCode"
         FROM sys_building_info
         WHERE is_del = 0
     </select>

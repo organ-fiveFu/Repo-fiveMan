@@ -23,7 +23,7 @@ public class SysBedInfoInsertPO {
     private String name;
 
     @ApiModelProperty(value = "入住状态", name = "status")
-    private Integer status;
+    private String status;
 
     @ApiModelProperty(value = "使用标志(1使用0停用)", name = "useFlag")
     private Integer useFlag;

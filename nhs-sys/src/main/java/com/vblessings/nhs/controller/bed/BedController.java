@@ -4,12 +4,11 @@ package com.vblessings.nhs.controller.bed;
 import cn.hutool.core.lang.tree.Tree;
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.model.po.bed.*;
+import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.bed.*;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BedService;
-import com.vblessings.nhs.model.result.BaseResult;
-import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +37,9 @@ public class BedController {
      */
     @ApiOperation(value = "新增楼宇信息")
     @PostMapping("/building/insert")
-    public BaseResult<Boolean> insertSysBuildingInfo(@RequestBody SysBuildingInfoInsertPO sysBuildingInfoInsertPO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
+    public ResultBody<Boolean> insertSysBuildingInfo(@RequestBody SysBuildingInfoInsertPO sysBuildingInfoInsertPO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("新增楼宇信息,入参sysBuildingInfoInsertPO:" + sysBuildingInfoInsertPO);
-        return BaseResult.success(bedService.insertSysBuildingInfo(sysBuildingInfoInsertPO, userInfoToken));
+        return ResultBody.newSuccessInstance(bedService.insertSysBuildingInfo(sysBuildingInfoInsertPO, userInfoToken));
     }
 
     /**
@@ -141,7 +140,7 @@ public class BedController {
      * @return  com.nurse.healthy.vo.ResultBody<com.nurse.healthy.model.vo.PageVO<com.nurse.healthy.model.vo.bed.SysFloorInfoQueryVO>>
      */
     @ApiOperation(value = "查询楼层信息")
-    @PostMapping("/floor/query")
+    @GetMapping("/floor/query")
     public ResultBody<PageVO<SysFloorInfoQueryVO>> querySysFloorInfoList(SysFloorInfoQueryPO sysFloorInfoQueryPO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("查询楼层信息,入参sysFloorInfoQueryPO:" + sysFloorInfoQueryPO);
         return ResultBody.newSuccessInstance(bedService.querySysFloorInfoList(sysFloorInfoQueryPO, userInfoToken));

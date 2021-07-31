@@ -27,7 +27,10 @@ public class SysBedInfoQueryVO {
     private String name;
 
     @ApiModelProperty(value = "入住状态")
-    private Integer status;
+    private String status;
+
+    @ApiModelProperty(value = "入住状态名称")
+    private String statusName;
 
     @ApiModelProperty(value = "使用标志(1使用0停用)")
     private Integer useFlag;

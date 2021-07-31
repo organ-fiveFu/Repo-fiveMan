@@ -7,6 +7,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.enums.DictTypeEnum;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.SysBedInfoMapper;
 import com.vblessings.nhs.mapper.SysBuildingInfoMapper;
@@ -16,13 +17,14 @@ import com.vblessings.nhs.model.entity.bed.SysBedInfo;
 import com.vblessings.nhs.model.entity.bed.SysBuildingInfo;
 import com.vblessings.nhs.model.entity.bed.SysFloorInfo;
 import com.vblessings.nhs.model.entity.bed.SysRoomInfo;
+import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.bed.*;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BedService;
+import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.BeanHelper;
 import com.vblessings.nhs.util.OperateUtil;
-import com.vblessings.nhs.model.po.bed.*;
-import com.vblessings.nhs.model.vo.bed.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +36,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -54,6 +57,9 @@ public class BedServiceImpl implements BedService {
 
     @Resource
     private SysRoomInfoMapper sysRoomInfoMapper;
+
+    @Resource
+    private SysDictDataService sysDictDataService;
 
     /**
      * 新增楼宇信息
@@ -427,6 +433,18 @@ public class BedServiceImpl implements BedService {
             return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), new ArrayList<>());
         }
         List<SysRoomInfoQueryVO> sysRoomInfoQueryVOList = BeanHelper.copyWithCollection(sysRoomInfoList, SysRoomInfoQueryVO.class);
+        List<String> roomTypeList = new ArrayList<>();
+        List<String> roomTowardList = new ArrayList<>();
+        sysRoomInfoQueryVOList.forEach(sysRoomInfoQueryVO -> {
+            roomTypeList.add(sysRoomInfoQueryVO.getRoomType());
+            roomTowardList.add(sysRoomInfoQueryVO.getRoomToward());
+        });
+        Map<String, String> roomTypeMap = sysDictDataService.getDictName(DictTypeEnum.ROOM_TYPE.getCode(), roomTypeList);
+        Map<String, String> roomTowardMap = sysDictDataService.getDictName(DictTypeEnum.ROOM_TOWARD.getCode(), roomTypeList);
+        sysRoomInfoQueryVOList.forEach(sysRoomInfoQueryVO -> {
+            sysRoomInfoQueryVO.setRoomTypeName(roomTypeMap.get(sysRoomInfoQueryVO.getRoomType()));
+            sysRoomInfoQueryVO.setRoomTowardName(roomTowardMap.get(sysRoomInfoQueryVO.getRoomToward()));
+        });
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysRoomInfoQueryVOList);
     }
 
@@ -480,7 +498,7 @@ public class BedServiceImpl implements BedService {
         //判断该栋楼该楼层该房间是否有相同床位编码
         Example example = new Example(SysBedInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("BuildingCode", sysBedInfoInsertPO.getBuildingCode());
+        criteria.andEqualTo("buildingCode", sysBedInfoInsertPO.getBuildingCode());
         criteria.andEqualTo("floorCode", sysBedInfoInsertPO.getFloorCode());
         criteria.andEqualTo("roomCode", sysBedInfoInsertPO.getRoomCode());
         criteria.andEqualTo("bedCode", sysBedInfoInsertPO.getBedCode());
@@ -517,7 +535,7 @@ public class BedServiceImpl implements BedService {
         //判断该栋楼该楼层该房间是否有相同床位编码
         Example example = new Example(SysBedInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("BuildingCode", sysBedInfoUpdatePO.getBuildingCode());
+        criteria.andEqualTo("buildingCode", sysBedInfoUpdatePO.getBuildingCode());
         criteria.andEqualTo("floorCode", sysBedInfoUpdatePO.getFloorCode());
         criteria.andEqualTo("roomCode", sysBedInfoUpdatePO.getRoomCode());
         criteria.andEqualTo("bedCode", sysBedInfoUpdatePO.getBedCode());
@@ -534,10 +552,10 @@ public class BedServiceImpl implements BedService {
         sysBedInfo.setUpdateTime(new Date());
         log.info("更新床位信息,入参sysBedInfo" + sysBedInfo);
         try {
-            sysBedInfoMapper.insertSelective(sysBedInfo);
+            sysBedInfoMapper.updateByPrimaryKeySelective(sysBedInfo);
         }catch (Exception e){
             log.error("更新床位信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新床位信息失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新床位信息失败");
         }
         return true;
     }
@@ -577,6 +595,14 @@ public class BedServiceImpl implements BedService {
             return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), new ArrayList<>());
         }
         List<SysBedInfoQueryVO> sysBedInfoQueryVOList = BeanHelper.copyWithCollection(sysBedInfoList, SysBedInfoQueryVO.class);
+        List<String> statusList = new ArrayList<>();
+        sysBedInfoQueryVOList.forEach(sysBedInfoQueryVO -> {
+            statusList.add(sysBedInfoQueryVO.getStatus());
+        });
+        Map<String, String> statusMap = sysDictDataService.getDictName(DictTypeEnum.CHECK_IN_STATUS.getCode(), statusList);
+        sysBedInfoQueryVOList.forEach(sysBedInfoQueryVO -> {
+            sysBedInfoQueryVO.setStatusName(statusMap.get(sysBedInfoQueryVO.getStatus()));
+        });
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysBedInfoQueryVOList);
     }
 
@@ -679,6 +705,16 @@ public class BedServiceImpl implements BedService {
     @Override
     public List<Tree<String>> queryBedTree(UserInfoToken userInfoToken) {
         List<BedTreeVO> bedTreeVOList = sysBuildingInfoMapper.queryBedTree();
+        if(CollectionUtil.isEmpty(bedTreeVOList)){
+            return null;
+        }
+        BedTreeVO bedTreeVO = new BedTreeVO();
+        bedTreeVO.setId(1L);
+        bedTreeVO.setParentId(0L);
+        bedTreeVO.setName("杭州富阳颐乐老年护理中心");
+        bedTreeVO.setTitle("杭州富阳颐乐老年护理中心");
+        bedTreeVO.setKey(1L);
+        bedTreeVOList.add(bedTreeVO);
         TreeNodeConfig config = new TreeNodeConfig();
         config.setIdKey("id");
         config.setParentIdKey("parentId");
@@ -688,6 +724,11 @@ public class BedServiceImpl implements BedService {
             tree.setParentId(treeNode.getParentId().toString());
             tree.setName(treeNode.getName());
             tree.putExtra("parentName", treeNode.getParentName());
+            tree.putExtra("key", treeNode.getKey());
+            tree.putExtra("code", treeNode.getCode());
+            tree.putExtra("title", treeNode.getTitle());
+            tree.putExtra("floorCode", treeNode.getFloorCode());
+            tree.putExtra("buildingCode", treeNode.getBuildingCode());
         });
         return treeList;
     }

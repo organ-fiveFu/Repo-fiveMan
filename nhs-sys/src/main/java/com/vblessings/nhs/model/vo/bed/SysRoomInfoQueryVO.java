@@ -26,6 +26,12 @@ public class SysRoomInfoQueryVO {
     @ApiModelProperty(value = "房间类型")
     private String roomType;
 
+    @ApiModelProperty(value = "房间类型名称")
+    private String roomTypeName;
+
     @ApiModelProperty(value = "房间朝向")
     private String roomToward;
+
+    @ApiModelProperty(value = "房间朝向名称")
+    private String roomTowardName;
 }
