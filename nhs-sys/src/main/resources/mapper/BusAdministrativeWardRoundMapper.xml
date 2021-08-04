@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusAdministrativeWardRoundMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusAdministrativeWardRound" id="busAdministrativeWardRoundMap">
+        <result property="id" column="id"/>
+        <result property="wardRounds" column="ward_rounds"/>
+        <result property="wardRoundTime" column="ward_round_time"/>
+        <result property="livingConditions" column="living_conditions"/>
+        <result property="lifeOpinion" column="life_opinion"/>
+        <result property="psychologicalSituation" column="psychological_situation"/>
+        <result property="psychologicalOpinion" column="psychological_opinion"/>
+        <result property="logisticsSituation" column="logistics_situation"/>
+        <result property="logisticsOpinion" column="logistics_opinion"/>
+        <result property="securitySituation" column="security_situation"/>
+        <result property="safetyAdvice" column="safety_advice"/>
+        <result property="environmentalConditions" column="environmental_conditions"/>
+        <result property="environmentalOpinion" column="environmental_opinion"/>
+        <result property="opinionSituation" column="opinion_situation"/>
+        <result property="opinion" column="opinion"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+</mapper>
