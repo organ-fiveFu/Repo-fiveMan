@@ -23,7 +23,10 @@
     <update id="delInterestGroup">
         update bus_interest_group_record
         set is_del=1
-        where id =#{id}
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
     <select id="selectByTime" resultMap="busInterestGroupRecordMap">
       select * from  bus_interest_group_record

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BusDonationRecordMapper extends BaseRepository<BusDonationRecord> {
-    void delDonation(@Param("id") Long id);
+    void delDonation(String[] id);
 }

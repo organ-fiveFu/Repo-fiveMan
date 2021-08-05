@@ -6,16 +6,21 @@ import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.mapper.BusComplaintsRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusComplaintsRecord;
+import com.vblessings.nhs.model.entity.business.BusInterestGroupRecord;
 import com.vblessings.nhs.model.po.businessVO.QueryComplaintVO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.business.BusComplaintsRecordVO;
+import com.vblessings.nhs.model.vo.business.BusInterestGroupRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusComplaintsRecordService;
 import com.vblessings.nhs.util.OperateUtil;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +40,26 @@ public class BusComplaintsRecordServiceImpl implements BusComplaintsRecordServic
     }
 
     @Override
-    public PageVO<BusComplaintsRecord> pageComplaint(QueryComplaintVO queryComplaintVO) {
-        Page<BusComplaintsRecord> result = PageHelper.startPage(queryComplaintVO.getPageNum(), queryComplaintVO.getPageSize());
+    public PageVO<BusComplaintsRecordVO> pageComplaint(QueryComplaintVO queryComplaintVO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Page<BusComplaintsRecordVO> result = PageHelper.startPage(queryComplaintVO.getPageNum(), queryComplaintVO.getPageSize());
         Example example = new Example(BusComplaintsRecord.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
         List<BusComplaintsRecord> busComplaintsRecordList = new ArrayList<>();
+        List<BusComplaintsRecordVO> busComplaintsRecordVOList = new ArrayList<>();
         if(Strings.isNotBlank(queryComplaintVO.getSearch())){
             criteria.andLike("theme","%"+queryComplaintVO.getSearch()+"%");
-            busComplaintsRecordList = busComplaintsRecordMapper.selectByExample(example);
-            return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busComplaintsRecordList);
-        }
+             }
         busComplaintsRecordList = busComplaintsRecordMapper.selectByExample(example);
-        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busComplaintsRecordList);
+        for (BusComplaintsRecord busComplaintsRecord:
+                busComplaintsRecordList) {
+            BusComplaintsRecordVO busComplaintsRecordVO = new BusComplaintsRecordVO();
+            BeanUtils.copyProperties(busComplaintsRecord, busComplaintsRecordVO);
+            busComplaintsRecordVO.setComplaintDate(sdf.format(busComplaintsRecord.getComplaintDate()));
+            busComplaintsRecordVOList.add(busComplaintsRecordVO);
+        }
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busComplaintsRecordVOList);
     }
 
     @Override
@@ -58,7 +70,8 @@ public class BusComplaintsRecordServiceImpl implements BusComplaintsRecordServic
     }
 
     @Override
-    public void delComplaint(Long id) {
+    public void delComplaint(String ids) {
+        String[] id = ids.split(",");
         busComplaintsRecordMapper.delComplaint(id);
         }
 

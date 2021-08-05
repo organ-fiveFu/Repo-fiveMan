@@ -3,21 +3,23 @@ package com.vblessings.nhs.controller;
 
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.model.entity.business.*;
+import com.vblessings.nhs.model.po.BusInterestGroupRecordPO;
 import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
 import com.vblessings.nhs.model.po.businessVO.QueryComplaintVO;
 import com.vblessings.nhs.model.po.businessVO.QueryDonationPO;
 import com.vblessings.nhs.model.po.businessVO.QueryInterestGroupVO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.business.BusCarerCheckVO;
+import com.vblessings.nhs.model.vo.business.BusComplaintsRecordVO;
+import com.vblessings.nhs.model.vo.business.BusDonationRecordVO;
+import com.vblessings.nhs.model.vo.business.BusInterestGroupRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.*;
 import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -53,7 +55,16 @@ public class ComprehensiveController {
     @ApiOperation("满意度测评")
     @PostMapping("/add")
     public ResultBody add(@RequestBody BusSatisfactionMeasurement busSatisfactionMeasurement, @ApiIgnore @CurrentUser UserInfoToken userInfo){
-        return ResultBody.newSuccessInstance(busSatisfactionMeasurementService.add(busSatisfactionMeasurement,userInfo));
+        busSatisfactionMeasurementService.add(busSatisfactionMeasurement,userInfo);
+        return ResultBody.newSuccessInstance();
+    }
+    /**
+     *
+     */
+    @ApiOperation("查询满意度测评")
+    @GetMapping("/selectMeasurement")
+    public ResultBody<BusSatisfactionMeasurement> selectMeasurement(String phone){
+        return ResultBody.newSuccessInstance(busSatisfactionMeasurementService.selectMeasurement(phone));
     }
 
     /**
@@ -63,7 +74,7 @@ public class ComprehensiveController {
     @PostMapping("/donation")
     public ResultBody donation(@RequestBody BusDonationRecord busDonationRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busDonationRecordService.donation(busDonationRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("新增成功");
     }
 
     /**
@@ -71,7 +82,7 @@ public class ComprehensiveController {
      */
     @ApiOperation("查询捐款记录")
     @PostMapping("/pageDonation")
-    public ResultBody<PageVO<BusDonationRecord>> pageDonation(@RequestBody QueryDonationPO queryDonationPO){
+    public ResultBody<PageVO<BusDonationRecordVO>> pageDonation(@RequestBody QueryDonationPO queryDonationPO){
         return ResultBody.newSuccessInstance(busDonationRecordService.pageDonation(queryDonationPO));
     }
 
@@ -83,17 +94,17 @@ public class ComprehensiveController {
     @PostMapping("/updateDonation")
     public ResultBody updateDonation(@RequestBody BusDonationRecord busDonationRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busDonationRecordService.updateDonation(busDonationRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("更新成功");
     }
 
     /**
      * 删除捐款记录
      */
     @ApiOperation("删除捐款记录")
-    @PostMapping("/delDonation")
-    public ResultBody delDonation(Long id){
-        busDonationRecordService.delDonation(id);
-        return ResultBody.newSuccessInstance();
+    @GetMapping("/delDonation")
+    public ResultBody delDonation(String ids){
+        busDonationRecordService.delDonation(ids);
+        return ResultBody.newSuccessInstance("删除成功");
     }
 
     /**
@@ -101,9 +112,9 @@ public class ComprehensiveController {
      */
     @ApiOperation("新增兴趣小组记录")
     @PostMapping("/addInterestGroup")
-    public ResultBody addInterestGroup(@RequestBody BusInterestGroupRecord busDonationRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
-        busInterestGroupRecordService.addInterestGroup(busDonationRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+    public ResultBody addInterestGroup(@RequestBody BusInterestGroupRecord busInterestGroupRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busInterestGroupRecordService.addInterestGroup(busInterestGroupRecord,userInfo);
+        return ResultBody.newSuccessInstance("新增成功");
     }
 
     /**
@@ -111,7 +122,7 @@ public class ComprehensiveController {
      */
     @ApiOperation("查询兴趣小组记录")
     @PostMapping("/pageInterestGroup")
-    public ResultBody<PageVO<BusInterestGroupRecord>> pageInterestGroup(@RequestBody QueryInterestGroupVO queryInterestGroupVO){
+    public ResultBody<PageVO<BusInterestGroupRecordVO>> pageInterestGroup(@RequestBody QueryInterestGroupVO queryInterestGroupVO){
         return ResultBody.newSuccessInstance(busInterestGroupRecordService.pageInterestGroup(queryInterestGroupVO));
     }
 
@@ -122,17 +133,17 @@ public class ComprehensiveController {
     @PostMapping("/updateInterestGroup")
     public ResultBody updateInterestGroup(@RequestBody BusInterestGroupRecord busInterestGroupRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busInterestGroupRecordService.updateInterestGroup(busInterestGroupRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("更新成功");
     }
 
     /**
      * 删除兴趣小组记录
      */
     @ApiOperation("删除兴趣小组记录")
-    @PostMapping("/delInterestGroup")
-    public ResultBody delInterestGroup(Long id){
-        busInterestGroupRecordService.delInterestGroup(id);
-        return ResultBody.newSuccessInstance();
+    @GetMapping("/delInterestGroup")
+    public ResultBody delInterestGroup(String ids){
+        busInterestGroupRecordService.delInterestGroup(ids);
+        return ResultBody.newSuccessInstance("删除成功");
     }
 
 
@@ -143,7 +154,7 @@ public class ComprehensiveController {
     @PostMapping("/addComplaint")
     public ResultBody addComplaint(@RequestBody BusComplaintsRecord busComplaintsRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busComplaintsRecordService.addComplaint(busComplaintsRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("新增成功");
     }
 
     /**
@@ -152,7 +163,7 @@ public class ComprehensiveController {
      */
     @ApiOperation("查询投诉记录")
     @PostMapping("/pageComplaint")
-    public ResultBody<PageVO<BusComplaintsRecord>> pageComplaint(@RequestBody QueryComplaintVO queryComplaintVO){
+    public ResultBody<PageVO<BusComplaintsRecordVO>> pageComplaint(@RequestBody QueryComplaintVO queryComplaintVO){
         return ResultBody.newSuccessInstance(busComplaintsRecordService.pageComplaint(queryComplaintVO));
     }
 
@@ -163,17 +174,17 @@ public class ComprehensiveController {
     @PostMapping("/updateComplaint")
     public ResultBody updateComplaint(@RequestBody BusComplaintsRecord busComplaintsRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busComplaintsRecordService.updateComplaint(busComplaintsRecord,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("更新成功");
     }
 
     /**
      * 删除兴趣小组记录
      */
     @ApiOperation("删除投诉记录")
-    @PostMapping("/delComplaint")
-    public ResultBody delComplaint(Long id){
-        busComplaintsRecordService.delComplaint(id);
-        return ResultBody.newSuccessInstance();
+    @GetMapping("/delComplaint")
+    public ResultBody delComplaint(String ids){
+        busComplaintsRecordService.delComplaint(ids);
+        return ResultBody.newSuccessInstance("删除成功");
     }
 
     /**
@@ -183,16 +194,37 @@ public class ComprehensiveController {
     @PostMapping("/addCheck")
     public ResultBody addCheck(@RequestBody BusCarerCheck busCarerCheck, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busCarerCheckService.addCheck(busCarerCheck,userInfo);
-        return ResultBody.newSuccessInstance();
+        return ResultBody.newSuccessInstance("新增成功");
     }
 
     /**
-     * 查询投诉记录（根据主题）
+     * 查询护工考核（根据姓名时间）
      *
      */
-    @ApiOperation("查询护工考核")
+    @ApiOperation("查询护工考核（根据姓名时间）")
     @PostMapping("/pageCheck")
-    public ResultBody<PageVO<BusCarerCheck>> pageCheck(@RequestBody QueryCheckVO queryCheckVO){
+    public ResultBody<PageVO<BusCarerCheckVO>> pageCheck(@RequestBody QueryCheckVO queryCheckVO){
         return ResultBody.newSuccessInstance(busCarerCheckService.pageCheck(queryCheckVO));
     }
+
+    /**
+     * 更新护工考核记录
+     */
+    @ApiOperation("更新护工考核记录")
+    @PostMapping("/updateCheck")
+    public ResultBody updateCheck(@RequestBody BusCarerCheck busCarerCheck, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busCarerCheckService.updateCheck(busCarerCheck,userInfo);
+        return ResultBody.newSuccessInstance("更新成功");
+    }
+
+    /**
+     * 删除护工考核记录
+     */
+    @ApiOperation("删除护工考核记录")
+    @GetMapping("/delCheck")
+    public ResultBody delCheck(String ids){
+        busCarerCheckService.delCheck(ids);
+        return ResultBody.newSuccessInstance("删除成功");
+    }
+
 }

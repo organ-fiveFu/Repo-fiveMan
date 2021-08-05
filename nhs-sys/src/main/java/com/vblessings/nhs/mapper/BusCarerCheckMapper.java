@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface BusCarerCheckMapper extends BaseRepository<BusCarerCheck> {
     List<BusCarerCheck> selectByTime(QueryCheckVO queryCheckVO);
+
+    void delCheck(String[] id);
 }

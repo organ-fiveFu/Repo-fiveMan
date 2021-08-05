@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BusComplaintsRecordMapper extends BaseRepository<BusComplaintsRecord> {
 
-    void delComplaint(@Param("id") Long id);
+    void delComplaint(String[] id);
 }

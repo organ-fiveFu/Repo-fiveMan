@@ -109,7 +109,7 @@ public class BusInterestGroupRecord implements Serializable {
     /**
      * 是否启用
      */
-    @ApiModelProperty(value = "是否启用", required = false)
+    @ApiModelProperty(value = "是否删除", required = false)
     @Column(name = "is_del")
     private Integer isDel;
 

@@ -11,7 +11,7 @@ public class QueryCheckVO extends PageParam {
 
     private Date startTime;
 
-    private Date EndTime;
+    private Date endTime;
 
 
 }

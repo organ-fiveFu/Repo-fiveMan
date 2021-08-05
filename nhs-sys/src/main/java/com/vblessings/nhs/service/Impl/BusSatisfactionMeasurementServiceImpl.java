@@ -20,16 +20,17 @@ public class BusSatisfactionMeasurementServiceImpl implements BusSatisfactionMea
     private SnowflakeComponent snowflakeComponent;
 
     @Override
-    public BusSatisfactionMeasurement add(BusSatisfactionMeasurement busSatisfactionMeasurement, UserInfoToken userInfo) {
-        Example example = new Example(BusSatisfactionMeasurement.class);
-        example.createCriteria().andEqualTo("name",busSatisfactionMeasurement.getName()).andEqualTo("phone",busSatisfactionMeasurement.getPhone());
-        BusSatisfactionMeasurement b = busSatisfactionMeasurementMapper.selectOneByExample(example);
-        if(b==null){
+    public void add(BusSatisfactionMeasurement busSatisfactionMeasurement, UserInfoToken userInfo) {
             Long id = snowflakeComponent.getInstance().nextId();
             OperateUtil.onSaveNew(busSatisfactionMeasurement,userInfo,id);
             busSatisfactionMeasurementMapper.insert(busSatisfactionMeasurement);
-            return null;
-        }
+    }
+
+    @Override
+    public BusSatisfactionMeasurement selectMeasurement(String phone) {
+        Example example = new Example(BusSatisfactionMeasurement.class);
+        example.createCriteria().andEqualTo("phone",phone);
+        BusSatisfactionMeasurement b = busSatisfactionMeasurementMapper.selectOneByExample(example);
         return b;
     }
 }

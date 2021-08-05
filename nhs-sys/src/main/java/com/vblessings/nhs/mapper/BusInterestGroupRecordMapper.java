@@ -12,5 +12,5 @@ import java.util.List;
 public interface BusInterestGroupRecordMapper extends BaseRepository<BusInterestGroupRecord> {
     List<BusInterestGroupRecord> selectByTime(QueryInterestGroupVO queryInterestGroupVO);
 
-    void delInterestGroup(@Param("id") Long id);
+    void delInterestGroup(String[] ids);
 }
