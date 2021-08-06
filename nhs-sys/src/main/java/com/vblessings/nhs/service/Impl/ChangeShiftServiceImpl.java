@@ -175,7 +175,7 @@ public class ChangeShiftServiceImpl implements ChangeShiftService {
             busChangeShiftsMapper.updateByPrimaryKeySelective(busChangeShifts);
         }catch (Exception e){
             log.error("删除交接班失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除交接班失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除交接班失败");
         }
         return true;
     }

@@ -125,7 +125,7 @@ public class BedServiceImpl implements BedService {
             sysBuildingInfoMapper.updateByPrimaryKeySelective(sysBuildingInfo);
         }catch (Exception e){
             log.error("更新楼宇信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新楼宇信息失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新楼宇信息失败");
         }
         return true;
     }
@@ -189,7 +189,7 @@ public class BedServiceImpl implements BedService {
             sysBuildingInfoMapper.updateByPrimaryKeySelective(sysBuildingInfo);
         }catch (Exception e){
             log.error("删除楼宇信息失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除楼宇信息失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除楼宇信息失败");
         }
         return true;
     }
@@ -258,7 +258,7 @@ public class BedServiceImpl implements BedService {
             sysFloorInfoMapper.updateByPrimaryKeySelective(sysFloorInfo);
         }catch (Exception e){
             log.error("更新楼层信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新楼层信息失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新楼层信息失败");
         }
         return true;
     }
@@ -326,7 +326,7 @@ public class BedServiceImpl implements BedService {
             sysFloorInfoMapper.updateByPrimaryKeySelective(sysFloorInfo);
         }catch (Exception e){
             log.error("删除楼层信息失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除楼层信息失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除楼层信息失败");
         }
         return true;
     }
@@ -397,7 +397,7 @@ public class BedServiceImpl implements BedService {
             sysRoomInfoMapper.updateByPrimaryKeySelective(sysRoomInfo);
         }catch (Exception e){
             log.error("更新房间信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新房间信息失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新房间信息失败");
         }
         return true;
     }
@@ -480,7 +480,7 @@ public class BedServiceImpl implements BedService {
             sysRoomInfoMapper.updateByPrimaryKeySelective(sysRoomInfo);
         }catch (Exception e){
             log.error("删除房间信息失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除房间信息失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除房间信息失败");
         }
         return true;
     }
@@ -625,7 +625,7 @@ public class BedServiceImpl implements BedService {
             sysBedInfoMapper.updateByPrimaryKeySelective(sysBedInfo);
         }catch (Exception e){
             log.error("删除床位信息失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除床位信息失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除床位信息失败");
         }
         return true;
     }

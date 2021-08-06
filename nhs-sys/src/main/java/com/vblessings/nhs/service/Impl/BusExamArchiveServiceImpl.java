@@ -149,19 +149,19 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
      * 查询体检档案
      * @author linxiazhu
      * @date 15:55 2021/7/6
-     * @param archiveId   老人档案id
+     * @param businessNo   老人档案id
      * @return  com.nurse.healthy.model.vo.business.ExamArchiveQueryVO
      */
     @Override
-    public ExamArchiveQueryVO select(String archiveId) {
-        if(StringUtils.isEmpty(archiveId)){
+    public ExamArchiveQueryVO select(String businessNo) {
+        if(StringUtils.isEmpty(businessNo)){
             return null;
         }
         ExamArchiveQueryVO examArchiveQueryVO = new ExamArchiveQueryVO();
         //查询体检档案主表
         Example example = new Example(BusExamArchive.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("archiveId", archiveId);
+        criteria.andEqualTo("businessNo", businessNo);
         criteria.andEqualTo("isDel", 0);
         BusExamArchive busExamArchive = busExamArchiveMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busExamArchive)){
@@ -264,7 +264,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
         }catch (Exception e){
             log.error("更新体检登记主表数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记主表数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记主表数据失败");
         }
 
         //更新从表数据
@@ -273,7 +273,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamEntArchiveMapper.updateByPrimaryKeySelective(busExamEntArchive);
         }catch (Exception e){
             log.error("更新体检登记-五官科数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记-五官科数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-五官科数据失败");
         }
 
         log.info("更新体检登记-眼科数据,入参busExamEyesArchive:" + busExamEyesArchive);
@@ -281,7 +281,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamEyesArchiveMapper.updateByPrimaryKeySelective(busExamEyesArchive);
         }catch (Exception e){
             log.error("更新体检登记-眼科数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记-眼科数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-眼科数据失败");
         }
 
         log.info("更新体检登记-内科数据,入参busExamInternalArchive:" + busExamInternalArchive);
@@ -289,7 +289,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamInternalArchiveMapper.updateByPrimaryKeySelective(busExamInternalArchive);
         }catch (Exception e){
             log.error("更新体检登记-内科数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记-内科数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-内科数据失败");
         }
 
         log.info("更新体检登记-外科数据,入参busExamSurgicalArchive:" + busExamSurgicalArchive);
@@ -297,7 +297,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamSurgicalArchiveMapper.updateByPrimaryKeySelective(busExamSurgicalArchive);
         }catch (Exception e){
             log.error("更新体检登记-外科数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记-外科数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-外科数据失败");
         }
 
         log.info("更新体检登记-其他检查数据,入参busExamOtherArchive:" + busExamOtherArchive);
@@ -305,7 +305,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamOtherArchiveMapper.updateByPrimaryKeySelective(busExamOtherArchive);
         }catch (Exception e){
             log.error("更新体检登记-其他检查数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新体检登记-其他检查数据失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-其他检查数据失败");
         }
         return true;
     }
@@ -314,16 +314,16 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
      * 删除体检档案
      * @author linxiazhu
      * @date 16:26 2021/7/8
-     * @param archiveId  老人档案id
+     * @param businessNo  老人档案id
      * @param userInfoToken   token
      * @return  boolean
      */
     @Override
-    public boolean delete(String archiveId, UserInfoToken userInfoToken) {
+    public boolean delete(String businessNo, UserInfoToken userInfoToken) {
         //查询体检档案信息
         Example example = new Example(BusExamArchive.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("archiveId", archiveId);
+        criteria.andEqualTo("businessNo", businessNo);
         criteria.andEqualTo("isDel", 0);
         BusExamArchive busExamArchive = busExamArchiveMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busExamArchive)){
@@ -337,7 +337,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
             busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
         }catch (Exception e){
             log.error("删除体检档案数据失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("删除体检档案数据失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除体检档案数据失败");
         }
         return true;
     }

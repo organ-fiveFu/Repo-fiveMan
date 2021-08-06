@@ -49,7 +49,7 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
         criteria.andEqualTo("isDel", 0);
         int count =  busTrialStayAssessmentMapper.selectCountByExample(example);
         if(count > 0){
-            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法新增");
+            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法更新");
         }
         //新增
         BusTrialStayAssessment busTrialStayAssessment = new BusTrialStayAssessment();
@@ -84,7 +84,7 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
         criteria.andNotEqualTo("id", trialAssessmentUpdatePO.getId());
         int count =  busTrialStayAssessmentMapper.selectCountByExample(example);
         if(count > 0){
-            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法新增");
+            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法更新");
         }
         //更新
         BusTrialStayAssessment busTrialStayAssessment = new BusTrialStayAssessment();
@@ -96,7 +96,7 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
             busTrialStayAssessmentMapper.updateByPrimaryKeySelective(busTrialStayAssessment);
         }catch (Exception e){
             log.error("更新试用期评估信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("更新试用期评估信息失败");
+            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新试用期评估信息失败");
         }
         return true;
     }
@@ -105,14 +105,14 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
      * 查询试用期评估信息
      * @author linxiazhu
      * @date 16:58 2021/7/19
-     * @param archiveId   老人档案id
+     * @param businessNo   老人档案id
      * @return  com.nurse.healthy.model.vo.trialassessment.TrialAssessmentQueryVO
      */
     @Override
-    public TrialAssessmentQueryVO queryTrialAssessment(String archiveId) {
+    public TrialAssessmentQueryVO queryTrialAssessment(String businessNo) {
         Example example = new Example(BusTrialStayAssessment.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("archiveId", archiveId);
+        criteria.andEqualTo("businessNo", businessNo);
         criteria.andEqualTo("isDel", 0);
         BusTrialStayAssessment busTrialStayAssessment = busTrialStayAssessmentMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busTrialStayAssessment)){
@@ -163,16 +163,16 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
      * 删除试用期评估信息
      * @author linxiazhu
      * @date 17:16 2021/7/19
-     * @param archiveId  老人档案id
+     * @param businessNo  老人档案id
      * @param userInfoToken   token
      * @return  boolean
      */
     @Override
-    public boolean deleteTrialAssessment(String archiveId, UserInfoToken userInfoToken) {
+    public boolean deleteTrialAssessment(String businessNo, UserInfoToken userInfoToken) {
         //查询体检档案信息
         Example example = new Example(BusTrialStayAssessment.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("archiveId", archiveId);
+        criteria.andEqualTo("businessNo", businessNo);
         criteria.andEqualTo("isDel", 0);
         BusTrialStayAssessment busTrialStayAssessment = busTrialStayAssessmentMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busTrialStayAssessment)){
@@ -186,7 +186,7 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
             busTrialStayAssessmentMapper.updateByPrimaryKeySelective(busTrialStayAssessment);
         }catch (Exception e){
             log.error("删除试用期评估信息失败");
-            throw ResponseEnum.FILE_INSERT_FAIL.newException("删除试用期评估信息失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除试用期评估信息失败");
         }
         return true;
     }

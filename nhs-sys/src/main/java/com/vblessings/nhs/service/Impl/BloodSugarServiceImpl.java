@@ -167,7 +167,7 @@ public class BloodSugarServiceImpl implements BloodSugarService {
             busBloodSugarRecordMapper.updateByPrimaryKeySelective(busBloodSugarRecord);
         }catch (Exception e){
             log.error("删除血糖记录失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除血糖记录失败");
+            throw ResponseEnum.FILE_DELETE_FAIL.newException("删除血糖记录失败");
         }
         return true;
     }

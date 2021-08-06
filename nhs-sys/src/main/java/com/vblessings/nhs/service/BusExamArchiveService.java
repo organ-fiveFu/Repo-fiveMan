@@ -17,10 +17,10 @@ public interface BusExamArchiveService {
      * 查询体检档案
      * @author linxiazhu
      * @date 15:54 2021/7/6
-     * @param archiveId   老人档案id
+     * @param businessNo   老人档案id
      * @return  com.nurse.healthy.model.vo.business.ExamArchiveQueryVO
      */
-    ExamArchiveQueryVO select(String archiveId);
+    ExamArchiveQueryVO select(String businessNo);
 
     /**
      * 更新体检档案
@@ -36,9 +36,9 @@ public interface BusExamArchiveService {
      * 删除体检档案
      * @author linxiazhu
      * @date 16:26 2021/7/8
-     * @param archiveId  老人档案id
+     * @param businessNo  老人档案id
      * @param userInfoToken   token
      * @return  boolean
      */
-    boolean delete(String archiveId, UserInfoToken userInfoToken);
+    boolean delete(String businessNo, UserInfoToken userInfoToken);
 }

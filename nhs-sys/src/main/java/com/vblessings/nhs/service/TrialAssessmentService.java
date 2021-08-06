@@ -30,18 +30,18 @@ public interface TrialAssessmentService {
      * 查询试用期评估信息
      * @author linxiazhu
      * @date 16:58 2021/7/19
-     * @param archiveId   老人档案id
+     * @param businessNo   老人档案id
      * @return  com.nurse.healthy.model.vo.trialassessment.TrialAssessmentQueryVO
      */
-    TrialAssessmentQueryVO queryTrialAssessment(String archiveId);
+    TrialAssessmentQueryVO queryTrialAssessment(String businessNo);
 
     /**
      * 删除试用期评估信息
      * @author linxiazhu
      * @date 17:16 2021/7/19
-     * @param archiveId  老人档案id
+     * @param businessNo  老人档案id
      * @param userInfoToken   token
      * @return  boolean
      */
-    boolean deleteTrialAssessment(String archiveId, UserInfoToken userInfoToken);
+    boolean deleteTrialAssessment(String businessNo, UserInfoToken userInfoToken);
 }

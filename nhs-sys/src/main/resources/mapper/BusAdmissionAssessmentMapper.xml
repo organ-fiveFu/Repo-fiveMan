@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusAdmissionAssessmentMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.assessment.BusAdmissionAssessment" id="busAdmissionAssessmentMap">
+        <result property="id" column="id"/>
+        <result property="businessNo" column="business_no"/>
+        <result property="archiveId" column="archive_id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="bedName" column="bed_name"/>
+        <result property="admissionTime" column="admission_time"/>
+        <result property="floorName" column="floor_name"/>
+        <result property="health" column="health"/>
+        <result property="hearingItems" column="hearing_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="hearingScore" column="hearing_score"/>
+        <result property="hearingDegree" column="hearing_degree"/>
+        <result property="visionItems" column="vision_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="visionScore" column="vision_score"/>
+        <result property="visionDegree" column="vision_degree"/>
+        <result property="pressureSoresItems" column="pressure_sores_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="pressureSoresScore" column="pressure_sores_score"/>
+        <result property="pressureSoresDegree" column="pressure_sores_degree"/>
+        <result property="chokeFeedItems" column="choke_feed_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="chokeFeedScore" column="choke_feed_score"/>
+        <result property="chokeFeedDegree" column="choke_feed_degree"/>
+        <result property="communicationItems" column="communication_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="communicationScore" column="communication_score"/>
+        <result property="communicationDegree" column="communication_degree"/>
+        <result property="fallItems" column="fall_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="fallScore" column="fall_score"/>
+        <result property="fallDegree" column="fall_degree"/>
+        <result property="suicideItems" column="suicide_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="suicideScore" column="suicide_score"/>
+        <result property="suicideDegree" column="suicide_degree"/>
+        <result property="runAwayItems" column="run_away_items"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="runAwayScore" column="run_away_score"/>
+        <result property="runAwayDegree" column="run_away_degree"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+</mapper>
