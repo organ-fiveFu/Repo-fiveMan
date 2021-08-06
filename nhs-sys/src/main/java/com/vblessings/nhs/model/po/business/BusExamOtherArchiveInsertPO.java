@@ -34,7 +34,4 @@ public class BusExamOtherArchiveInsertPO {
 
     @ApiModelProperty(value = "胸透签字", name = "chestPerspectiveSign")
     private String chestPerspectiveSign;
-
-    @ApiModelProperty(value = "体格检查", name = "physicalCheck")
-    private String physicalCheck;
 }

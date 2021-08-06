@@ -78,12 +78,5 @@ public class BusExamOtherArchive implements Serializable {
     @Column(name = "chest_perspective_sign")
     private String chestPerspectiveSign;
 
-    /**
-     * 体格检查
-     */
-    @ApiModelProperty(value = "体格检查", required = false)
-    @Column(name = "physical_check")
-    private String physicalCheck;
-
 }
 

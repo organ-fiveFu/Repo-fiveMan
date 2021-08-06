@@ -120,7 +120,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             busAdministrativeWardRoundMapper.updateByPrimaryKeySelective(busAdministrativeWardRound);
         }catch (Exception e){
             log.error("删除行政查房失败");
-            throw ResponseEnum.DATA_NOT_FOUND.newException("删除行政查房录失败");
+            throw ResponseEnum.DATA_NOT_FOUND.newException("删除行政查房失败");
         }
         return true;
     }

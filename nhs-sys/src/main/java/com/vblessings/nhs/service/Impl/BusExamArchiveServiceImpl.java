@@ -154,10 +154,15 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
      */
     @Override
     public ExamArchiveQueryVO select(String archiveId) {
+        if(StringUtils.isEmpty(archiveId)){
+            return null;
+        }
         ExamArchiveQueryVO examArchiveQueryVO = new ExamArchiveQueryVO();
         //查询体检档案主表
         Example example = new Example(BusExamArchive.class);
-        example.createCriteria().andEqualTo("archiveId",archiveId).andEqualTo("isDel", 0);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("archiveId", archiveId);
+        criteria.andEqualTo("isDel", 0);
         BusExamArchive busExamArchive = busExamArchiveMapper.selectOneByExample(example);
         if(StringUtils.isEmpty(busExamArchive)){
             return null;

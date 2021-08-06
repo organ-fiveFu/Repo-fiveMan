@@ -40,7 +40,4 @@ public class BusExamOtherArchiveQueryVO {
 
     @ApiModelProperty(value = "胸透签字")
     private String chestPerspectiveSign;
-
-    @ApiModelProperty(value = "体格检查")
-    private String physicalCheck;
 }
