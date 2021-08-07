@@ -28,7 +28,7 @@ public class BsHealthyApplication {
                 // default properties
                 .web(WebApplicationType.SERVLET)
                 .run(args);
-        log.warn(">o< lis服务启动成功！温馨提示：代码千万行，注释第一行，命名不规范，同事泪两行 >o<");
+        log.warn(">o< nhs服务启动成功！温馨提示：代码千万行，注释第一行，命名不规范，同事泪两行 >o<");
         Environment env = application.getEnvironment();
         // 是否启用https
         boolean httpsFlag = Boolean.parseBoolean(env.getProperty("server.ssl.enabled"));
