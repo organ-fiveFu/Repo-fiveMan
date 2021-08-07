@@ -2,6 +2,7 @@ package com.vblessings.nhs.controller;
 
 
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.*;
 import com.vblessings.nhs.model.po.BusInterestGroupRecordPO;
 import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 综合模块
@@ -52,15 +54,17 @@ public class ComprehensiveController {
     /**
      * 满意度测评
      */
+    @IgnoreUserToken
     @ApiOperation("满意度测评")
     @PostMapping("/add")
-    public ResultBody add(@RequestBody BusSatisfactionMeasurement busSatisfactionMeasurement, @ApiIgnore @CurrentUser UserInfoToken userInfo){
-        busSatisfactionMeasurementService.add(busSatisfactionMeasurement,userInfo);
+    public ResultBody add(@RequestBody BusSatisfactionMeasurement busSatisfactionMeasurement){
+        busSatisfactionMeasurementService.add(busSatisfactionMeasurement);
         return ResultBody.newSuccessInstance();
     }
     /**
      *
      */
+    @IgnoreUserToken
     @ApiOperation("查询满意度测评")
     @GetMapping("/selectMeasurement")
     public ResultBody<BusSatisfactionMeasurement> selectMeasurement(String phone){

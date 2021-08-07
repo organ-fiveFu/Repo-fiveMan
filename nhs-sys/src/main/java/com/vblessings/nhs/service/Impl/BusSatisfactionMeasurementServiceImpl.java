@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service.Impl;
 
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.exception.MyException;
 import com.vblessings.nhs.mapper.BusSatisfactionMeasurementMapper;
 import com.vblessings.nhs.model.entity.business.BusSatisfactionMeasurement;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class BusSatisfactionMeasurementServiceImpl implements BusSatisfactionMeasurementService {
@@ -20,17 +23,25 @@ public class BusSatisfactionMeasurementServiceImpl implements BusSatisfactionMea
     private SnowflakeComponent snowflakeComponent;
 
     @Override
-    public void add(BusSatisfactionMeasurement busSatisfactionMeasurement, UserInfoToken userInfo) {
+    public void add(BusSatisfactionMeasurement busSatisfactionMeasurement) {
+        List<BusSatisfactionMeasurement> b = busSatisfactionMeasurementMapper.selectByTime(busSatisfactionMeasurement.getPhone());
+        if(b!= null && b.size()>=1){
+            throw new MyException("今天已评价，不可重复提交");
+        }
             Long id = snowflakeComponent.getInstance().nextId();
-            OperateUtil.onSaveNew(busSatisfactionMeasurement,userInfo,id);
+            busSatisfactionMeasurement.setId(id);
+            busSatisfactionMeasurement.setCreateTime(new Date());
+            busSatisfactionMeasurement.setUpdateTime(new Date());
             busSatisfactionMeasurementMapper.insert(busSatisfactionMeasurement);
     }
 
     @Override
     public BusSatisfactionMeasurement selectMeasurement(String phone) {
-        Example example = new Example(BusSatisfactionMeasurement.class);
-        example.createCriteria().andEqualTo("phone",phone);
-        BusSatisfactionMeasurement b = busSatisfactionMeasurementMapper.selectOneByExample(example);
-        return b;
+        List<BusSatisfactionMeasurement> b = busSatisfactionMeasurementMapper.selectByTime(phone);
+        BusSatisfactionMeasurement busSatisfactionMeasurement = new BusSatisfactionMeasurement();
+        if (b != null && b.size() > 0) {
+            busSatisfactionMeasurement = b.get(0);
+        }
+        return busSatisfactionMeasurement;
     }
 }

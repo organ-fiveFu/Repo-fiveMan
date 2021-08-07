@@ -3,8 +3,10 @@ package com.vblessings.nhs.service;
 import com.vblessings.nhs.model.entity.business.BusSatisfactionMeasurement;
 import com.vblessings.nhs.result.UserInfoToken;
 
-public interface BusSatisfactionMeasurementService {
-    void add(BusSatisfactionMeasurement busSatisfactionMeasurement, UserInfoToken userInfo);
+import java.util.List;
 
-    BusSatisfactionMeasurement selectMeasurement(String phone);
+public interface BusSatisfactionMeasurementService {
+    void add(BusSatisfactionMeasurement busSatisfactionMeasurement);
+
+  BusSatisfactionMeasurement selectMeasurement(String phone);
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusSatisfactionMeasurementMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusSatisfactionMeasurement" id="busSatisfactionMeasurementMap">
+        <result property="id" column="id"/>
+        <result property="environment" column="environment"/>
+        <result property="careQuality" column="care_quality"/>
+        <result property="customerService" column="customer_service"/>
+        <result property="medicalService" column="medical_service"/>
+        <result property="recreationalActivity" column="recreational_activity"/>
+        <result property="diet" column="diet"/>
+        <result property="deal" column="deal"/>
+        <result property="syntheticService" column="synthetic_service"/>
+        <result property="suggestion" column="suggestion"/>
+        <result property="total" column="total"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+    <select id="selectByTime" resultMap="busSatisfactionMeasurementMap">
+        select * from bus_satisfaction_measurement
+        where
+        TO_DAYS(create_time) = TO_DAYS(NOW())
+        <if test="phone != null and phone!= ''">
+            AND    phone = #{phone}
+        </if>
+
+    </select>
+
+</mapper>
