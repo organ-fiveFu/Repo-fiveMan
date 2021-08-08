@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.*;
@@ -78,7 +79,9 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         //新增体检登记主表数据
         OperateUtil.onSaveNew(busExamArchive,userInfo,id);
         busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList()));
-        busExamArchive.setMedicalHistoryName(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList()));
+        if(CollectionUtil.isNotEmpty(examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList())){
+            busExamArchive.setMedicalHistoryName(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList()));
+        }
         log.info("新增体检登记主表数据,入参busExamArchive:" + busExamArchive);
         try {
             busExamArchiveMapper.insertSelective(busExamArchive);
@@ -171,7 +174,9 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         BusExamArchiveQueryVO busExamArchiveQueryVO = new BusExamArchiveQueryVO();
         BeanUtils.copyProperties(busExamArchive, busExamArchiveQueryVO);
         busExamArchiveQueryVO.setMedicalHistoryCodeList(Arrays.asList(busExamArchiveQueryVO.getMedicalHistoryCode().split(",")));
-        busExamArchiveQueryVO.setMedicalHistoryNameList(Arrays.asList(busExamArchiveQueryVO.getMedicalHistoryName().split(",")));
+        if(!StringUtils.isEmpty(busExamArchiveQueryVO.getMedicalHistoryName())){
+            busExamArchiveQueryVO.setMedicalHistoryNameList(Arrays.asList(busExamArchiveQueryVO.getMedicalHistoryName().split(",")));
+        }
         String signTime = null == busExamArchive.getSignTime() ? "" :
                 DateFormatUtils.format(busExamArchive.getSignTime(), "yyyy-MM-dd HH:mm:ss");
         busExamArchiveQueryVO.setSignTime(signTime);
@@ -258,7 +263,9 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         busExamArchive.setUpdaterId(userInfoToken.getUserId());
         busExamArchive.setUpdateTime(new Date());
         busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryCodeList()));
-        busExamArchive.setMedicalHistoryName(String.join(",", examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryNameList()));
+        if(CollectionUtil.isNotEmpty(examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryNameList())){
+            busExamArchive.setMedicalHistoryName(String.join(",", examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryNameList()));
+        }
         log.info("更新体检登记主表数据,入参busExamArchive:" + busExamArchive);
         try {
             busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);

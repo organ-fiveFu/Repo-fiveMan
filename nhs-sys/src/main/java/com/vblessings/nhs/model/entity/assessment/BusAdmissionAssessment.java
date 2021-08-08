@@ -118,7 +118,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="hearingDegree", value = "听力程度")
     @Column(name = "hearing_degree")
-    private Integer hearingDegree;
+    private String hearingDegree;
 	
 		/**
 	 * 视力判断
@@ -140,7 +140,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="visionDegree", value = "视力程度")
     @Column(name = "vision_degree")
-    private Integer visionDegree;
+    private String visionDegree;
 	
 		/**
 	 * 压疮判断
@@ -162,7 +162,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="pressureSoresDegree", value = "压疮程度")
     @Column(name = "pressure_sores_degree")
-    private Integer pressureSoresDegree;
+    private String pressureSoresDegree;
 	
 		/**
 	 * 噎食判断
@@ -184,7 +184,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="chokeFeedDegree", value = "噎食程度")
     @Column(name = "choke_feed_degree")
-    private Integer chokeFeedDegree;
+    private String chokeFeedDegree;
 	
 		/**
 	 * 沟通判断
@@ -206,7 +206,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="communicationDegree", value = "沟通程度")
     @Column(name = "communication_degree")
-    private Integer communicationDegree;
+    private String communicationDegree;
 	
 		/**
 	 * 跌倒判断
@@ -228,7 +228,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="fallDegree", value = "跌倒程度")
     @Column(name = "fall_degree")
-    private Integer fallDegree;
+    private String fallDegree;
 	
 		/**
 	 * 自杀判断
@@ -250,7 +250,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="suicideDegree", value = "自杀程度")
     @Column(name = "suicide_degree")
-    private Integer suicideDegree;
+    private String suicideDegree;
 	
 		/**
 	 * 出走判断
@@ -272,7 +272,7 @@ public class BusAdmissionAssessment implements Serializable {
 	 */
 	@ApiModelProperty(name="runAwayDegree", value = "出走程度")
     @Column(name = "run_away_degree")
-    private Integer runAwayDegree;
+    private String runAwayDegree;
 	
 		/**
 	 * 创建人

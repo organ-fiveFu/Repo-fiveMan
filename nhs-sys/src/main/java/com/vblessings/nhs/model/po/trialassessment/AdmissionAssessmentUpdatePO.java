@@ -49,7 +49,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer hearingScore;
 
     @ApiModelProperty(name="hearingDegree", value = "听力程度")
-    private Integer hearingDegree;
+    private String hearingDegree;
 
     @ApiModelProperty(name="visionItems", value = "视力判断")
     private List<EvaluationContent> visionItems;
@@ -58,7 +58,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer visionScore;
 
     @ApiModelProperty(name="visionDegree", value = "视力程度")
-    private Integer visionDegree;
+    private String visionDegree;
 
     @ApiModelProperty(name="pressureSoresItems", value = "压疮判断")
     private List<EvaluationContent> pressureSoresItems;
@@ -67,7 +67,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer pressureSoresScore;
 
     @ApiModelProperty(name="pressureSoresDegree", value = "压疮程度")
-    private Integer pressureSoresDegree;
+    private String pressureSoresDegree;
 
     @ApiModelProperty(name="chokeFeedItems", value = "噎食判断")
     private List<EvaluationContent> chokeFeedItems;
@@ -76,7 +76,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer chokeFeedScore;
 
     @ApiModelProperty(name="chokeFeedDegree", value = "噎食程度")
-    private Integer chokeFeedDegree;
+    private String chokeFeedDegree;
 
     @ApiModelProperty(name="communicationItems", value = "沟通判断")
     private List<EvaluationContent> communicationItems;
@@ -85,7 +85,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer communicationScore;
 
     @ApiModelProperty(name="communicationDegree", value = "沟通程度")
-    private Integer communicationDegree;
+    private String communicationDegree;
 
     @ApiModelProperty(name="fallItems", value = "跌倒判断")
     private List<EvaluationContent> fallItems;
@@ -94,7 +94,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer fallScore;
 
     @ApiModelProperty(name="fallDegree", value = "跌倒程度")
-    private Integer fallDegree;
+    private String fallDegree;
 
     @ApiModelProperty(name="suicideItems", value = "自杀判断")
     private List<EvaluationContent> suicideItems;
@@ -103,7 +103,7 @@ public class AdmissionAssessmentUpdatePO {
     private Integer suicideScore;
 
     @ApiModelProperty(name="suicideDegree", value = "自杀程度")
-    private Integer suicideDegree;
+    private String suicideDegree;
 
     @ApiModelProperty(name="runAwayItems", value = "出走判断")
     private List<EvaluationContent> runAwayItems;
@@ -112,5 +112,5 @@ public class AdmissionAssessmentUpdatePO {
     private Integer runAwayScore;
 
     @ApiModelProperty(name="runAwayDegree", value = "出走程度")
-    private Integer runAwayDegree;
+    private String runAwayDegree;
 }

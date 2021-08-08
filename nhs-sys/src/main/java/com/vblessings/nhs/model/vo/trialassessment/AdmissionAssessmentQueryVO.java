@@ -48,7 +48,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer hearingScore;
 
     @ApiModelProperty(value = "听力程度", required = false)
-    private Integer hearingDegree;
+    private String hearingDegree;
 
     @ApiModelProperty(value = "视力判断", required = false)
     private List<EvaluationContent> visionItems;
@@ -57,7 +57,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer visionScore;
 
     @ApiModelProperty(value = "视力程度", required = false)
-    private Integer visionDegree;
+    private String visionDegree;
 
     @ApiModelProperty(value = "压疮判断", required = false)
     private List<EvaluationContent> pressureSoresItems;
@@ -66,7 +66,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer pressureSoresScore;
 
     @ApiModelProperty(value = "压疮程度", required = false)
-    private Integer pressureSoresDegree;
+    private String pressureSoresDegree;
 
     @ApiModelProperty(value = "噎食判断", required = false)
     private List<EvaluationContent> chokeFeedItems;
@@ -75,7 +75,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer chokeFeedScore;
 
     @ApiModelProperty(value = "噎食程度", required = false)
-    private Integer chokeFeedDegree;
+    private String chokeFeedDegree;
 
     @ApiModelProperty(value = "沟通判断", required = false)
     private List<EvaluationContent> communicationItems;
@@ -84,7 +84,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer communicationScore;
 
     @ApiModelProperty(value = "沟通程度", required = false)
-    private Integer communicationDegree;
+    private String communicationDegree;
 
     @ApiModelProperty(value = "跌倒判断", required = false)
     private List<EvaluationContent> fallItems;
@@ -93,7 +93,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer fallScore;
 
     @ApiModelProperty(value = "跌倒程度", required = false)
-    private Integer fallDegree;
+    private String fallDegree;
 
     @ApiModelProperty(value = "自杀判断", required = false)
     private List<EvaluationContent> suicideItems;
@@ -102,7 +102,7 @@ public class AdmissionAssessmentQueryVO {
     private Integer suicideScore;
 
     @ApiModelProperty(value = "自杀程度", required = false)
-    private Integer suicideDegree;
+    private String suicideDegree;
 
     @ApiModelProperty(value = "出走判断", required = false)
     private List<EvaluationContent> runAwayItems;
@@ -111,5 +111,5 @@ public class AdmissionAssessmentQueryVO {
     private Integer runAwayScore;
 
     @ApiModelProperty(value = "出走程度", required = false)
-    private Integer runAwayDegree;
+    private String runAwayDegree;
 }

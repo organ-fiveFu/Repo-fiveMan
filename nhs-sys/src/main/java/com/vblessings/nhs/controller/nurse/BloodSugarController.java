@@ -41,9 +41,9 @@ public class BloodSugarController {
         return ResultBody.newSuccessInstance(bloodSugarService.updateBloodSugar(bloodSugarUpdatePO, userInfoToken));
     }
 
-    @GetMapping("/query")
+    @PostMapping("/query")
     @ApiOperation(value = "查询血糖记录")
-    public ResultBody<PageVO<BloodSugarQueryVO>> queryBloodSugar(BloodSugarQueryPO bloodSugarQueryPO){
+    public ResultBody<PageVO<BloodSugarQueryVO>> queryBloodSugar(@RequestBody BloodSugarQueryPO bloodSugarQueryPO){
         log.info("查询血糖记录,入参bloodSugarQueryPO:{}", JSON.toJSONString(bloodSugarQueryPO));
         return ResultBody.newSuccessInstance(bloodSugarService.queryBloodSugar(bloodSugarQueryPO));
     }

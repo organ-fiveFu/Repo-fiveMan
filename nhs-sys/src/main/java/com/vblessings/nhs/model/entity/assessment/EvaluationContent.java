@@ -10,5 +10,5 @@ public class EvaluationContent {
     private String name;
 
     @ApiModelProperty(value = "分数", name = "point")
-    private Integer point;
+    private String point;
 }
