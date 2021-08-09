@@ -9,6 +9,8 @@ import com.vblessings.nhs.jwt.jwtHelper;
 import com.vblessings.nhs.mapper.LoginMapper;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
 import com.vblessings.nhs.model.entity.sys.SysLogin;
+import com.vblessings.nhs.model.vo.business.BusMenuSelectVO;
+import com.vblessings.nhs.service.Impl.MenuServiceImpl;
 import com.vblessings.nhs.service.LoginService;
 import com.vblessings.nhs.util.AESUtill;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -87,5 +91,28 @@ class BsHealthyApplicationTests {
 
         // 获取列表总数
         System.out.println(pageInfo);
+    }
+
+    /**
+     * 获取时间列表测试
+     */
+    @Test
+    public void handleCirculationDate(){
+        MenuServiceImpl menuService = new MenuServiceImpl();
+        List<BusMenuSelectVO> busMenuSelectVOS = new ArrayList<>();
+        BusMenuSelectVO busMenuSelectVO1 = new BusMenuSelectVO();
+        BusMenuSelectVO busMenuSelectVO2 = new BusMenuSelectVO();
+        BusMenuSelectVO busMenuSelectVO3 = new BusMenuSelectVO();
+        busMenuSelectVO1.setId(1L);
+        busMenuSelectVO1.setDate("2021-08-06");
+        busMenuSelectVO2.setId(2L);
+        busMenuSelectVO2.setDate("2021-08-07");
+        busMenuSelectVO3.setId(3L);
+        busMenuSelectVO3.setDate("2021-08-09");
+        busMenuSelectVOS.add(busMenuSelectVO1);
+        busMenuSelectVOS.add(busMenuSelectVO2);
+        busMenuSelectVOS.add(busMenuSelectVO3);
+        List<BusMenuSelectVO> result = menuService.handleCirculationDate(new Date(1628179200000L), new Date(1628697600000L), busMenuSelectVOS);
+        System.out.println("");
     }
 }

@@ -94,6 +94,39 @@ public class MenuServiceImpl implements MenuService {
             busMenuSelectVO.setDayOfWeek(weekDays[w]);
             busMenuSelectVOS.add(busMenuSelectVO);
         });
-        return busMenuSelectVOS;
+
+        return handleCirculationDate(busMenuSelectPO.getStartTime(), busMenuSelectPO.getEndTime(), busMenuSelectVOS);
+    }
+
+    public List<BusMenuSelectVO> handleCirculationDate(Date startTime, Date endTime, List<BusMenuSelectVO> busMenuSelectVOS) {
+        int i = 0;
+        List<BusMenuSelectVO> resultList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Calendar calStartTime = Calendar.getInstance();
+            Calendar calEndTime = Calendar.getInstance();
+            calStartTime.setTime(startTime);
+            calEndTime.setTime(endTime);
+            calEndTime.add(Calendar.DAY_OF_MONTH, 1);
+            while (calStartTime.getTime().before(calEndTime.getTime())) {
+                if (i < busMenuSelectVOS.size() && dateFormat.format(calStartTime.getTime()).equals(busMenuSelectVOS.get(i).getDate())) {
+                    resultList.add(busMenuSelectVOS.get(i));
+                    i++;
+                } else {
+                    BusMenuSelectVO busMenuSelectVO = new BusMenuSelectVO();
+                    busMenuSelectVO.setDate(dateFormat.format(calStartTime.getTime()));
+                    int w = calStartTime.get(Calendar.DAY_OF_WEEK) - 1;
+                    if (w < 0)
+                        w = 0;
+                    busMenuSelectVO.setDayOfWeek(weekDays[w]);
+                    resultList.add(busMenuSelectVO);
+                }
+                calStartTime.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
