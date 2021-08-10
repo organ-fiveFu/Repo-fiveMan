@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,14 +16,14 @@ public class BusMenuBatchUpdatePO {
      */
     @NotNull(message = "开始时间不能为空")
     @ApiModelProperty(value = "开始时间", required = true)
-    private Date startTime;
+    private String startTime;
 
     /**
      * 结束时间
      */
     @NotNull(message = "结束时间不能为空")
     @ApiModelProperty(value = "结束时间", required = true)
-    private Date endTime;
+    private String endTime;
 
     /**
      * 菜谱列表

@@ -9,11 +9,14 @@ import com.vblessings.nhs.model.po.business.BusMenuSelectPO;
 import com.vblessings.nhs.model.vo.business.BusMenuSelectVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.MenuService;
+import com.vblessings.nhs.util.DateUtils;
+import com.vblessings.nhs.util.OperateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,11 +44,19 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public void batchUpdate(BusMenuBatchUpdatePO busMenuBatchUpdatePO, UserInfoToken userInfo) {
+        Date start = null;
+        Date end = null;
+        try {
+            start = DateUtils.stringToDateByFormat(busMenuBatchUpdatePO.getStartTime(), "yyyy-MM-dd");
+            end = DateUtils.stringToDateByFormat(busMenuBatchUpdatePO.getEndTime(), "yyyy-MM-dd");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Date date = new Date();
         Example example = new Example(BusMenuInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        criteria.andBetween("date", busMenuBatchUpdatePO.getStartTime(), busMenuBatchUpdatePO.getEndTime());
+        criteria.andBetween("date", start, end);
         BusMenuInfo busMenuInfo = new BusMenuInfo();
         busMenuInfo.setIsDel(1);
         busMenuInfoMapper.updateByExampleSelective(busMenuInfo, example);
@@ -58,10 +69,7 @@ public class MenuServiceImpl implements MenuService {
                 busMenuInfoTemp.setIsDel(0);
                 busMenuInfoMapper.updateByPrimaryKey(busMenuInfoTemp);
             } else {
-                busMenuInfoTemp.setId(snowflakeComponent.getInstance().nextId());
-                busMenuInfoTemp.setCreatorId(userInfo.getUserId());
-                busMenuInfoTemp.setCreateTime(date);
-                busMenuInfoTemp.setIsDel(0);
+                OperateUtil.onSaveNew(busMenuInfoTemp, userInfo, snowflakeComponent.getInstance().nextId());
                 busMenuInfoMapper.insert(busMenuInfoTemp);
             }
         });
@@ -74,10 +82,18 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<BusMenuSelectVO> selectMenuInfo(BusMenuSelectPO busMenuSelectPO, UserInfoToken userInfo) {
+        Date start = null;
+        Date end = null;
+        try {
+            start = DateUtils.stringToDateByFormat(busMenuSelectPO.getStartTime(), "yyyy-MM-dd");
+            end = DateUtils.stringToDateByFormat(busMenuSelectPO.getEndTime(), "yyyy-MM-dd");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Example example = new Example(BusMenuInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        criteria.andBetween("date", busMenuSelectPO.getStartTime(), busMenuSelectPO.getEndTime());
+        criteria.andBetween("date", start, end);
         example.orderBy("date");
         List<BusMenuInfo> busMenuInfoList = busMenuInfoMapper.selectByExample(example);
         List<BusMenuSelectVO> busMenuSelectVOS = new ArrayList<>();
@@ -94,7 +110,7 @@ public class MenuServiceImpl implements MenuService {
             busMenuSelectVOS.add(busMenuSelectVO);
         });
 
-        return handleCirculationDate(busMenuSelectPO.getStartTime(), busMenuSelectPO.getEndTime(), busMenuSelectVOS);
+        return handleCirculationDate(start, end, busMenuSelectVOS);
     }
 
     public List<BusMenuSelectVO> handleCirculationDate(Date startTime, Date endTime, List<BusMenuSelectVO> busMenuSelectVOS) {
