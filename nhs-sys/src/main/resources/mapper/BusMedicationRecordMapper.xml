@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusMedicationRecordMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusMedicationRecord" id="busMedicationRecordMap">
+        <result property="id" column="id"/>
+        <result property="medicationDate" column="medication_date"/>
+        <result property="bedCode" column="bed_code"/>
+        <result property="name" column="name"/>
+        <result property="drugSpecification" column="drug_specification"/>
+        <result property="measure" column="measure"/>
+        <result property="frequency" column="frequency"/>
+        <result property="medicationTime" column="medication_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+    <update id="del">
+        update bus_medication_record
+        set is_del = 1
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

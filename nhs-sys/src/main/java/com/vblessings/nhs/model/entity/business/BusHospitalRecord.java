@@ -174,5 +174,33 @@ public class BusHospitalRecord implements Serializable {
     @ApiModelProperty(value = "亲属关系", required = false)
     @Column(name = "relation")
     private String relation;
+
+    /**
+     * 床位编号
+     */
+    @ApiModelProperty(value = "床位编号", required = false)
+    @Column(name = "bed_code")
+    private String bedCode;
+
+    /**
+     * 楼层编号
+     */
+    @ApiModelProperty(value = "楼层编号", required = false)
+    @Column(name = "floor_code")
+    private String floorCode;
+
+    /**
+     * 过敏史
+     */
+    @ApiModelProperty(value = "过敏史", required = false)
+    @Column(name = "allergy")
+    private String allergy;
+
+    /**
+     * 既往史
+     */
+    @ApiModelProperty(value = "既往史", required = false)
+    @Column(name = "previous_history")
+    private String previousHistory;
 }
 

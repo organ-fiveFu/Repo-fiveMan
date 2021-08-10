@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BusSpecialNursingRecordMapper extends BaseRepository<BusSpecialNursingRecord> {
 
+    void del(String[] id);
 }

@@ -59,10 +59,8 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
     }
 
     @Override
-    public void delSpecialNursing(Long id) {
-        BusSpecialNursingRecord busSpecialNursingRecord = new BusSpecialNursingRecord();
-        busSpecialNursingRecord.setId(id);
-        busSpecialNursingRecord.setIsDel(1);
-        busSpecialNursingRecordMapper.updateByPrimaryKeySelective(busSpecialNursingRecord);
+    public void delSpecialNursing(String ids) {
+     String[] id = ids.split(",");
+        busSpecialNursingRecordMapper.del(id);
     }
 }
