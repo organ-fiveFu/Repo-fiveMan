@@ -1,7 +1,10 @@
 package com.vblessings.nhs.controller;
 
+import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.result.ResultBody;
-import com.vblessings.nhs.model.result.ResultInfoEnum;
+import com.vblessings.nhs.model.po.QueryFigurePO;
+import com.vblessings.nhs.model.vo.QuerySummaryVO;
+import com.vblessings.nhs.service.BusHospitalRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  *汇总统计api
@@ -19,10 +25,35 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TotalSummaryController {
 
+    @Resource
+    private BusHospitalRecordService busHospitalRecordService;
+
     @ApiOperation("查询汇总信息")
     @PostMapping("/select")
-    public ResultBody selectTotal(@RequestBody Object obj){
-     log.info(obj.toString());
-     return ResultBody.newSuccessInstance(ResultInfoEnum.SUCCESS);
+    public ResultBody<QuerySummaryVO> selectTotalByTime(@RequestBody QuerySummaryPO querySummaryPO){
+     log.info("查询汇总信息:"+querySummaryPO);
+     return ResultBody.newSuccessInstance(busHospitalRecordService.selectTotalByTime(querySummaryPO));
     }
+
+    @ApiOperation("根据日期格式查询汇总信息(对应折线图)")
+    @PostMapping("/queryBrokenLine")
+    public ResultBody<Map<String,QuerySummaryVO>> queryBrokenLine(@RequestBody QueryFigurePO queryFigurePO){
+        return ResultBody.newSuccessInstance(busHospitalRecordService.queryBrokenLine(queryFigurePO));
+
+    }
+
+    @ApiOperation("根据日期格式查询汇总信息(对应柱状图)")
+    @PostMapping("/queryColumnar")
+    public ResultBody<Map<String,QuerySummaryVO>> queryColumnar(@RequestBody QueryFigurePO queryFigurePO){
+        return ResultBody.newSuccessInstance(busHospitalRecordService.queryColumnar(queryFigurePO));
+
+    }
+
+    @ApiOperation("根据日期格式查询汇总信息(对应饼状图)")
+    @PostMapping("/queryCake")
+    public ResultBody<Map<String,QuerySummaryVO>> queryCake(@RequestBody QueryFigurePO queryFigurePO){
+        return ResultBody.newSuccessInstance(busHospitalRecordService.queryCake(queryFigurePO));
+
+    }
+
 }

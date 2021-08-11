@@ -10,10 +10,7 @@ import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -60,12 +57,12 @@ public class NursingManageController {
     }
 
     /**
-     * 删除捐款记录
+     * 删除特级护理记录
      */
     @ApiOperation("删除特级护理记录")
-    @PostMapping("/delSpecialNursing")
-    public ResultBody delSpecialNursing(Long id){
-        busSpecialNursingRecordService.delSpecialNursing(id);
+    @GetMapping("/delSpecialNursing")
+    public ResultBody delSpecialNursing(String  ids){
+        busSpecialNursingRecordService.delSpecialNursing(ids);
         return ResultBody.newSuccessInstance();
     }
 }

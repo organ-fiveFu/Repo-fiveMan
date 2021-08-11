@@ -5,6 +5,8 @@ import com.vblessings.nhs.model.entity.base.BasePatientInfo;
 import com.vblessings.nhs.model.po.QueryBasePatientPO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
+
 public interface BasePatientInfoService {
 
     /**
@@ -28,8 +30,10 @@ public interface BasePatientInfoService {
 
     /**
      * 删除档案
-     * @param id
-     * @param userInfo
+     * @param ids
+     * @param
      */
-    void del(Long id, UserInfoToken userInfo);
+    void del(String ids);
+
+    List<BasePatientInfo> baseArchiveList(String name);
 }

@@ -49,7 +49,7 @@ public class MenuController {
      */
     @ApiOperation("查询菜谱")
     @GetMapping("/select")
-    public ResultBody<List<BusMenuSelectVO>> selectMenuInfo(@RequestBody BusMenuSelectPO busMenuSelectPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+    public ResultBody<List<BusMenuSelectVO>> selectMenuInfo(BusMenuSelectPO busMenuSelectPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         log.info("查询菜谱PO： " + JSON.toJSONString(busMenuSelectPO));
         return ResultBody.newSuccessInstance(menuService.selectMenuInfo(busMenuSelectPO,userInfo));
     }

@@ -10,13 +10,11 @@ import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 老人基础档案api
@@ -63,11 +61,19 @@ public class ArchiveController {
      * 删除档案
      */
     @ApiOperation("删除档案")
-    @PostMapping("/del")
-    public ResultBody del(Long id,@ApiIgnore @CurrentUser UserInfoToken userInfo ){
-        basePatientInfoService.del(id,userInfo);
+    @GetMapping("/del")
+    public ResultBody del(String ids){
+        basePatientInfoService.del(ids);
         return ResultBody.newSuccessInstance();
     }
 
+    /**
+     * 根据姓名模糊查档案
+     */
+    @ApiOperation("老人基本档案列表")
+    @GetMapping("/baseArchiveList")
+    public ResultBody<List<BasePatientInfo>> baseArchiveList(String name){
+        return ResultBody.newSuccessInstance(basePatientInfoService.baseArchiveList(name));
+    }
 
 }

@@ -112,5 +112,33 @@ public class BasePatientInfo implements Serializable {
     @Column(name = "is_del")
     private Integer isDel;
 
+    /**
+     * 亲属关系
+     */
+    @ApiModelProperty(value = "亲属关系", required = false)
+    @Column(name = "relation")
+    private String relation;
+
+    /**
+     * 监护人姓名
+     */
+    @ApiModelProperty(value = "监护人姓名", required = false)
+    @Column(name = "guardian_name")
+    private String guardianName;
+
+    /**
+     * 监护人性别
+     */
+    @ApiModelProperty(value = "监护人性别", required = false)
+    @Column(name = "guardian_sex")
+    private String guardianSex;
+
+    /**
+     * 监护人身份证号码
+     */
+    @ApiModelProperty(value = "监护人身份证号码", required = false)
+    @Column(name = "guardian_id_card")
+    private String guardianIdCard;
+
 }
 

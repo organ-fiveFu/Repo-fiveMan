@@ -49,7 +49,7 @@ public class TrialAssessmentServiceImpl implements TrialAssessmentService {
         criteria.andEqualTo("isDel", 0);
         int count =  busTrialStayAssessmentMapper.selectCountByExample(example);
         if(count > 0){
-            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法更新");
+            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人已经新增过试用期评估信息，无法新增");
         }
         //新增
         BusTrialStayAssessment busTrialStayAssessment = new BusTrialStayAssessment();

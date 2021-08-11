@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BasePatientInfoMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.base.BasePatientInfo" id="basePatientInfoMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="age" column="age"/>
+        <result property="idCard" column="id_card"/>
+        <result property="contactNumber" column="contact_number"/>
+        <result property="contactAddress" column="contact_address"/>
+        <result property="education" column="education"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+        <result property="relation" column="relation"/>
+        <result property="guardianName" column="guardian_name"/>
+        <result property="guardianSex" column="guardian_sex"/>
+        <result property="guardianIdCard" column="guardian_id_card"/>
+    </resultMap>
+
+    <update id="del">
+        update base_patient_info
+        set is_del = 1
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="baseArchiveList" resultMap="basePatientInfoMap">
+        select * from base_patient_info
+        where
+        is_del = 0
+        <if test="name !=null and name !=''">
+          and   name like concat('%',#{name},'%')
+        </if>
+
+    </select>
+    <select id="baseArchiveListCopy" resultMap="basePatientInfoMap">
+        select * from base_patient_info
+        where
+        is_del = 0
+        <if test="name !=null and name !=''">
+            and  name = #{name}
+        </if>
+    </select>
+</mapper>

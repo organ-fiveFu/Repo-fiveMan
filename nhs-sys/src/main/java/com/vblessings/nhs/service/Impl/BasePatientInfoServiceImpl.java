@@ -9,6 +9,7 @@ import com.vblessings.nhs.model.po.QueryBasePatientPO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BasePatientInfoService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -75,15 +76,21 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
 
     /**
      * 删除档案
-     * @param id
-     * @param userInfo
      */
     @Override
     @Transactional
-    public void del(Long id, UserInfoToken userInfo) {
-        BasePatientInfo basePatientInfo = new BasePatientInfo();
-        basePatientInfo.setId(id);
-        basePatientInfo.setIsDel(1);
-        basePatientInfoMapper.updateByPrimaryKeySelective(basePatientInfo);
+    public void del(String ids) {
+      String[] id = ids.split(",");
+        basePatientInfoMapper.del(id);
+    }
+
+    @Override
+    public List<BasePatientInfo> baseArchiveList(String name) {
+        if(name !=null && StringUtil.isChinese(name)){
+       return basePatientInfoMapper.baseArchiveList(name);}
+        if(name !=null &&StringUtil.isEnglish(name)){
+            return basePatientInfoMapper.baseArchiveListCopy(name);
+        }
+        return null;
     }
 }

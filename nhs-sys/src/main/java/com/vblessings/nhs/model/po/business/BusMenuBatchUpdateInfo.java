@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@ApiModel(value = "菜单-批量更新PO")
+@ApiModel(value = "菜单-批量更新明细PO")
 public class BusMenuBatchUpdateInfo {
 
     @ApiModelProperty(value = "主键", name = "id")

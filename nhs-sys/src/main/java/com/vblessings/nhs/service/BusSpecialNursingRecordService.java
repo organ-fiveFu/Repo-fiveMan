@@ -12,5 +12,5 @@ public interface BusSpecialNursingRecordService {
 
     void updateSpecialNursing(BusSpecialNursingRecord busSpecialNursingRecord, UserInfoToken userInfo);
 
-    void delSpecialNursing(Long id);
+    void delSpecialNursing(String  ids);
 }

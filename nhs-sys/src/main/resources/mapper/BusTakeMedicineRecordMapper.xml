@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusTakeMedicineRecordMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord" id="busTakeMedicineRecordMap">
+        <result property="id" column="id"/>
+        <result property="ward" column="ward"/>
+        <result property="bedCode" column="bed_code"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="hospitalDiagnosis" column="hospital_diagnosis"/>
+        <result property="takeMedicineDate" column="take_medicine_date"/>
+        <result property="drugName" column="drug_name"/>
+        <result property="measure" column="measure"/>
+        <result property="acount" column="acount"/>
+        <result property="expiryDate" column="expiry_date"/>
+        <result property="familySign" column="family_sign"/>
+        <result property="drugsReceiverSign" column="drugs_receiver_sign"/>
+        <result property="accepterSign" column="accepter_sign"/>
+        <result property="remark" column="remark"/>
+        <result property="usage" column="usage"/>
+        <result property="dosage" column="dosage"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+        <result property="isTaken" column="is_taken"/>
+    </resultMap>
+    <update id="del">
+        update bus_take_medicine_record
+        set is_del = 1
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="selectByTime" resultMap="busTakeMedicineRecordMap">
+        select * from  bus_take_medicine_record
+        <where>
+            <if test="takeMedicineDate !=null">
+                date_format(take_medicine_date,'%Y-%m-%d ') = date_format(#{takeMedicineDate},'%Y-%m-%d')
+            </if>
+            <if test="name !=null and name !=''">
+                and name like concat('%',#{name},'%')
+            </if>
+            and is_del = 0
+        </where>
+    </select>
+
+</mapper>

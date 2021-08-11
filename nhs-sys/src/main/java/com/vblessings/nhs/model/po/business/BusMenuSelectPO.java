@@ -16,12 +16,12 @@ public class BusMenuSelectPO {
      */
     @NotNull(message = "开始时间不能为空")
     @ApiModelProperty(value = "开始时间", required = true)
-    private Date startTime;
+    private String startTime;
 
     /**
      * 结束时间
      */
     @NotNull(message = "结束时间不能为空")
     @ApiModelProperty(value = "结束时间", required = true)
-    private Date endTime;
+    private String endTime;
 }
