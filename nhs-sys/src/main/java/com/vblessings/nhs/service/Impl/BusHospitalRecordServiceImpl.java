@@ -39,6 +39,8 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         busHospitalRecord.setAdmissionTime(new Date());
         //住院号
         busHospitalRecord.setBusinessNo(BusinessNoUtil.generateBusinessNo());
+        //设置费用到期状态 默认是0
+        busHospitalRecord.setFeesDueStatue(0);
         busHospitalRecordMapper.insert(busHospitalRecord);
     }
 
@@ -58,7 +60,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         if(Strings.isNotBlank(busHospitalRecordPO.getBusinessNo())){
             C.andEqualTo("businessNo",busHospitalRecordPO.getBusinessNo());
         }
-        C.andEqualTo("isDel",0).andEqualTo("status","0");
+        C.andEqualTo("isDel",0).andEqualTo("status",busHospitalRecordPO.getStatue());
         List<BusHospitalRecord> busHospitalRecords = busHospitalRecordMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(busHospitalRecords);
         return pageInfo;

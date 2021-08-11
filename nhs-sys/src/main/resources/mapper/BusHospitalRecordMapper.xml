@@ -32,6 +32,8 @@
         <result property="floorCode" column="floor_code"/>
         <result property="allergy" column="allergy"/>
         <result property="previousHistory" column="previous_history"/>
+        <result property="feesDueDate" column="fees_due_date"/>
+        <result property="feesDueStatue" column="fees_due_statue"/>
     </resultMap>
     <update id="out">
     update bus_hospital_record

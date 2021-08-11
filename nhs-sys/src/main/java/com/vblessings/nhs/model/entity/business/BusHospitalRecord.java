@@ -202,5 +202,14 @@ public class BusHospitalRecord implements Serializable {
     @ApiModelProperty(value = "既往史", required = false)
     @Column(name = "previous_history")
     private String previousHistory;
+
+    @ApiModelProperty(value = "费用过期时间", required = false)
+    @Column(name = "fees_due_date")
+    private Date feesDueDate;
+
+    @ApiModelProperty(value = "费用到期状态0：没到期", required = false)
+    @Column(name = "fees_due_statue")
+    private Integer feesDueStatue;
+
 }
 

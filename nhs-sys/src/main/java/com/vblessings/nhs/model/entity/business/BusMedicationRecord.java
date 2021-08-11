@@ -106,5 +106,9 @@ public class BusMedicationRecord implements Serializable {
     @Column(name = "is_del")
     private Integer isDel;
 
+    @ApiModelProperty(value = "住院号", required = false)
+    @Column(name = "business_no")
+    private String businessNo;
+
 }
 

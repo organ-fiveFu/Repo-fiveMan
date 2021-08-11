@@ -9,4 +9,6 @@ public class BusHospitalRecordPO extends PageParam {
 
     private String businessNo;
 
+    private Integer statue;
+
 }

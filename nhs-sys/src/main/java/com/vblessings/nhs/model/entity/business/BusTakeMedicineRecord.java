@@ -176,4 +176,11 @@ public class BusTakeMedicineRecord implements Serializable {
     @Column(name = "is_del")
     private Integer isDel;
 
+    /**
+     * 是否自带药
+     */
+    @ApiModelProperty(value = "是否自带药", required = false)
+    @Column(name = "is_taken")
+    private Integer isTaken;
+
 }
