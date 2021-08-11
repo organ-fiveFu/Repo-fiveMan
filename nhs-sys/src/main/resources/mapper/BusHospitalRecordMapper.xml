@@ -41,5 +41,15 @@
     discharge_time = #{dischargeTime}
     where business_no = #{businessNo}
     </update>
+    <select id="queryBrokenLineByMonth" resultType="java.util.Map">
+       SELECT  DATE_FORMAT(create_time,"%Y-%m") as date ,count(id)  originalNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= creat_time
+        </if>
+        <if test="startTime !=null">
+            and creat_time >= #{startTime}
+        </if>
+        GROUP BY DATE_FORMAT(create_time,"%Y-%m")
+    </select>
 
 </mapper>
