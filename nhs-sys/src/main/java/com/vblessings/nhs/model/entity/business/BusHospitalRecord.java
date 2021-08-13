@@ -211,5 +211,12 @@ public class BusHospitalRecord implements Serializable {
     @Column(name = "fees_due_statue")
     private Integer feesDueStatue;
 
+    @ApiModelProperty(value = "楼宇编号", required = false)
+    @Column(name = "building_code")
+    private String buildingCode;
+
+    @ApiModelProperty(value = "房间编号", required = false)
+    @Column(name = "room_code")
+    private String roomCode;
 }
 

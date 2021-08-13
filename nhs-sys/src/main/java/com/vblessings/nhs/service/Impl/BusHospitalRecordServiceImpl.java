@@ -4,7 +4,10 @@ import cn.hutool.core.date.DateTime;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
+import com.vblessings.nhs.mapper.SysBedInfoMapper;
+import com.vblessings.nhs.model.entity.bed.SysBedInfo;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.po.QueryFigurePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
@@ -17,6 +20,7 @@ import com.vblessings.nhs.util.BusinessNoUtil;
 import com.vblessings.nhs.util.OperateUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -29,10 +33,11 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
     @Resource
     private BusHospitalRecordMapper busHospitalRecordMapper;
 
-
-
     @Resource
     private SnowflakeComponent snowflakeComponent;
+
+    @Resource
+    private SysBedInfoMapper sysBedInfoMapper;
 
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
@@ -44,7 +49,23 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         busHospitalRecord.setBusinessNo(BusinessNoUtil.generateBusinessNo());
         //设置费用到期状态 默认是0
         busHospitalRecord.setFeesDueStatue(0);
+        //更新床位
+        Example example = new Example(SysBedInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
+        criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
+        criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
+        criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        criteria.andEqualTo("isDel", 0);
+        criteria.andEqualTo("useFlag", "1");
+        SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example);
+        if(StringUtils.isEmpty(sysBedInfo)){
+            throw ResponseEnum.DATA_NOT_FOUND.newException("该床位不存在，无法新增");
+        }
+        sysBedInfo.setStatus("1"); //已入住
+        sysBedInfoMapper.updateByExampleSelective(sysBedInfo, example);
         busHospitalRecordMapper.insert(busHospitalRecord);
+
     }
 
     /**
@@ -78,6 +99,18 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
         Example example = new Example(BusHospitalRecord.class);
         example.createCriteria().andEqualTo("businessNo",businessNo);
+        //更新床位
+        Example example1 = new Example(SysBedInfo.class);
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
+        criteria1.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
+        criteria1.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
+        criteria1.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        criteria1.andEqualTo("isDel", 0);
+        criteria1.andEqualTo("useFlag", "1");
+        SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example1);
+        sysBedInfo.setStatus("0");
+        sysBedInfoMapper.updateByExampleSelective(sysBedInfo, example1);
         busHospitalRecordMapper.updateByExampleSelective(busHospitalRecord,example);
     }
 

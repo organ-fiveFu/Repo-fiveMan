@@ -5,8 +5,6 @@ import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.bed.*;
 import com.vblessings.nhs.result.UserInfoToken;
-import com.vblessings.nhs.model.po.bed.*;
-import com.vblessings.nhs.model.vo.bed.*;
 
 import java.util.List;
 
@@ -208,4 +206,6 @@ public interface BedService {
      * @return  java.util.List<cn.hutool.core.lang.tree.Tree<java.lang.String>>
      */
     List<Tree<String>> queryBedTree(UserInfoToken userInfoToken);
+
+    List<SysBedInfoAllQueryVO> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, UserInfoToken userInfoToken);
 }

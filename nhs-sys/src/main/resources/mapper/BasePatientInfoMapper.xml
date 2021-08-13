@@ -50,4 +50,41 @@
             and  name = #{name}
         </if>
     </select>
+
+    <select id="queryPatientList" resultType="com.vblessings.nhs.model.vo.page.PatientQueryVO">
+        SELECT
+          t1.name AS "name",
+          t1.sex AS "sex",
+          t1.age AS "age",
+          t2.business_no AS "businessNo",
+          t1.id AS "archiveId",
+          t2.building_code AS "buildingCode",
+          t3.building_name AS "buildingName",
+          t2.floor_code AS "floorCode",
+          t3.floor_name AS "floorName",
+          t2.room_code AS "roomCode",
+          t3.room_name AS "roomName",
+          t2.bed_code AS "bedCode",
+          t3.name AS "bedName",
+          t1.id_card AS "idCard",
+          t1.contact_number AS "contactNumber",
+          t1.contact_address AS "contactAddress",
+          t1.guardian_name AS "guardianName",
+          t1.guardian_sex AS "guardianSex",
+          t1.guardian_id_card AS "guardianIdCar",
+          t2.relation AS "relation"
+        FROM base_patient_info t1
+        LEFT JOIN bus_hospital_record t2 ON t1.id = t2.aichive_id
+          AND t2.is_del = 0 AND t2.status = '0'
+        LEFT JOIN sys_bed_info t3 ON t2.building_code = t3.building_code
+          AND t2.floor_code = t3.floor_code AND t2.room_code = t3.room_code
+          AND t2.bed_code = t3.bed_code AND t3.is_del = 0 AND t3.use_flag = '1'
+        WHERE t1.is_del = 0
+        <if test="keyWords != null and keyWords !=''">
+            AND (
+            t1.name LIKE CONCAT('%',#{keyWords},'%')
+            OR t2.business_no LIKE CONCAT('%',#{keyWords},'%')
+            )
+        </if>
+    </select>
 </mapper>

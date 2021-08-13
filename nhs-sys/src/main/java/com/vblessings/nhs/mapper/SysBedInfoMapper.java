@@ -1,8 +1,11 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.bed.SysBedInfo;
-import tk.mybatis.mapper.common.Mapper;
+import com.vblessings.nhs.model.vo.page.PageDetailQueryVO;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * Copyright (c) 2017 Choice, Inc.
@@ -16,5 +19,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysBedInfoMapper extends Mapper<SysBedInfo> {
-	
+
+    List<PageDetailQueryVO> queryPatient(String buildingCode, List<String> floorCodeList, List<String> roomCodeList);
 }

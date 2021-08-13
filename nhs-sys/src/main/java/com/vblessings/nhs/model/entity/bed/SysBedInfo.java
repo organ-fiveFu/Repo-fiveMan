@@ -114,5 +114,26 @@ public class SysBedInfo implements Serializable {
 	@ApiModelProperty(value = "查询时添加是否显示停用(0为停用 ，1为使用)", required = false)
     @Column(name = "use_flag")
     private Integer useFlag;
+
+	/**
+	 * 楼宇名称
+	 */
+	@ApiModelProperty(value = "楼宇名称", required = false)
+	@Column(name = "building_name")
+	private String buildingName;
+
+	/**
+	 * 楼层名称
+	 */
+	@ApiModelProperty(value = "楼层名称", required = false)
+	@Column(name = "floor_name")
+	private String floorName;
+
+	/**
+	 * 房间名称
+	 */
+	@ApiModelProperty(value = "房间名称", required = false)
+	@Column(name = "room_name")
+	private String roomName;
 	
 }

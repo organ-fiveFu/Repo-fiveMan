@@ -18,6 +18,52 @@
         <result property="isDel" column="is_del"/>
         <result property="status" column="status"/>
         <result property="useFlag" column="use_flag"/>
+        <result property="buildingName" column="building_name"/>
+        <result property="floorName" column="floor_name"/>
+        <result property="roomName" column="room_name"/>
     </resultMap>
+    <select id="queryPatient" resultType="com.vblessings.nhs.model.vo.page.PageDetailQueryVO">
+        SELECT
+          t2.business_no AS "businessNo",
+          t2.aichive_id AS "archiveId",
+          t2.name AS "name",
+          t2.sex AS "sex",
+          t2.age AS "age",
+          t1.building_code AS "buildingCode",
+          t1.floor_code AS "floorCode",
+          t1.room_code AS "roomCode",
+          t3.name AS "roomName",
+          t1.bed_code AS "bedCode",
+          t1.name AS "bedName",
+          t3.room_type AS "roomType",
+          t2.nursing_level AS "nursingLevel",
+          DATE_FORMAT(t2.admission_time,'%Y-%m-%d %H:%i:%s') AS "admissionTime",
+          t2.hospital_diagnosis AS "hospitalDiagnosis",
+          t2.contact_number AS "contactNumber",
+          t2.allergy AS "allergy",
+          t2.fees_due_statue AS "feeDueStatue",
+          DATE_FORMAT(t2.fees_due_date,'%Y-%m-%d %H:%i:%s') AS "feesDueDate",
+          t1.status AS "status"
+        FROM sys_bed_info t1
+        LEFT JOIN bus_hospital_record t2 ON t1.building_code = t2.building_code
+          AND t1.floor_code = t2.floor_code AND t1.room_code = t2.room_code
+          AND t1.bed_code = t2.bed_code AND t2.is_del = 0 AND t2.status = '0'
+        LEFT JOIN sys_room_info t3 ON t1.building_code = t3.building_code
+          AND t1.floor_code = t3.floor_code AND t1.room_code = t3.room_code
+            AND t3.is_del = 0
+        WHERE t1.is_del = 0
+          AND t1.use_flag = '1'
+        <if test="buildingCode != null and buildingCode != ''">
+          AND t1.building_code = #{buildingCode}
+        </if>
+          AND t1.floor_code in
+        <foreach collection="floorCodeList" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+        AND t1.room_code in
+        <foreach collection="roomCodeList" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

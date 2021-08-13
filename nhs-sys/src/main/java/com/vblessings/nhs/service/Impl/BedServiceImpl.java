@@ -9,14 +9,12 @@ import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.enums.DictTypeEnum;
 import com.vblessings.nhs.exception.ResponseEnum;
-import com.vblessings.nhs.mapper.SysBedInfoMapper;
-import com.vblessings.nhs.mapper.SysBuildingInfoMapper;
-import com.vblessings.nhs.mapper.SysFloorInfoMapper;
-import com.vblessings.nhs.mapper.SysRoomInfoMapper;
+import com.vblessings.nhs.mapper.*;
 import com.vblessings.nhs.model.entity.bed.SysBedInfo;
 import com.vblessings.nhs.model.entity.bed.SysBuildingInfo;
 import com.vblessings.nhs.model.entity.bed.SysFloorInfo;
 import com.vblessings.nhs.model.entity.bed.SysRoomInfo;
+import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.bed.*;
@@ -30,13 +28,11 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -60,6 +56,9 @@ public class BedServiceImpl implements BedService {
 
     @Resource
     private SysDictDataService sysDictDataService;
+
+    @Resource
+    private BusHospitalRecordMapper busHospitalRecordMapper;
 
     /**
      * 新增楼宇信息
@@ -512,6 +511,7 @@ public class BedServiceImpl implements BedService {
         BeanUtils.copyProperties(sysBedInfoInsertPO, sysBedInfo);
         Long id = snowflakeComponent.getInstance().nextId();
         OperateUtil.onSaveNew(sysBedInfo, userInfoToken, id);
+        sysBedInfo.setStatus("0"); //空闲
         log.info("新增床位信息,入参sysBedInfo" + sysBedInfo);
         try {
             sysBedInfoMapper.insertSelective(sysBedInfo);
@@ -544,6 +544,21 @@ public class BedServiceImpl implements BedService {
         int count = sysBedInfoMapper.selectCountByExample(example);
         if(count > 0){
             throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该栋楼该楼层该房间已存在该床位编码,无法更新");
+        }
+        //查询住院档案
+        Example example1 = new Example(BusHospitalRecord.class);
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("buildingCode", sysBedInfoUpdatePO.getBuildingCode());
+        criteria1.andEqualTo("floorCode", sysBedInfoUpdatePO.getFloorCode());
+        criteria1.andEqualTo("roomCode", sysBedInfoUpdatePO.getRoomCode());
+        criteria1.andEqualTo("bedCode", sysBedInfoUpdatePO.getBedCode());
+        criteria1.andEqualTo("isDel", 0);
+        criteria1.andEqualTo("status", 0);
+        BusHospitalRecord busHospitalRecord = busHospitalRecordMapper.selectOneByExample(example1);
+        if(Objects.equals(sysBedInfoUpdatePO.getStatus(), "0")){
+            if(!StringUtils.isEmpty(busHospitalRecord)){
+                throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该床位已入住，无法修改为停用");
+            }
         }
         //更新
         SysBedInfo sysBedInfo = new SysBedInfo();
@@ -595,14 +610,6 @@ public class BedServiceImpl implements BedService {
             return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), new ArrayList<>());
         }
         List<SysBedInfoQueryVO> sysBedInfoQueryVOList = BeanHelper.copyWithCollection(sysBedInfoList, SysBedInfoQueryVO.class);
-        List<String> statusList = new ArrayList<>();
-        sysBedInfoQueryVOList.forEach(sysBedInfoQueryVO -> {
-            statusList.add(sysBedInfoQueryVO.getStatus());
-        });
-        Map<String, String> statusMap = sysDictDataService.getDictName(DictTypeEnum.CHECK_IN_STATUS.getCode(), statusList);
-        sysBedInfoQueryVOList.forEach(sysBedInfoQueryVO -> {
-            sysBedInfoQueryVO.setStatusName(statusMap.get(sysBedInfoQueryVO.getStatus()));
-        });
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysBedInfoQueryVOList);
     }
 
@@ -620,6 +627,19 @@ public class BedServiceImpl implements BedService {
         sysBedInfo.setUpdateTime(new Date());
         sysBedInfo.setUpdaterId(userInfoToken.getUserId());
         sysBedInfo.setIsDel(1);
+        //查询住院档案
+        Example example1 = new Example(BusHospitalRecord.class);
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("buildingCode", sysBedInfo.getBuildingCode());
+        criteria1.andEqualTo("floorCode", sysBedInfo.getFloorCode());
+        criteria1.andEqualTo("roomCode", sysBedInfo.getRoomCode());
+        criteria1.andEqualTo("bedCode", sysBedInfo.getBedCode());
+        criteria1.andEqualTo("isDel", 0);
+        criteria1.andEqualTo("status", 0);
+        BusHospitalRecord busHospitalRecord = busHospitalRecordMapper.selectOneByExample(example1);
+        if(!StringUtils.isEmpty(busHospitalRecord)){
+            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该床位已入住，无法删除");
+        }
         log.info("删除床位信息,入参sysBedInfo:" + sysBedInfo);
         try {
             sysBedInfoMapper.updateByPrimaryKeySelective(sysBedInfo);
@@ -728,8 +748,45 @@ public class BedServiceImpl implements BedService {
             tree.putExtra("code", treeNode.getCode());
             tree.putExtra("title", treeNode.getTitle());
             tree.putExtra("floorCode", treeNode.getFloorCode());
+            tree.putExtra("floorName", treeNode.getFloorName());
             tree.putExtra("buildingCode", treeNode.getBuildingCode());
+            tree.putExtra("buildingName", treeNode.getBuildingName());
         });
         return treeList;
+    }
+
+    @Override
+    public List<SysBedInfoAllQueryVO> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, UserInfoToken userInfoToken) {
+        Example example = new Example(SysBedInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel", 0);
+        criteria.andEqualTo("status", "0");
+        criteria.andEqualTo("useFlag", 1);
+        if(Strings.isNotBlank(sysBedInfoAllQueryPO.getKeyWords())){
+            Example.Criteria criteria1 = example.createCriteria();
+            criteria1.orLike("bedCode","%"+sysBedInfoAllQueryPO.getKeyWords()+"%");
+            criteria1.orLike("name","%"+sysBedInfoAllQueryPO.getKeyWords()+"%");
+            example.and(criteria1);
+        }
+        List<SysBedInfo> sysBedInfoList = sysBedInfoMapper.selectByExample(example);
+        if(CollectionUtil.isEmpty(sysBedInfoList)){
+            return null;
+        }
+        List<SysBedInfoAllQueryVO> sysBedInfoAllQueryVOList = new ArrayList<>();
+        for (SysBedInfo sysBedInfo : sysBedInfoList) {
+            SysBedInfoAllQueryVO sysBedInfoAllQueryVO = new SysBedInfoAllQueryVO();
+            sysBedInfoAllQueryVO.setId(sysBedInfo.getId());
+            sysBedInfoAllQueryVO.setBuildingCode(sysBedInfo.getBuildingCode());
+            sysBedInfoAllQueryVO.setBuildingName(sysBedInfo.getBuildingName());
+            sysBedInfoAllQueryVO.setFloorCode(sysBedInfo.getFloorCode());
+            sysBedInfoAllQueryVO.setFloorName(sysBedInfo.getFloorName());
+            sysBedInfoAllQueryVO.setRoomCode(sysBedInfo.getRoomCode());
+            sysBedInfoAllQueryVO.setRoomName(sysBedInfo.getRoomName());
+            sysBedInfoAllQueryVO.setBedCode(sysBedInfo.getBedCode());
+            sysBedInfoAllQueryVO.setBedName(sysBedInfo.getName());
+            sysBedInfoAllQueryVO.setName(sysBedInfoAllQueryVO.getBuildingName() + sysBedInfoAllQueryVO.getFloorName() + sysBedInfoAllQueryVO.getRoomName() + sysBedInfoAllQueryVO.getBedName());
+            sysBedInfoAllQueryVOList.add(sysBedInfoAllQueryVO);
+        }
+        return sysBedInfoAllQueryVOList;
     }
 }

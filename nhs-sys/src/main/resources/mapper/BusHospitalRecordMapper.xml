@@ -34,6 +34,8 @@
         <result property="previousHistory" column="previous_history"/>
         <result property="feesDueDate" column="fees_due_date"/>
         <result property="feesDueStatue" column="fees_due_statue"/>
+        <result property="buildingCode" column="building_code"/>
+        <result property="roomCode" column="room_code"/>
     </resultMap>
     <update id="out">
     update bus_hospital_record

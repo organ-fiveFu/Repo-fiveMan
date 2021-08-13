@@ -4,15 +4,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "床位信息查询出参")
+@ApiModel(value = "所有床位信息查询出参")
 @Data
-public class SysBedInfoQueryVO {
+public class SysBedInfoAllQueryVO {
 
     @ApiModelProperty(value = "床位id")
     private Long id;
 
     @ApiModelProperty(value = "床位编号")
     private String bedCode;
+
+    @ApiModelProperty(value = "床位名称")
+    private String bedName;
 
     @ApiModelProperty(value = "房间编号")
     private String roomCode;
@@ -32,12 +35,6 @@ public class SysBedInfoQueryVO {
     @ApiModelProperty(value = "楼宇名称")
     private String buildingName;
 
-    @ApiModelProperty(value = "床位名称")
+    @ApiModelProperty(value = "楼宇+楼层+房间+床位名称")
     private String name;
-
-    @ApiModelProperty(value = "入住状态")
-    private String status;
-
-    @ApiModelProperty(value = "使用标志(1使用0停用)")
-    private Integer useFlag;
 }
