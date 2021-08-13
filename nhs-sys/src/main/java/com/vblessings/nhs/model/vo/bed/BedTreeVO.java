@@ -32,6 +32,12 @@ public class BedTreeVO {
     @ApiModelProperty(value = "buildingCode")
     private String buildingCode;
 
+    @ApiModelProperty(value = "buildingName")
+    private String buildingName;
+
     @ApiModelProperty(value = "floorCode")
     private String floorCode;
+
+    @ApiModelProperty(value = "floorCode")
+    private String floorName;
 }

@@ -24,6 +24,8 @@
           t1.floor_code AS "code",
           t1.name AS "title",
           t1.floor_code AS "floorCode",
+          t1.name AS "floorName",
+          t2.name AS "buildingName",
           t1.building_code AS "buildingCode"
         FROM sys_floor_info t1
         LEFT JOIN sys_building_info t2 ON t1.building_code = t2.building_code
@@ -39,10 +41,14 @@
           t2.room_code AS "code",
           t2.name AS "title",
           t2.floor_code AS "floorCode",
+          t4.name AS "floorName",
+          t5.name AS "buildingName",
           t2.building_code AS "buildingCode"
         FROM sys_room_info t2
         LEFT JOIN sys_floor_info t4 ON t2.building_code = t4.building_code
           AND t2.floor_code = t4.floor_code AND t4.is_del = 0
+        LEFT JOIN sys_building_info t5 ON t2.building_code = t5.building_code
+          AND t5.is_del = 0
         WHERE t2.is_del = 0
         UNION ALL
         SELECT
@@ -54,6 +60,8 @@
 		  building_code AS "code",
           name AS "title",
 		  '' AS "floorCode",
+		  '' AS "floorName",
+		  name AS "buildingName",
 		  building_code AS "buildingCode"
         FROM sys_building_info
         WHERE is_del = 0

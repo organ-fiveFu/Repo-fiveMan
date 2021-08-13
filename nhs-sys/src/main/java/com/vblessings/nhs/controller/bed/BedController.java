@@ -324,4 +324,11 @@ public class BedController {
         log.info("床位tree");
         return ResultBody.newSuccessInstance(bedService.queryBedTree(userInfoToken));
     }
+
+    @GetMapping("/bed/get-list")
+    @ApiOperation(value = "获取床位下拉列表")
+    public ResultBody<List<SysBedInfoAllQueryVO>> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
+        log.info("获取床位下拉列表");
+        return ResultBody.newSuccessInstance(bedService.querySysBedInfoGetList(sysBedInfoAllQueryPO, userInfoToken));
+    }
 }

@@ -4,24 +4,27 @@ import cn.hutool.core.date.DateTime;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
+import com.vblessings.nhs.mapper.SysBedInfoMapper;
+import com.vblessings.nhs.model.entity.bed.SysBedInfo;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.po.QueryFigurePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
+import com.vblessings.nhs.model.vo.TempData;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusHospitalRecordService;
 import com.vblessings.nhs.util.BusinessNoUtil;
 import com.vblessings.nhs.util.OperateUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -30,10 +33,11 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
     @Resource
     private BusHospitalRecordMapper busHospitalRecordMapper;
 
-
-
     @Resource
     private SnowflakeComponent snowflakeComponent;
+
+    @Resource
+    private SysBedInfoMapper sysBedInfoMapper;
 
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
@@ -45,7 +49,23 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         busHospitalRecord.setBusinessNo(BusinessNoUtil.generateBusinessNo());
         //设置费用到期状态 默认是0
         busHospitalRecord.setFeesDueStatue(0);
+        //更新床位
+        Example example = new Example(SysBedInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
+        criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
+        criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
+        criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        criteria.andEqualTo("isDel", 0);
+        criteria.andEqualTo("useFlag", "1");
+        SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example);
+        if(StringUtils.isEmpty(sysBedInfo)){
+            throw ResponseEnum.DATA_NOT_FOUND.newException("该床位不存在，无法新增");
+        }
+        sysBedInfo.setStatus("1"); //已入住
+        sysBedInfoMapper.updateByExampleSelective(sysBedInfo, example);
         busHospitalRecordMapper.insert(busHospitalRecord);
+
     }
 
     /**
@@ -79,6 +99,18 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
         Example example = new Example(BusHospitalRecord.class);
         example.createCriteria().andEqualTo("businessNo",businessNo);
+        //更新床位
+        Example example1 = new Example(SysBedInfo.class);
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
+        criteria1.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
+        criteria1.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
+        criteria1.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        criteria1.andEqualTo("isDel", 0);
+        criteria1.andEqualTo("useFlag", "1");
+        SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example1);
+        sysBedInfo.setStatus("0");
+        sysBedInfoMapper.updateByExampleSelective(sysBedInfo, example1);
         busHospitalRecordMapper.updateByExampleSelective(busHospitalRecord,example);
     }
 
@@ -92,60 +124,123 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
     @Override
     public QuerySummaryVO selectTotalByTime(QuerySummaryPO querySummaryPO) {
         Example example = new Example(BusHospitalRecord.class);
-        example.selectProperties("status","nursingLevel","bedCode","createTime");
+        example.selectProperties("status","nursingLevel","dischargeTime","admissionTime","bedCode");
         example.createCriteria().andEqualTo("isDel",0);
+        //所有记录list
         List<BusHospitalRecord> busHospitalRecordList = busHospitalRecordMapper.selectByExample(example);
         QuerySummaryVO querySummaryVO = new QuerySummaryVO();
         if(busHospitalRecordList !=null && busHospitalRecordList.size()>0){
 
-        //时间条件过滤一遍
+            List<BusHospitalRecord> OriginalList =  new ArrayList<>();
+            List<BusHospitalRecord> OutHospitalList =busHospitalRecordList.stream().filter(e->e.getDischargeTime()!=null).collect(Collectors.toList());
+            List<BusHospitalRecord> INHospitalList =  new ArrayList<>();
+            //时间条件过滤一遍
         if(querySummaryPO.getStartTime()!=null){
-            busHospitalRecordList = busHospitalRecordList.stream().filter(e->e.getCreateTime().compareTo(querySummaryPO.getStartTime())>=0).collect(Collectors.toList());
+            //原有病人list
+            OriginalList = busHospitalRecordList.stream().filter(e->e.getAdmissionTime().compareTo(querySummaryPO.getStartTime())<0).
+                    filter(e->e.getStatus().equals("0")).collect(Collectors.toList());
+            //入院病人list
+            INHospitalList = busHospitalRecordList.stream().filter(e->e.getAdmissionTime().compareTo(querySummaryPO.getStartTime())>=0).collect(Collectors.toList());
+
+            //出院病人list
+            OutHospitalList = OutHospitalList.stream().filter(e->e.getDischargeTime().compareTo(querySummaryPO.getStartTime())>=0).collect(Collectors.toList());
         }
         if(querySummaryPO.getEndTime()!=null){
-            busHospitalRecordList = busHospitalRecordList.stream().filter(e->e.getCreateTime().compareTo(querySummaryPO.getEndTime())<=0).collect(Collectors.toList());
+            INHospitalList = busHospitalRecordList.stream().filter(e->e.getAdmissionTime().compareTo(querySummaryPO.getEndTime())<=0).collect(Collectors.toList());
+
+            OutHospitalList = OutHospitalList.stream().filter(e->e.getDischargeTime().compareTo(querySummaryPO.getEndTime())<=0).collect(Collectors.toList());
 
         }
+
+
         //原有人数
-        querySummaryVO.setOriginalNum(busHospitalRecordList.size());
+        querySummaryVO.setOriginalNum(OriginalList.size());
         //入院人数
-        querySummaryVO.setInHospitalNum(busHospitalRecordList.stream().filter(e->e.getStatus().equals("0")).collect(Collectors.toList()).size());
+            int InHospitalNum = INHospitalList.size();
+        querySummaryVO.setInHospitalNum(InHospitalNum);
         //出院人数
-        querySummaryVO.setOutHospitalNum(busHospitalRecordList.stream().filter(e->e.getStatus().equals("1")).collect(Collectors.toList()).size());
-        //在院人数列表
-        busHospitalRecordList = busHospitalRecordList.stream().filter(e->e.getStatus().equals("0")).collect(Collectors.toList());
+            int OutHospitalNum = OutHospitalList.size();
+        querySummaryVO.setOutHospitalNum(OutHospitalNum);
+        //留院人数
+            querySummaryVO.setStayHospitalNum(OriginalList.size()+InHospitalNum-OutHospitalNum);
+
+            List<BusHospitalRecord> withoutTime =  busHospitalRecordList.stream().filter(e->e.getStatus().equals("0")).collect(Collectors.toList());
         //实际占用床位数
-        querySummaryVO.setTakeUpBed(busHospitalRecordList.stream().filter(e->e.getBedCode()!=null).collect(Collectors.toList()).size());
+        querySummaryVO.setTakeUpBed(withoutTime.stream().filter(e->e.getBedCode()!=null).collect(Collectors.toList()).size());
         //完全失能老人数
-        querySummaryVO.setDisabilityNum(busHospitalRecordList.stream().filter(e->e.getNursingLevel().equals("1")).collect(Collectors.toList()).size());
+        querySummaryVO.setDisabilityNum(withoutTime.stream().filter(e->e.getNursingLevel().equals("0001")).collect(Collectors.toList()).size());
         //部分失能老人数
-        querySummaryVO.setPartialDisability(busHospitalRecordList.stream().filter(e->e.getNursingLevel().equals("2")).collect(Collectors.toList()).size());
+        querySummaryVO.setPartialDisability(withoutTime.stream().filter(e->e.getNursingLevel().equals("0002")).collect(Collectors.toList()).size());
         //自理老人数
-        querySummaryVO.setProvideForOneself(busHospitalRecordList.stream().filter(e->e.getNursingLevel().equals("3")).collect(Collectors.toList()).size());
-        return querySummaryVO;}
+        querySummaryVO.setProvideForOneself(withoutTime.stream().filter(e->e.getNursingLevel().equals("0003")).collect(Collectors.toList()).size());
+        return querySummaryVO;
+        }
         return querySummaryVO;
     }
 
     @Override
-    public Map<String,QuerySummaryVO> queryBrokenLine(QueryFigurePO queryFigurePO) {
+    public Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO) {
         //按月分组
+        Map map = new HashMap();
         if(queryFigurePO.getTimeType()!=null && queryFigurePO.getTimeType().equals("1")){
-            return busHospitalRecordMapper.queryBrokenLineByMonth(queryFigurePO);
+            //每月入院list
+        List<TempData> tempDataList =  busHospitalRecordMapper.queryBrokenLineByMonth(queryFigurePO);
+
+        List<TempData> tempDataList1 = busHospitalRecordMapper.queryBrokenLineByMonth1(queryFigurePO);
+            map.put("inHospital",tempDataList);
+            map.put("outHospital",tempDataList1);
+           return map;
         }
         if(queryFigurePO.getTimeType()!=null && queryFigurePO.getTimeType().equals("2")){
-            return null;
-          /*  return busHospitalRecordMapper.queryBrokenLineByYear(queryFigurePO);*/
+            List<TempData> tempDataList =  busHospitalRecordMapper.queryBrokenLineByYear(queryFigurePO);
+
+            List<TempData> tempDataList1 = busHospitalRecordMapper.queryBrokenLineByYear1(queryFigurePO);
+            map.put("inHospital",tempDataList);
+            map.put("outHospital",tempDataList1);
+            return map;
         }
           return null;
     }
 
-    @Override
-    public Map<String, QuerySummaryVO> queryColumnar(QueryFigurePO queryFigurePO) {
-        return null;
-    }
+
 
     @Override
-    public Map<String, QuerySummaryVO> queryCake(QueryFigurePO queryFigurePO) {
+    public Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO) {
+        //按月分组
+        Map map = new HashMap();
+        QuerySummaryVO querySummaryVO = new QuerySummaryVO();
+        if (queryFigurePO.getTimeType() != null && queryFigurePO.getTimeType().equals("1")) {
+            //每月入院完全失能老人
+            List<TempData> tempDataList = busHospitalRecordMapper.queryCakeByMonth(queryFigurePO);
+
+            //每月入院部分失能老人
+            List<TempData> tempDataList1 = busHospitalRecordMapper.queryCakeByMonth1(queryFigurePO);
+
+
+            //每月入院自理老人
+            List<TempData> tempDataList2 = busHospitalRecordMapper.queryCakeByMonth2(queryFigurePO);
+
+
+            map.put("disability", tempDataList);
+            map.put("partialDisability", tempDataList1);
+            map.put("provideForOneself", tempDataList2);
+            return map;
+        }
+        if (queryFigurePO.getTimeType() != null && queryFigurePO.getTimeType().equals("2")) {
+
+            //每年入院完全失能老人
+            List<TempData> tempDataList = busHospitalRecordMapper.queryCakeByYear(queryFigurePO);
+
+            //每年入院部分失能老人
+            List<TempData> tempDataList1 = busHospitalRecordMapper.queryCakeByYear1(queryFigurePO);
+
+            //每年入院自理老人
+            List<TempData> tempDataList2 = busHospitalRecordMapper.queryCakeByYear2(queryFigurePO);
+            map.put("disability", tempDataList);
+            map.put("partialDisability", tempDataList1);
+            map.put("provideForOneself", tempDataList2);
+            return map;
+        }
         return null;
     }
 }
