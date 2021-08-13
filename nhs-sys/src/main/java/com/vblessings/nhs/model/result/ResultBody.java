@@ -74,8 +74,8 @@ public class ResultBody<T> implements Serializable {
      *
      * @return success response body
      */
-    public static ResultBody newSuccessInstance() {
-        return new ResultBody();
+    public static ResultBody<Boolean> newSuccessInstance() {
+        return new ResultBody<>();
     }
 
     /**
