@@ -41,15 +41,113 @@
     discharge_time = #{dischargeTime}
     where business_no = #{businessNo}
     </update>
-    <select id="queryBrokenLineByMonth" resultType="java.util.Map">
-       SELECT  DATE_FORMAT(create_time,"%Y-%m") as date ,count(id)  originalNum FROM`bus_hospital_record`  where is_del =0
+    <select id="queryBrokenLineByMonth" resultType="com.vblessings.nhs.model.vo.TempData">
+       SELECT  DATE_FORMAT(admission_time,"%Y-%m") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
         <if test="endTime !=null">
-            and #{endTime} >= creat_time
+            and #{endTime} >= admission_time
         </if>
         <if test="startTime !=null">
-            and creat_time >= #{startTime}
+            and admission_time >= #{startTime}
         </if>
-        GROUP BY DATE_FORMAT(create_time,"%Y-%m")
+        GROUP BY DATE_FORMAT(admission_time,"%Y-%m")
+    </select>
+    <select id="queryBrokenLineByMonth1" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(discharge_time,"%Y-%m") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= discharge_time
+        </if>
+        <if test="startTime !=null">
+        and discharge_time >= #{startTime}
+       </if>
+        and status = 1
+        GROUP BY DATE_FORMAT(discharge_time,"%Y-%m")
+    </select>
+    <select id="queryBrokenLineByYear" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        GROUP BY DATE_FORMAT(admission_time,"%Y")
+    </select>
+    <select id="queryBrokenLineByYear1" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(discharge_time,"%Y") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= discharge_time
+        </if>
+        <if test="startTime !=null">
+            and discharge_time >= #{startTime}
+        </if>
+        GROUP BY DATE_FORMAT(discharge_time,"%Y")
+    </select>
+
+    <select id="queryCakeByMonth" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y-%m") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and nursing_level = 0003
+        GROUP BY DATE_FORMAT(admission_time,"%Y-%m")
+    </select>
+    <select id="queryCakeByMonth1" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y-%m") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and nursing_level = 0002
+        GROUP BY DATE_FORMAT(admission_time,"%Y-%m")
+    </select>
+    <select id="queryCakeByMonth2" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y-%m") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and nursing_level = 0001
+        GROUP BY DATE_FORMAT(admission_time,"%Y-%m")
+    </select>
+    <select id="queryCakeByYear" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and  nursing_level = 0003
+        GROUP BY DATE_FORMAT(admission_time,"%Y")
+    </select>
+    <select id="queryCakeByYear1" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and  nursing_level = 0002
+        GROUP BY DATE_FORMAT(admission_time,"%Y")
+    </select>
+    <select id="queryCakeByYear2" resultType="com.vblessings.nhs.model.vo.TempData">
+        SELECT  DATE_FORMAT(admission_time,"%Y") as tempData ,count(id)  targetNum FROM`bus_hospital_record`  where is_del =0
+        <if test="endTime !=null">
+            and #{endTime} >= admission_time
+        </if>
+        <if test="startTime !=null">
+            and admission_time >= #{startTime}
+        </if>
+        and  nursing_level = 0001
+        GROUP BY DATE_FORMAT(admission_time,"%Y")
     </select>
 
 </mapper>

@@ -4,6 +4,7 @@ import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.po.QueryFigurePO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
+import com.vblessings.nhs.model.vo.TempData;
 import com.vblessings.nhs.service.BusHospitalRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,21 +39,15 @@ public class TotalSummaryController {
 
     @ApiOperation("根据日期格式查询汇总信息(对应折线图)")
     @PostMapping("/queryBrokenLine")
-    public ResultBody<Map<String,QuerySummaryVO>> queryBrokenLine(@RequestBody QueryFigurePO queryFigurePO){
+    public ResultBody<Map<String, List<TempData>>> queryBrokenLine(@RequestBody QueryFigurePO queryFigurePO){
         return ResultBody.newSuccessInstance(busHospitalRecordService.queryBrokenLine(queryFigurePO));
 
     }
 
-    @ApiOperation("根据日期格式查询汇总信息(对应柱状图)")
-    @PostMapping("/queryColumnar")
-    public ResultBody<Map<String,QuerySummaryVO>> queryColumnar(@RequestBody QueryFigurePO queryFigurePO){
-        return ResultBody.newSuccessInstance(busHospitalRecordService.queryColumnar(queryFigurePO));
-
-    }
 
     @ApiOperation("根据日期格式查询汇总信息(对应饼状图)")
     @PostMapping("/queryCake")
-    public ResultBody<Map<String,QuerySummaryVO>> queryCake(@RequestBody QueryFigurePO queryFigurePO){
+    public ResultBody<Map<String, List<TempData>>> queryCake(@RequestBody QueryFigurePO queryFigurePO){
         return ResultBody.newSuccessInstance(busHospitalRecordService.queryCake(queryFigurePO));
 
     }

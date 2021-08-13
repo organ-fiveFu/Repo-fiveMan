@@ -6,8 +6,10 @@ import com.vblessings.nhs.model.po.QueryFigurePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
+import com.vblessings.nhs.model.vo.TempData;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BusHospitalRecordService {
@@ -22,9 +24,8 @@ public interface BusHospitalRecordService {
 
     QuerySummaryVO selectTotalByTime(QuerySummaryPO querySummaryPO);
 
-    Map<String,QuerySummaryVO> queryBrokenLine(QueryFigurePO queryFigurePO);
+    Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO);
 
-    Map<String,QuerySummaryVO> queryColumnar(QueryFigurePO queryFigurePO);
 
-    Map<String,QuerySummaryVO> queryCake(QueryFigurePO queryFigurePO);
+    Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO);
 }

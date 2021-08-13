@@ -15,6 +15,9 @@ public class QuerySummaryVO {
     @ApiModelProperty(name = "outHospitalNum",value = "出院人数")
     private Integer outHospitalNum;
 
+    @ApiModelProperty(name = "stayHospitalNum",value = "留院人数")
+    private Integer stayHospitalNum;
+
     @ApiModelProperty(name = "takeUpBed",value = "实际占用床位数")
     private Integer takeUpBed;
 

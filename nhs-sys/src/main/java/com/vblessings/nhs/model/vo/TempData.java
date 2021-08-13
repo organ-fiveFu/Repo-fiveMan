@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class TempData {
-    private String TempData;
+    private String tempData;
+
+    private Integer targetNum;
 
 }
