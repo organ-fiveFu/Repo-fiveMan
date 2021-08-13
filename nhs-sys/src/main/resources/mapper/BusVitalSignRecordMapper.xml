@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vblessings.nhs.mapper.BusVitalSignRecordMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.vblessings.nhs.model.entity.business.BusVitalSignRecord" id="busVitalSignRecordMap">
+        <result property="id" column="id"/>
+        <result property="archiveId" column="archive_id"/>
+        <result property="businessNo" column="business_no"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="temperature" column="temperature"/>
+        <result property="pulse" column="pulse"/>
+        <result property="breathing" column="breathing"/>
+        <result property="lowBloodPressure" column="low_blood_pressure"/>
+        <result property="highBloodPressure" column="high_blood_pressure"/>
+        <result property="intake" column="intake"/>
+        <result property="output" column="output"/>
+        <result property="urine" column="urine"/>
+        <result property="weight" column="weight"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+    <update id="del">
+        update bus_vital_sign_record
+        set is_del = 1
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="batchQueryVitalSignRecord" resultType="com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO">
+        SELECT
+          t2.id,
+          t1.aichive_id AS "archiveId",
+          t1.name AS "name",
+          t1.sex AS "sex",
+          t1.age AS "age",
+          t1.business_no AS "businessNo",
+          date_format(t2.record_time, 'yyyy-mm-dd hh24') AS "recordTime",
+          t2.temperature AS "temperature",
+          t2.pulse AS "pulse",
+          t2.breathing AS "breathing",
+          t2.low_blood_pressure AS "lowBloodPressure",
+          t2.high_blood_pressure AS "highBloodPressure",
+          t2.intake AS "intake",
+          t2.output AS "output",
+          t2.urine AS "urine",
+          t2.weight AS "weight",
+          t2.creator_id AS "creatorId",
+          t2.updater_id AS "updaterId",
+          t2.create_time AS "createTime",
+          t2.update_time AS "updateTime",
+          t2.is_del AS "isDel"
+        FROM bus_hospital_record t1
+        LEFT JOIN bus_vital_sign_record t2 ON t1.business_no = t2.business_no AND t2.is_del = 0
+        WHERE t1.is_del = 0
+          AND t1.status = 0
+        ORDER BY t1.name
+    </select>
+
+</mapper>

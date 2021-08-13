@@ -3,14 +3,16 @@ package com.vblessings.nhs.controller;
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
-import com.vblessings.nhs.model.po.business.BusNursingRecordInsertPO;
-import com.vblessings.nhs.model.po.business.QueryNursingRecordPO;
+import com.vblessings.nhs.model.entity.business.BusVitalSignRecord;
+import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.service.BusSpecialNursingRecordService;
 import com.vblessings.nhs.model.result.ResultBody;
+import com.vblessings.nhs.service.BusVitalSignRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 验证
@@ -33,6 +36,9 @@ public class NursingManageController {
 
     @Resource
     private BusNursingRecordService busNursingRecordService;
+
+    @Resource
+    private BusVitalSignRecordService busVitalSignRecordService;
 
     /**
      * 新增特级护理记录
@@ -79,7 +85,7 @@ public class NursingManageController {
     @ApiOperation("新增护理记录")
     @PostMapping("/addNursingRecord")
     public ResultBody<Boolean> addNursingRecord(@RequestBody BusNursingRecordInsertPO busNursingRecordInsertPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
-        busNursingRecordService.addNursingRecord(busNursingRecordInsertPO,userInfo);
+        busNursingRecordService.addNursingRecord(busNursingRecordInsertPO, userInfo);
         return ResultBody.newSuccessInstance();
     }
 
@@ -107,8 +113,56 @@ public class NursingManageController {
      */
     @ApiOperation("删除护理记录")
     @GetMapping("/delNursingRecord")
-    public ResultBody<Boolean> delNursingRecord(String ids){
+    public ResultBody<Boolean> delNursingRecord(String ids) {
         busNursingRecordService.delNursingRecord(ids);
+        return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 新增三测单
+     */
+    @ApiOperation("新增三测单")
+    @PostMapping("/addVitalSignRecord")
+    public ResultBody<Boolean> addVitalSignRecord(@RequestBody BusVitalSignRecordPO busVitalSignRecordPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busVitalSignRecordService.addVitalSignRecord(busVitalSignRecordPO, userInfo);
+        return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 批量更新三测单
+     */
+    @ApiOperation("批量更新三测单")
+    @PostMapping("/batchUpdateVitalSignRecord")
+    public ResultBody<Boolean> batchUpdateVitalSignRecord(@RequestBody List<BusVitalSignRecordPO> busVitalSignRecordPOS, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+        busVitalSignRecordService.batchUpdateVitalSignRecord(busVitalSignRecordPOS, userInfo);
+        return ResultBody.newSuccessInstance();
+    }
+
+    /**
+     * 查询三测单记录
+     */
+    @ApiOperation("查询三测单记录")
+    @GetMapping("/queryVitalSignRecord")
+    public ResultBody<List<BusVitalSignRecordPO>> queryVitalSignRecord(@RequestBody QueryVitalSignPO queryVitalSignPO){
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPO));
+    }
+
+    /**
+     * 批量查询三测单
+     */
+    @ApiOperation("批量查询三测单")
+    @GetMapping("/batchQueryVitalSignRecord")
+    public ResultBody<List<BusVitalSignRecordVO>> batchQueryVitalSignRecord(@RequestBody QueryBatchVitalSignPO queryBatchVitalSignPO){
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.batchQueryVitalSignRecord(queryBatchVitalSignPO));
+    }
+
+    /**
+     * 删除三测单记录
+     */
+    @ApiOperation("删除三测单记录")
+    @GetMapping("/delVitalSignRecord")
+    public ResultBody<Boolean> delVitalSignRecord(String ids) {
+        busVitalSignRecordService.delVitalSignRecord(ids);
         return ResultBody.newSuccessInstance();
     }
 }

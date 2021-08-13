@@ -21,6 +21,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -98,21 +99,31 @@ class BsHealthyApplicationTests {
      */
     @Test
     public void handleCirculationDate(){
-        MenuServiceImpl menuService = new MenuServiceImpl();
-        List<BusMenuSelectVO> busMenuSelectVOS = new ArrayList<>();
-        BusMenuSelectVO busMenuSelectVO1 = new BusMenuSelectVO();
-        BusMenuSelectVO busMenuSelectVO2 = new BusMenuSelectVO();
-        BusMenuSelectVO busMenuSelectVO3 = new BusMenuSelectVO();
-        busMenuSelectVO1.setId(1L);
-        busMenuSelectVO1.setDate("2021-08-06");
-        busMenuSelectVO2.setId(2L);
-        busMenuSelectVO2.setDate("2021-08-07");
-        busMenuSelectVO3.setId(3L);
-        busMenuSelectVO3.setDate("2021-08-09");
-        busMenuSelectVOS.add(busMenuSelectVO1);
-        busMenuSelectVOS.add(busMenuSelectVO2);
-        busMenuSelectVOS.add(busMenuSelectVO3);
-        List<BusMenuSelectVO> result = menuService.handleCirculationDate(new Date(1628179200000L), new Date(1628697600000L), busMenuSelectVOS);
+//        MenuServiceImpl menuService = new MenuServiceImpl();
+//        List<BusMenuSelectVO> busMenuSelectVOS = new ArrayList<>();
+//        BusMenuSelectVO busMenuSelectVO1 = new BusMenuSelectVO();
+//        BusMenuSelectVO busMenuSelectVO2 = new BusMenuSelectVO();
+//        BusMenuSelectVO busMenuSelectVO3 = new BusMenuSelectVO();
+//        busMenuSelectVO1.setId(1L);
+//        busMenuSelectVO1.setDate("2021-08-06");
+//        busMenuSelectVO2.setId(2L);
+//        busMenuSelectVO2.setDate("2021-08-07");
+//        busMenuSelectVO3.setId(3L);
+//        busMenuSelectVO3.setDate("2021-08-09");
+//        busMenuSelectVOS.add(busMenuSelectVO1);
+//        busMenuSelectVOS.add(busMenuSelectVO2);
+//        busMenuSelectVOS.add(busMenuSelectVO3);
+//        List<BusMenuSelectVO> result = menuService.handleCirculationDate(new Date(1628179200000L), new Date(1628697600000L), busMenuSelectVOS);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        Date start = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, -6);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date end = calendar.getTime();
         System.out.println("");
     }
 }
