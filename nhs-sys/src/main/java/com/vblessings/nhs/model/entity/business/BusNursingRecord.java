@@ -3,6 +3,7 @@ package com.vblessings.nhs.model.entity.business;
 import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -105,6 +106,20 @@ public class BusNursingRecord implements Serializable {
     private String other;
 
 	/**
+	 * 记录日期
+	 */
+	@ApiModelProperty(value = "记录日期")
+	@Column(name = "record_time")
+	private Date recordTime;
+
+	/**
+	 * 记录时间点
+	 */
+	@ApiModelProperty(value = "记录时间点")
+	@Column(name = "time_point")
+	private String timePoint;
+
+	/**
 	 * 创建人
 	 */
 	@ApiModelProperty(value = "创建人")
@@ -137,5 +152,75 @@ public class BusNursingRecord implements Serializable {
 	 */
 	@ApiModelProperty(value = "是否启用")
 	@Column(name = "is_del")
-	private Integer isDel;
+	private Integer isDel = 0;
+
+	/**
+	 * 体温
+	 */
+	@ApiModelProperty(value = "体温")
+	@Column(name = "temperature")
+	private BigDecimal temperature;
+
+	/**
+	 * 脉搏
+	 */
+	@ApiModelProperty(value = "脉搏")
+	@Column(name = "pulse")
+	private Integer pulse;
+
+	/**
+	 * 呼吸
+	 */
+	@ApiModelProperty(value = "呼吸")
+	@Column(name = "breathing")
+	private Integer breathing;
+
+	/**
+	 * 血压低值
+	 */
+	@ApiModelProperty(value = "血压低值")
+	@Column(name = "low_blood_pressure")
+	private Integer lowBloodPressure;
+
+	/**
+	 * 血压高值
+	 */
+	@ApiModelProperty(value = "血压高值")
+	@Column(name = "high_blood_pressure")
+	private Integer highBloodPressure;
+
+	/**
+	 * 入量
+	 */
+	@ApiModelProperty(value = "入量")
+	@Column(name = "intake")
+	private BigDecimal intake;
+
+	/**
+	 * 出量
+	 */
+	@ApiModelProperty(value = "出量")
+	@Column(name = "output")
+	private BigDecimal output;
+
+	/**
+	 * 尿量
+	 */
+	@ApiModelProperty(value = "尿量")
+	@Column(name = "urine")
+	private BigDecimal urine;
+
+	/**
+	 * 体重
+	 */
+	@ApiModelProperty(value = "体重")
+	@Column(name = "weight")
+	private BigDecimal weight;
+
+	/**
+	 * 血氧饱和度
+	 */
+	@ApiModelProperty(value = "血氧饱和度")
+	@Column(name = "blood_oxygen")
+	private Integer bloodOxygen;
 }

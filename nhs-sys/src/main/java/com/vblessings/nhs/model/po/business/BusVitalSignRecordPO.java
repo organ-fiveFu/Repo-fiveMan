@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@ApiModel(value = "三测单插入/更新入参")
+@ApiModel(value = "三测单插入&更新入参")
 public class BusVitalSignRecordPO {
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "id")
     private Long id;
 
     /**
@@ -31,6 +31,12 @@ public class BusVitalSignRecordPO {
      */
     @ApiModelProperty(value = "记录时间")
     private String recordTime;
+
+    /**
+     * 记录时间节点
+     */
+    @ApiModelProperty(value = "记录时间节点")
+    private String timePoint;
 
     /**
      * 体温

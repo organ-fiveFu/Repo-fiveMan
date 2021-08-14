@@ -4,15 +4,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @ApiModel(value = "护理记录插入入参")
-public class BusNursingRecordInsertPO implements Serializable {
-	
+public class BusNursingRecordPO implements Serializable {
+
+	@ApiModelProperty(value = "主键")
+	private Long id;
+
 		/**
 	 * 住院号
 	 */
@@ -78,5 +79,89 @@ public class BusNursingRecordInsertPO implements Serializable {
 	 */
 	@ApiModelProperty(value = "其他")
     private String other;
+
+	/**
+	 * 记录日期
+	 */
+	@ApiModelProperty(value = "记录日期")
+	private String recordTime;
+
+	/**
+	 * 记录时间点
+	 */
+	@ApiModelProperty(value = "记录时间点")
+	private String timePoint;
+
+	/**
+	 * 体温
+	 */
+	@ApiModelProperty(value = "体温")
+	private BigDecimal temperature;
+
+	/**
+	 * 脉搏
+	 */
+	@ApiModelProperty(value = "脉搏")
+	private Integer pulse;
+
+	/**
+	 * 呼吸
+	 */
+	@ApiModelProperty(value = "呼吸")
+	private Integer breathing;
+
+	/**
+	 * 血压低值
+	 */
+	@ApiModelProperty(value = "血压低值")
+	private Integer lowBloodPressure;
+
+	/**
+	 * 血压高值
+	 */
+	@ApiModelProperty(value = "血压高值")
+	private Integer highBloodPressure;
+
+	/**
+	 * 入量
+	 */
+	@ApiModelProperty(value = "入量")
+	private BigDecimal intake;
+
+	/**
+	 * 出量
+	 */
+	@ApiModelProperty(value = "出量")
+	private BigDecimal output;
+
+	/**
+	 * 尿量
+	 */
+	@ApiModelProperty(value = "尿量")
+	private BigDecimal urine;
+
+	/**
+	 * 体重
+	 */
+	@ApiModelProperty(value = "体重")
+	private BigDecimal weight;
+
+	/**
+	 * 血氧饱和度
+	 */
+	@ApiModelProperty(value = "血氧饱和度")
+	private Integer bloodOxygen;
+
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(value = "创建时间")
+	private String createTime;
+
+	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value = "创建人")
+	private Long creatorId;
 	
 }

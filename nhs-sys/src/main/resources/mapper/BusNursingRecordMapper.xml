@@ -17,14 +17,26 @@
         <result property="isWashGargle" column="is_wash_gargle"/>
         <result property="physicalAndMentalStatus" column="physical_and_mental_status"/>
         <result property="other" column="other"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="timePoint" column="time_point"/>
         <result property="creatorId" column="creator_id"/>
         <result property="updaterId" column="updater_id"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <result property="isDel" column="is_del"/>
+        <result property="temperature" column="temperature"/>
+        <result property="pulse" column="pulse"/>
+        <result property="breathing" column="breathing"/>
+        <result property="lowBloodPressure" column="low_blood_pressure"/>
+        <result property="highBloodPressure" column="high_blood_pressure"/>
+        <result property="intake" column="intake"/>
+        <result property="output" column="output"/>
+        <result property="urine" column="urine"/>
+        <result property="weight" column="weight"/>
+        <result property="bloodOxygen" column="blood_oxygen"/>
     </resultMap>
 
-    <update id="del">
+    <update id="batchDel">
         update bus_nursing_record
         set is_del = 1
         where id in
@@ -32,5 +44,46 @@
             #{id}
         </foreach>
     </update>
+
+    <select id="batchQueryNursingRecord" resultType="com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO">
+        SELECT
+          t2.id,
+          t1.aichive_id AS "archiveId",
+          t1.name AS "patientName",
+          t1.sex AS "sex",
+          t1.age AS "age",
+          t1.business_no AS "businessNo",
+          date_format(t2.record_time, 'yyyy-mm-dd') AS "recordTime",
+          t2.time_point AS "timePoint",
+          t2.is_haircut AS "isHaircut",
+          t2.is_manicure AS "isManicure",
+          t2.is_clean_toilet AS "isCleanToilet",
+          t2.is_hang_clothes AS "isHangClothes",
+          t2.is_clean_room AS "isCleanRoom",
+          t2.is_meals AS "isMeals",
+          t2.is_wash_gargle AS "isWashGargle",
+          t2.physical_and_mental_status AS "physicalAndMentalStatus",
+          t2.other,
+          t2.temperature AS "temperature",
+          t2.pulse AS "pulse",
+          t2.breathing AS "breathing",
+          t2.low_blood_pressure AS "lowBloodPressure",
+          t2.high_blood_pressure AS "highBloodPressure",
+          t2.intake AS "intake",
+          t2.output AS "output",
+          t2.urine AS "urine",
+          t2.weight AS "weight",
+          t2.creator_id AS "creatorId",
+          date_format(t2.create_time, 'yyyy-mm-dd hh24:mi:ss') AS "createTime"
+        FROM bus_hospital_record t1
+        LEFT JOIN bus_nursing_record t2
+          ON t1.business_no = t2.business_no
+          AND t2.is_del = 0
+          AND date_format(t2.record_time, 'yyyy-mm-dd') = #{recordTime}
+          AND t2.time_point = #{timePoint}
+        WHERE t1.is_del = 0
+          AND t1.status = 0
+        ORDER BY t1.name
+    </select>
 
 </mapper>

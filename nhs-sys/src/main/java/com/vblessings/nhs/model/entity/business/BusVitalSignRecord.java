@@ -49,6 +49,13 @@ public class BusVitalSignRecord implements Serializable {
 	@ApiModelProperty(value = "记录时间")
     @Column(name = "record_time")
     private Date recordTime;
+
+	/**
+	 * 记录时间节点
+	 */
+	@ApiModelProperty(value = "记录时间节点")
+	@Column(name = "time_point")
+	private String timePoint;
 	
 		/**
 	 * 体温

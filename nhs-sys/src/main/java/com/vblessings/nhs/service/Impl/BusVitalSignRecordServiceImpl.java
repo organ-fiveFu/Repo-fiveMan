@@ -1,19 +1,14 @@
 package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateTime;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusVitalSignRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusVitalSignRecord;
 import com.vblessings.nhs.model.po.business.*;
-import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
-import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.service.BusVitalSignRecordService;
 import com.vblessings.nhs.util.OperateUtil;
 import org.apache.logging.log4j.util.Strings;
@@ -77,7 +72,7 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
 
     @Override
     public List<BusVitalSignRecordPO> queryVitalSignRecord(QueryVitalSignPO queryVitalSignPO) {
-        Example example = new Example(BusNursingRecord.class);
+        Example example = new Example(BusVitalSignRecord.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("businessNo", queryVitalSignPO.getBusinessNo());
         criteria.andEqualTo("isDel", 0);
@@ -92,13 +87,13 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
-            Date start = calendar.getTime();
+            Date end = calendar.getTime();
             calendar.add(Calendar.DAY_OF_MONTH, -6);
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            Date end = calendar.getTime();
+            Date start = calendar.getTime();
             criteria.andBetween("recordTime", start, end);
         }
         List<BusVitalSignRecord> busVitalSignRecords = busVitalSignRecordMapper.selectByExample(example);

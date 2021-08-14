@@ -8,35 +8,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@ApiModel(value = "三测单出参")
+@ApiModel(value = "三测单记录")
 public class BusVitalSignRecordVO {
 
     @ApiModelProperty(value = "")
     private Long id;
-
-    /**
-     * 老人档案id
-     */
-    @ApiModelProperty(value = "老人档案id")
-    private Long archiveId;
-
-    /**
-     * 姓名
-     */
-    @ApiModelProperty(value = "姓名")
-    private String name;
-
-    /**
-     * 姓名
-     */
-    @ApiModelProperty(value = "性别")
-    private String sex;
-
-    /**
-     * 姓名
-     */
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
 
     /**
      * 住院号
@@ -49,6 +25,18 @@ public class BusVitalSignRecordVO {
      */
     @ApiModelProperty(value = "记录时间")
     private String recordTime;
+
+    /**
+     * 记录时间节点
+     */
+    @ApiModelProperty(value = "记录时间节点")
+    private String timePoint;
+
+    /**
+     * 住院天数
+     */
+    @ApiModelProperty(value = "住院天数")
+    private Integer lengthOfStay;
 
     /**
      * 体温
@@ -105,32 +93,8 @@ public class BusVitalSignRecordVO {
     private BigDecimal weight;
 
     /**
-     * 创建人
+     * 血氧饱和度
      */
-    @ApiModelProperty(value = "创建人")
-    private Long creatorId;
-
-    /**
-     * 更新人
-     */
-    @ApiModelProperty(value = "更新人")
-    private Long updaterId;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
-
-    /**
-     * 是否启用
-     */
-    @ApiModelProperty(value = "是否启用")
-    private Integer isDel;
+    @ApiModelProperty(value = "血氧饱和度")
+    private Integer bloodOxygen;
 }
