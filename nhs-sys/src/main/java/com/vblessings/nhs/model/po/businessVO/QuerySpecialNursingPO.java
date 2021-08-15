@@ -5,5 +5,7 @@ import lombok.Data;
 
 @Data
 public class QuerySpecialNursingPO extends PageParam {
+
+    private String id;
     private String name;
 }

@@ -41,10 +41,12 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
         List<BusSpecialNursingRecord> busSpecialNursingRecordList = new ArrayList<>();
+
         if(Strings.isNotBlank(querySpecialNursingPO.getName())){
             criteria.andLike("name","%"+querySpecialNursingPO.getName()+"%");
-            busSpecialNursingRecordList = busSpecialNursingRecordMapper.selectByExample(example);
-            return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busSpecialNursingRecordList);
+           }
+        if(Strings.isNotBlank(querySpecialNursingPO.getId())){
+            criteria.andEqualTo("id",Long.parseLong(querySpecialNursingPO.getId()));
         }
         busSpecialNursingRecordList = busSpecialNursingRecordMapper.selectByExample(example);
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busSpecialNursingRecordList);
