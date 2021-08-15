@@ -9,6 +9,15 @@ public class BusHospitalRecordPO extends PageParam {
 
     private String businessNo;
 
+    private String buildingCode;
+
+    private String roomCode;
+
+    private String floorCode;
+
+    private String bedCode;
+
+
     private Integer statue;
 
 }

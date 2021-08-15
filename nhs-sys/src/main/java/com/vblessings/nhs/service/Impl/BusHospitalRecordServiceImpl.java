@@ -84,6 +84,18 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         if(Strings.isNotBlank(busHospitalRecordPO.getBusinessNo())){
             C.andEqualTo("businessNo",busHospitalRecordPO.getBusinessNo());
         }
+        if(Strings.isNotBlank(busHospitalRecordPO.getBuildingCode())){
+            C.andEqualTo("buildingCode",busHospitalRecordPO.getBuildingCode());
+        }
+        if(Strings.isNotBlank(busHospitalRecordPO.getFloorCode())){
+            C.andEqualTo("floorCode",busHospitalRecordPO.getFloorCode());
+        }
+        if(Strings.isNotBlank(busHospitalRecordPO.getRoomCode())){
+            C.andEqualTo("roomCode",busHospitalRecordPO.getRoomCode());
+        }
+        if(Strings.isNotBlank(busHospitalRecordPO.getBedCode())){
+            C.andEqualTo("bedCode",busHospitalRecordPO.getBedCode());
+        }
         C.andEqualTo("isDel",0).andEqualTo("status",busHospitalRecordPO.getStatue());
         List<BusHospitalRecord> busHospitalRecords = busHospitalRecordMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(busHospitalRecords);
