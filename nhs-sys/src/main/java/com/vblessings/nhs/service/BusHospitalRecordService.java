@@ -9,6 +9,7 @@ import com.vblessings.nhs.model.vo.QuerySummaryVO;
 import com.vblessings.nhs.model.vo.TempData;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,8 @@ public interface BusHospitalRecordService {
 
     QuerySummaryVO selectTotalByTime(QuerySummaryPO querySummaryPO);
 
-    Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO);
+    Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO) throws ParseException;
 
 
-    Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO);
+    Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO) throws ParseException;
 }

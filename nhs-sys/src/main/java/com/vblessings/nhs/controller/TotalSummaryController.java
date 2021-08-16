@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class TotalSummaryController {
 
     @ApiOperation("根据日期格式查询汇总信息(对应折线图)")
     @PostMapping("/queryBrokenLine")
-    public ResultBody<Map<String, List<TempData>>> queryBrokenLine(@RequestBody QueryFigurePO queryFigurePO){
+    public ResultBody<Map<String, List<TempData>>> queryBrokenLine(@RequestBody QueryFigurePO queryFigurePO) throws ParseException {
         return ResultBody.newSuccessInstance(busHospitalRecordService.queryBrokenLine(queryFigurePO));
 
     }
@@ -47,7 +48,7 @@ public class TotalSummaryController {
 
     @ApiOperation("根据日期格式查询汇总信息(对应饼状图)")
     @PostMapping("/queryCake")
-    public ResultBody<Map<String, List<TempData>>> queryCake(@RequestBody QueryFigurePO queryFigurePO){
+    public ResultBody<Map<String, List<TempData>>> queryCake(@RequestBody QueryFigurePO queryFigurePO) throws ParseException {
         return ResultBody.newSuccessInstance(busHospitalRecordService.queryCake(queryFigurePO));
 
     }
