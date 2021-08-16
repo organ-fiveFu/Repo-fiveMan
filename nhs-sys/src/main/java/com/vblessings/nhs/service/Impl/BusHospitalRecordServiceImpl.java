@@ -24,6 +24,8 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -191,14 +193,60 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
     }
 
     @Override
-    public Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO) {
+    public Map<String, List<TempData>> queryBrokenLine(QueryFigurePO queryFigurePO) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(queryFigurePO.getEndTime());//设置起时间
+        cal.add(Calendar.MONTH, 1);//增加一个月
+
+        String s1 = new SimpleDateFormat("yyyy-MM").format(queryFigurePO.getStartTime());
+        String s2 = new SimpleDateFormat("yyyy-MM").format(cal.getTime());
+
+
+        Date d1 = new SimpleDateFormat("yyyy-MM").parse(s1);//定义起始日期
+        Date d2 = new SimpleDateFormat("yyyy-MM").parse(s2);//定义结束日期
+
+        Calendar dd = Calendar.getInstance();//定义日期实例
+        dd.setTime(d1);//设置日期起始时间
+        List<String> timeList = new LinkedList<>();
+        while(dd.getTime().before(d2)) {//判断是否到结束日期
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+
+            String str = sdf.format(dd.getTime());
+
+            dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
+            timeList.add(str);
+        }
+
+
+
         //按月分组
         Map map = new HashMap();
         if(queryFigurePO.getTimeType()!=null && queryFigurePO.getTimeType().equals("1")){
             //每月入院list
         List<TempData> tempDataList =  busHospitalRecordMapper.queryBrokenLineByMonth(queryFigurePO);
+        List<String> tempTime = tempDataList.stream().map(TempData::getTempData).collect(Collectors.toList());
+            for (String s:
+            timeList) {
+                if(!tempTime.contains(s)){
+                    TempData tempData = new TempData();
+                    tempData.setTargetNum(0);
+                    tempData.setTempData(s);
+                    tempDataList.add(tempData);
+                }
+            }
 
-        List<TempData> tempDataList1 = busHospitalRecordMapper.queryBrokenLineByMonth1(queryFigurePO);
+            List<TempData> tempDataList1 = busHospitalRecordMapper.queryBrokenLineByMonth1(queryFigurePO);
+            List<String> tempTime1 = tempDataList1.stream().map(TempData::getTempData).collect(Collectors.toList());
+            for (String s:
+                    timeList) {
+                if(!tempTime1.contains(s)){
+                    TempData tempData = new TempData();
+                    tempData.setTargetNum(0);
+                    tempData.setTempData(s);
+                    tempDataList1.add(tempData);
+                }
+            }
             map.put("inHospital",tempDataList);
             map.put("outHospital",tempDataList1);
            return map;
@@ -217,20 +265,75 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
 
     @Override
-    public Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO) {
+    public Map<String, List<TempData>> queryCake(QueryFigurePO queryFigurePO) throws ParseException {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(queryFigurePO.getEndTime());//设置起时间
+        cal.add(Calendar.MONTH, 1);//增加一个月
+
+        String s1 = new SimpleDateFormat("yyyy-MM").format(queryFigurePO.getStartTime());
+        String s2 = new SimpleDateFormat("yyyy-MM").format(cal.getTime());
+
+
+        Date d1 = new SimpleDateFormat("yyyy-MM").parse(s1);//定义起始日期
+        Date d2 = new SimpleDateFormat("yyyy-MM").parse(s2);//定义结束日期
+
+        Calendar dd = Calendar.getInstance();//定义日期实例
+        dd.setTime(d1);//设置日期起始时间
+        List<String> timeList = new LinkedList<>();
+        while(dd.getTime().before(d2)) {//判断是否到结束日期
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+
+            String str = sdf.format(dd.getTime());
+
+            dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
+            timeList.add(str);
+        }
+
         //按月分组
         Map map = new HashMap();
         QuerySummaryVO querySummaryVO = new QuerySummaryVO();
         if (queryFigurePO.getTimeType() != null && queryFigurePO.getTimeType().equals("1")) {
             //每月入院完全失能老人
             List<TempData> tempDataList = busHospitalRecordMapper.queryCakeByMonth(queryFigurePO);
+            List<String> tempTime = tempDataList.stream().map(TempData::getTempData).collect(Collectors.toList());
+            for (String s:
+                    timeList) {
+                if(!tempTime.contains(s)){
+                    TempData tempData = new TempData();
+                    tempData.setTargetNum(0);
+                    tempData.setTempData(s);
+                    tempDataList.add(tempData);
+                }
+            }
 
             //每月入院部分失能老人
             List<TempData> tempDataList1 = busHospitalRecordMapper.queryCakeByMonth1(queryFigurePO);
+            List<String> tempTime1 = tempDataList1.stream().map(TempData::getTempData).collect(Collectors.toList());
+            for (String s:
+                    timeList) {
+                if(!tempTime1.contains(s)){
+                    TempData tempData = new TempData();
+                    tempData.setTargetNum(0);
+                    tempData.setTempData(s);
+                    tempDataList1.add(tempData);
+                }
+            }
 
 
             //每月入院自理老人
             List<TempData> tempDataList2 = busHospitalRecordMapper.queryCakeByMonth2(queryFigurePO);
+            List<String> tempTime2 = tempDataList2.stream().map(TempData::getTempData).collect(Collectors.toList());
+            for (String s:
+                    timeList) {
+                if(!tempTime2.contains(s)){
+                    TempData tempData = new TempData();
+                    tempData.setTargetNum(0);
+                    tempData.setTempData(s);
+                    tempDataList2.add(tempData);
+                }
+            }
 
 
             map.put("disability", tempDataList);
