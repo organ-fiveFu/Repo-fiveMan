@@ -218,5 +218,13 @@ public class BusHospitalRecord implements Serializable {
     @ApiModelProperty(value = "房间编号", required = false)
     @Column(name = "room_code")
     private String roomCode;
+
+    @ApiModelProperty(value = "病人来源（1.社会 2.医院）", required = false)
+    @Column(name = "people_from")
+    private String peopleFrom;
+
+    @ApiModelProperty(value = "病人去向（1.社会 2.医院）", required = false)
+    @Column(name = "people_to")
+    private String peopleTo;
 }
 
