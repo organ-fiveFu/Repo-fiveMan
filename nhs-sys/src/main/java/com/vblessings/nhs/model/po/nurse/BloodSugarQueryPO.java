@@ -8,6 +8,10 @@ import lombok.Data;
 @ApiModel(value = "血糖记录查询入参")
 @Data
 public class BloodSugarQueryPO extends PageParam {
+
+    @ApiModelProperty(value = "id", name = "id")
+    private Long id;
+
     @ApiModelProperty(value = "住院号", name = "businessNo")
     private String businessNo;
 

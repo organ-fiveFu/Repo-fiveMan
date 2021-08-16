@@ -11,9 +11,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="nhs" target="1.8" />
       <module name="nhs-common" target="1.8" />
       <module name="nhs-sys" target="1.8" />
-      <module name="Nursing" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

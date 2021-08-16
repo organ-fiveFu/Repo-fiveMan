@@ -29,10 +29,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("bloodSugarService")
@@ -119,6 +116,9 @@ public class BloodSugarServiceImpl implements BloodSugarService {
         }
         if(!StringUtils.isEmpty(bloodSugarQueryPO.getPatientName())){
             criteria.andLike("patientName", "%" + bloodSugarQueryPO.getPatientName() + "%");
+        }
+        if(Objects.nonNull(bloodSugarQueryPO.getId())){
+            criteria.andEqualTo("id", bloodSugarQueryPO.getId());
         }
         if (!StringUtils.isEmpty(bloodSugarQueryPO.getStartTime()) && !StringUtils.isEmpty(bloodSugarQueryPO.getEndTime())) {
             try {
