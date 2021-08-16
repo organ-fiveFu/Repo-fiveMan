@@ -53,8 +53,8 @@ public class HospitalRegistController {
 
     @ApiOperation("出院")
     @GetMapping("/out")
-    public ResultBody out(String businessNo){
-        busHospitalRecordService.out(businessNo);
+    public ResultBody out(String businessNo,String to){
+        busHospitalRecordService.out(businessNo,to);
         return ResultBody.newSuccessInstance();
     }
 }

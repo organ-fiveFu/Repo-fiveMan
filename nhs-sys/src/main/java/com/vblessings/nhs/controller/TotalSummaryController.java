@@ -1,8 +1,10 @@
 package com.vblessings.nhs.controller;
 
+import com.vblessings.nhs.model.po.QuerySourcePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.po.QueryFigurePO;
+import com.vblessings.nhs.model.vo.PeopleSourceVO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
 import com.vblessings.nhs.model.vo.TempData;
 import com.vblessings.nhs.service.BusHospitalRecordService;
@@ -51,6 +53,12 @@ public class TotalSummaryController {
     public ResultBody<Map<String, List<TempData>>> queryCake(@RequestBody QueryFigurePO queryFigurePO) throws ParseException {
         return ResultBody.newSuccessInstance(busHospitalRecordService.queryCake(queryFigurePO));
 
+    }
+
+    @ApiOperation("根据日期格式查询人员来源和流向")
+    @PostMapping("/querySource")
+    public ResultBody<PeopleSourceVO> querySource(@RequestBody QuerySourcePO querySourcePO) {
+        return ResultBody.newSuccessInstance(busHospitalRecordService.querySource(querySourcePO));
     }
 
 }

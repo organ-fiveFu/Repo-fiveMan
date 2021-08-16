@@ -36,6 +36,8 @@
         <result property="feesDueStatue" column="fees_due_statue"/>
         <result property="buildingCode" column="building_code"/>
         <result property="roomCode" column="room_code"/>
+        <result property="peopleFrom" column="people_from"/>
+        <result property="peopleTo" column="people_to"/>
     </resultMap>
     <update id="out">
     update bus_hospital_record
