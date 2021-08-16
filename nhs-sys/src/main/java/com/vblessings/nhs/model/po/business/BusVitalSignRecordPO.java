@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,6 +14,12 @@ public class BusVitalSignRecordPO {
 
     @ApiModelProperty(value = "id")
     private Long id;
+
+    /**
+     * 病人姓名
+     */
+    @ApiModelProperty(value = "病人姓名")
+    private String name;
 
     /**
      * 老人档案id

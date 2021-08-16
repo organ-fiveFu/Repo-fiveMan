@@ -23,7 +23,7 @@ public class BusNursingRecordQueryVO {
 	 * 姓名
 	 */
 	@ApiModelProperty(value = "姓名")
-	private String patientName;
+	private String name;
 
 	/**
 	 * 姓名

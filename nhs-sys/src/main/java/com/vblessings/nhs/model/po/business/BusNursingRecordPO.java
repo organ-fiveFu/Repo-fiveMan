@@ -24,7 +24,7 @@ public class BusNursingRecordPO implements Serializable {
 	 * 病人姓名
 	 */
 	@ApiModelProperty(value = "病人姓名")
-    private String patientName;
+    private String name;
 	
 		/**
 	 * 是否洗头理发

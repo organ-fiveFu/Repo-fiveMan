@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService {
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Resource
     private SnowflakeComponent snowflakeComponent;

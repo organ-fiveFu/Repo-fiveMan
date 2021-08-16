@@ -60,26 +60,34 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
     @Override
     public PageVO<BusNursingRecordPO> pageNursingRecord(QueryNursingRecordPO queryNursingRecordPO) {
         Page<BusNursingRecord> result = PageHelper.startPage(queryNursingRecordPO.getPageNum(), queryNursingRecordPO.getPageSize());
-        Example example = new Example(BusNursingRecord.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDel",0);
-        List<BusNursingRecord> busNursingRecords;
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(Strings.isNotBlank(queryNursingRecordPO.getName())){
-            criteria.andLike("name", "%" + queryNursingRecordPO.getName() + "%");
-        }
-        busNursingRecords = busNursingRecordMapper.selectByExample(example);
         List<BusNursingRecordPO> busNursingRecordPOS = new ArrayList<>();
-        busNursingRecords.forEach(busNursingRecord -> {
+
+        if (queryNursingRecordPO.getId() != null) {
+            BusNursingRecord busNursingRecord = busNursingRecordMapper.selectByPrimaryKey(queryNursingRecordPO.getId());
             BusNursingRecordPO busNursingRecordPO = new BusNursingRecordPO();
             BeanUtil.copyProperties(busNursingRecord, busNursingRecordPO);
             busNursingRecordPO.setRecordTime(sdf1.format(busNursingRecord.getRecordTime()));
             busNursingRecordPO.setCreateTime(sdf2.format(busNursingRecord.getCreateTime()));
             busNursingRecordPOS.add(busNursingRecordPO);
-        });
+        } else {
+            Example example = new Example(BusNursingRecord.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("isDel", 0);
+            if (Strings.isNotBlank(queryNursingRecordPO.getName())) {
+                criteria.andLike("name", "%" + queryNursingRecordPO.getName() + "%");
+            }
+            List<BusNursingRecord> busNursingRecords = busNursingRecordMapper.selectByExample(example);
+            busNursingRecords.forEach(busNursingRecord -> {
+                BusNursingRecordPO busNursingRecordPO = new BusNursingRecordPO();
+                BeanUtil.copyProperties(busNursingRecord, busNursingRecordPO);
+                busNursingRecordPO.setRecordTime(sdf1.format(busNursingRecord.getRecordTime()));
+                busNursingRecordPO.setCreateTime(sdf2.format(busNursingRecord.getCreateTime()));
+                busNursingRecordPOS.add(busNursingRecordPO);
+            });
+        }
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busNursingRecordPOS);
-
     }
 
     @Override

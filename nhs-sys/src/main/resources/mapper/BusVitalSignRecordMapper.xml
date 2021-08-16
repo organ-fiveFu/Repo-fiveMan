@@ -6,9 +6,11 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.vblessings.nhs.model.entity.business.BusVitalSignRecord" id="busVitalSignRecordMap">
         <result property="id" column="id"/>
+        <result property="name" column="name"/>
         <result property="archiveId" column="archive_id"/>
         <result property="businessNo" column="business_no"/>
         <result property="recordTime" column="record_time"/>
+        <result property="timePoint" column="time_point"/>
         <result property="temperature" column="temperature"/>
         <result property="pulse" column="pulse"/>
         <result property="breathing" column="breathing"/>
@@ -25,7 +27,7 @@
         <result property="isDel" column="is_del"/>
     </resultMap>
 
-    <update id="del">
+    <update id="batchDel">
         update bus_vital_sign_record
         set is_del = 1
         where id in

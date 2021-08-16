@@ -39,8 +39,8 @@ public class BusNursingRecord implements Serializable {
 	 * 病人姓名
 	 */
 	@ApiModelProperty(value = "病人姓名")
-    @Column(name = "patient_name")
-    private String patientName;
+    @Column(name = "name")
+    private String name;
 	
 		/**
 	 * 是否洗头理发

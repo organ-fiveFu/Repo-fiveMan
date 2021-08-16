@@ -35,7 +35,14 @@ public class BusVitalSignRecord implements Serializable {
 	@ApiModelProperty(value = "老人档案id")
     @Column(name = "archive_id")
     private Long archiveId;
-	
+
+	/**
+	 * 病人姓名
+	 */
+	@ApiModelProperty(value = "病人姓名")
+	@Column(name = "name")
+	private String name;
+
 		/**
 	 * 住院号
 	 */
