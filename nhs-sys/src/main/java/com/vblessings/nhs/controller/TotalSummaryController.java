@@ -37,6 +37,7 @@ public class TotalSummaryController {
     @PostMapping("/select")
     public ResultBody<QuerySummaryVO> selectTotalByTime(@RequestBody QuerySummaryPO querySummaryPO){
      log.info("查询汇总信息:"+querySummaryPO);
+
      return ResultBody.newSuccessInstance(busHospitalRecordService.selectTotalByTime(querySummaryPO));
     }
 
