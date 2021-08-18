@@ -134,8 +134,41 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
     @Override
     public void update(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
+        //查询更新之前的入院登记
+        BusHospitalRecord busHospitalRecord1 = busHospitalRecordMapper.selectByPrimaryKey(busHospitalRecord.getId());
         busHospitalRecord.setUpdaterId(userInfo.getUserId());
         busHospitalRecord.setUpdateTime(new DateTime());
+        if(!Objects.equals(busHospitalRecord.getBuildingCode(), busHospitalRecord1.getBuildingCode()) ||
+        !Objects.equals(busHospitalRecord.getFloorCode(), busHospitalRecord1.getFloorCode()) || !Objects.equals(busHospitalRecord.getRoomCode(), busHospitalRecord1.getRoomCode())
+        || !Objects.equals(busHospitalRecord.getBedCode(), busHospitalRecord1.getBedCode())){
+            //更新床位
+            Example example = new Example(SysBedInfo.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
+            criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
+            criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
+            criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+            criteria.andEqualTo("isDel", 0);
+            criteria.andEqualTo("useFlag", "1");
+            SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example);
+            if (StringUtils.isEmpty(sysBedInfo)) {
+                throw ResponseEnum.DATA_NOT_FOUND.newException("该床位不存在，无法更新");
+            }
+            sysBedInfo.setStatus("1"); //已入住
+            sysBedInfoMapper.updateByExampleSelective(sysBedInfo, example);
+            //更新之前的床位
+            Example example1 = new Example(SysBedInfo.class);
+            Example.Criteria criteria1 = example1.createCriteria();
+            criteria1.andEqualTo("buildingCode", busHospitalRecord1.getBuildingCode());
+            criteria1.andEqualTo("floorCode", busHospitalRecord1.getFloorCode());
+            criteria1.andEqualTo("roomCode", busHospitalRecord1.getRoomCode());
+            criteria1.andEqualTo("bedCode", busHospitalRecord1.getBedCode());
+            criteria1.andEqualTo("isDel", 0);
+            criteria1.andEqualTo("useFlag", "1");
+            SysBedInfo sysBedInfo1 = sysBedInfoMapper.selectOneByExample(example1);
+            sysBedInfo1.setStatus("0"); //未入住
+            sysBedInfoMapper.updateByExampleSelective(sysBedInfo1, example1);
+        }
         busHospitalRecordMapper.updateByPrimaryKeySelective(busHospitalRecord);
     }
 

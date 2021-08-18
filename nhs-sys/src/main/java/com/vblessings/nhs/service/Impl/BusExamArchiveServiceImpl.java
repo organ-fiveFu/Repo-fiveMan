@@ -78,7 +78,9 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         Long id = snowflakeComponent.getInstance().nextId();
         //新增体检登记主表数据
         OperateUtil.onSaveNew(busExamArchive,userInfo,id);
-        busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList()));
+        if(CollectionUtil.isNotEmpty(examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList())){
+            busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList()));
+        }
         if(CollectionUtil.isNotEmpty(examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList())){
             busExamArchive.setMedicalHistoryName(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList()));
         }
