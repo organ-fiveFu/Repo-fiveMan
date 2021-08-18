@@ -109,7 +109,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
     @Override
     public void out(String businessNo, String to) {
-        BusHospitalRecord busHospitalRecord = new BusHospitalRecord();
+        Example example2 = new Example(BusHospitalRecord.class);
+        example2.createCriteria().andEqualTo("businessNo", businessNo).andEqualTo("isDel", 0);
+        BusHospitalRecord busHospitalRecord = busHospitalRecordMapper.selectOneByExample(example2);
         busHospitalRecord.setBusinessNo(businessNo);
         busHospitalRecord.setDischargeTime(new Date());
         busHospitalRecord.setPeopleTo(to);
