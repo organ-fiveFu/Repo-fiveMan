@@ -25,7 +25,7 @@
     <select id="queryPatient" resultType="com.vblessings.nhs.model.vo.page.PageDetailQueryVO">
         SELECT
           t2.business_no AS "businessNo",
-          t2.aichive_id AS "archiveId",
+          t2.archive_id AS "archiveId",
           t2.name AS "name",
           t2.sex AS "sex",
           t2.age AS "age",

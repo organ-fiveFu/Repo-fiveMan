@@ -39,7 +39,7 @@
     <select id="batchQueryVitalSignRecord" resultType="com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO">
         SELECT
           t2.id,
-          t1.aichive_id AS "archiveId",
+          t1.archive_id AS "archiveId",
           t1.name AS "name",
           t1.sex AS "sex",
           t1.age AS "age",
