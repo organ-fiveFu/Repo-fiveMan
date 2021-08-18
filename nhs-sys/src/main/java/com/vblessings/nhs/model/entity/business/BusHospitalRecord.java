@@ -1,13 +1,16 @@
 package com.vblessings.nhs.model.entity.business;
 
+import com.vblessings.nhs.model.typehandler.ListStringHandler;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table(name = "bus_hospital_record")
@@ -25,8 +28,8 @@ public class BusHospitalRecord implements Serializable {
      * 老人档案id
      */
     @ApiModelProperty(value = "老人档案id", required = false)
-    @Column(name = "aichive_id")
-    private Long aichiveId;
+    @Column(name = "archive_id")
+    private Long archiveId;
 
     /**
      * 住院号
@@ -109,8 +112,9 @@ public class BusHospitalRecord implements Serializable {
      * 诊断
      */
     @ApiModelProperty(value = "诊断", required = false)
+    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "hospital_diagnosis")
-    private String hospitalDiagnosis;
+    private List<String> hospitalDiagnosis;
 
     /**
      * 是否签署风险告知书
@@ -193,15 +197,17 @@ public class BusHospitalRecord implements Serializable {
      * 过敏史
      */
     @ApiModelProperty(value = "过敏史", required = false)
+    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "allergy")
-    private String allergy;
+    private List<String> allergy;
 
     /**
      * 既往史
      */
     @ApiModelProperty(value = "既往史", required = false)
+    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "previous_history")
-    private String previousHistory;
+    private  List<String> previousHistory;
 
     @ApiModelProperty(value = "费用过期时间", required = false)
     @Column(name = "fees_due_date")

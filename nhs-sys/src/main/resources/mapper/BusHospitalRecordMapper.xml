@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.vblessings.nhs.model.entity.business.BusHospitalRecord" id="busHospitalRecordMap">
         <result property="id" column="id"/>
-        <result property="aichiveId" column="aichive_id"/>
+        <result property="archiveId" column="archive_id"/>
         <result property="businessNo" column="business_no"/>
         <result property="dischargeTime" column="discharge_time"/>
         <result property="admissionTime" column="admission_time"/>
@@ -18,7 +18,8 @@
         <result property="isDel" column="is_del"/>
         <result property="nursingLevel" column="nursing_level"/>
         <result property="admissionReason" column="admission_reason"/>
-        <result property="hospitalDiagnosis" column="hospital_diagnosis"/>
+        <result property="hospitalDiagnosis" column="hospital_diagnosis"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
         <result property="isSignNotification" column="is_sign_notification"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
@@ -30,8 +31,10 @@
         <result property="relation" column="relation"/>
         <result property="bedCode" column="bed_code"/>
         <result property="floorCode" column="floor_code"/>
-        <result property="allergy" column="allergy"/>
-        <result property="previousHistory" column="previous_history"/>
+        <result property="allergy" column="allergy"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+        <result property="previousHistory" column="previous_history"
+                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
         <result property="feesDueDate" column="fees_due_date"/>
         <result property="feesDueStatue" column="fees_due_statue"/>
         <result property="buildingCode" column="building_code"/>
