@@ -59,7 +59,8 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         criteria.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
         criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
         criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
-        criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        if( busHospitalRecord.getBedCode()!=null){
+        criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());}
         criteria.andEqualTo("isDel", 0);
         criteria.andEqualTo("useFlag", "1");
         SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example);
@@ -125,7 +126,8 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         criteria1.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
         criteria1.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
         criteria1.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
-        criteria1.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+        if( busHospitalRecord.getBedCode()!=null){
+            criteria1.andEqualTo("bedCode", busHospitalRecord.getBedCode());}
         criteria1.andEqualTo("isDel", 0);
         criteria1.andEqualTo("useFlag", "1");
         SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example1);
@@ -149,7 +151,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             criteria.andEqualTo("buildingCode", busHospitalRecord.getBuildingCode());
             criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
             criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
-            criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
+            if(busHospitalRecord1.getBedCode()!=null){
+                criteria.andEqualTo("bedCode", busHospitalRecord1.getBedCode());
+            }
             criteria.andEqualTo("isDel", 0);
             criteria.andEqualTo("useFlag", "1");
             SysBedInfo sysBedInfo = sysBedInfoMapper.selectOneByExample(example);
@@ -164,7 +168,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             criteria1.andEqualTo("buildingCode", busHospitalRecord1.getBuildingCode());
             criteria1.andEqualTo("floorCode", busHospitalRecord1.getFloorCode());
             criteria1.andEqualTo("roomCode", busHospitalRecord1.getRoomCode());
+            if(busHospitalRecord1.getBedCode()!=null){
             criteria1.andEqualTo("bedCode", busHospitalRecord1.getBedCode());
+            }
             criteria1.andEqualTo("isDel", 0);
             criteria1.andEqualTo("useFlag", "1");
             SysBedInfo sysBedInfo1 = sysBedInfoMapper.selectOneByExample(example1);
