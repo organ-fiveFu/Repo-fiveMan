@@ -32,16 +32,10 @@ public class BusExamArchiveQueryVO {
     private String education;
 
     @ApiModelProperty(value = "既往病史编码")
-    private String medicalHistoryCode;
+    private List<String> medicalHistoryCode;
 
     @ApiModelProperty(value = "既往病史名称")
-    private String medicalHistoryName;
-
-    @ApiModelProperty(value = "既往病史编码集合")
-    private List<String> medicalHistoryCodeList;
-
-    @ApiModelProperty(value = "既往病史名称集合")
-    private List<String> medicalHistoryNameList;
+    private List<String> medicalHistoryName;
 
     @ApiModelProperty(value = "备注")
     private String remark;

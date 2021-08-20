@@ -32,8 +32,8 @@ public class BusExamArchiveUpdatePO {
     @ApiModelProperty(value = "受教育程度", name = "education")
     private String education;
 
-    @ApiModelProperty(value = "既往病史编码集合", name = "medicalHistoryCodeList")
-    private List<String> medicalHistoryCodeList;
+    @ApiModelProperty(value = "既往病史编码集合", name = "medicalHistoryCode")
+    private List<String> medicalHistoryCode;
 
     @ApiModelProperty(value = "备注", name = "remark")
     private String remark;
@@ -50,6 +50,6 @@ public class BusExamArchiveUpdatePO {
     @ApiModelProperty(value = "老人档案id", name = "archiveId")
     private Long archiveId;
 
-    @ApiModelProperty(value = "既往病史名称集合", name = "medicalHistoryNameList")
-    private List<String> medicalHistoryNameList;
+    @ApiModelProperty(value = "既往病史名称集合", name = "medicalHistoryName")
+    private List<String> medicalHistoryName;
 }

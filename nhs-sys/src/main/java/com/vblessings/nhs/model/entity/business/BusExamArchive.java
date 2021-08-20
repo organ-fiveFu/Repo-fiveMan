@@ -1,13 +1,16 @@
 package com.vblessings.nhs.model.entity.business;
 
+import com.vblessings.nhs.model.typehandler.ListStringHandler;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table(name = "bus_exam_archive")
@@ -68,7 +71,8 @@ public class BusExamArchive implements Serializable {
      */
     @ApiModelProperty(value = "既往病史编码", required = false)
     @Column(name = "medical_history_code")
-    private String medicalHistoryCode;
+    @ColumnType(typeHandler = ListStringHandler.class)
+    private List<String> medicalHistoryCode;
 
     /**
      * 备注
@@ -139,6 +143,7 @@ public class BusExamArchive implements Serializable {
 
     @ApiModelProperty(value = "既往病史名称", required = false)
     @Column(name = "medical_history_name")
-    private String medicalHistoryName;
+    @ColumnType(typeHandler = ListStringHandler.class)
+    private List<String> medicalHistoryName;
 
 }

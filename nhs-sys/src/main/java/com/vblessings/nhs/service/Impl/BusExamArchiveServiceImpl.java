@@ -78,12 +78,6 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         Long id = snowflakeComponent.getInstance().nextId();
         //新增体检登记主表数据
         OperateUtil.onSaveNew(busExamArchive,userInfo,id);
-        if(CollectionUtil.isNotEmpty(examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList())){
-            busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryCodeList()));
-        }
-        if(CollectionUtil.isNotEmpty(examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList())){
-            busExamArchive.setMedicalHistoryName(String.join(",", examArchiveInsertPO.getBusExamArchiveInsertPO().getMedicalHistoryNameList()));
-        }
         log.info("新增体检登记主表数据,入参busExamArchive:" + busExamArchive);
         try {
             busExamArchiveMapper.insertSelective(busExamArchive);
@@ -175,10 +169,6 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         //赋值主表
         BusExamArchiveQueryVO busExamArchiveQueryVO = new BusExamArchiveQueryVO();
         BeanUtils.copyProperties(busExamArchive, busExamArchiveQueryVO);
-        busExamArchiveQueryVO.setMedicalHistoryCodeList(Arrays.asList(busExamArchiveQueryVO.getMedicalHistoryCode().split(",")));
-        if(!StringUtils.isEmpty(busExamArchiveQueryVO.getMedicalHistoryName())){
-            busExamArchiveQueryVO.setMedicalHistoryNameList(Arrays.asList(busExamArchiveQueryVO.getMedicalHistoryName().split(",")));
-        }
         String signTime = null == busExamArchive.getSignTime() ? "" :
                 DateFormatUtils.format(busExamArchive.getSignTime(), "yyyy-MM-dd HH:mm:ss");
         busExamArchiveQueryVO.setSignTime(signTime);
@@ -264,10 +254,6 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
 
         busExamArchive.setUpdaterId(userInfoToken.getUserId());
         busExamArchive.setUpdateTime(new Date());
-        busExamArchive.setMedicalHistoryCode(String.join(",", examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryCodeList()));
-        if(CollectionUtil.isNotEmpty(examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryNameList())){
-            busExamArchive.setMedicalHistoryName(String.join(",", examArchiveUpdatePO.getBusExamArchiveUpdatePO().getMedicalHistoryNameList()));
-        }
         log.info("更新体检登记主表数据,入参busExamArchive:" + busExamArchive);
         try {
             busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
