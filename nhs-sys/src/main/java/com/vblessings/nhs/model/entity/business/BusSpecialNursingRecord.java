@@ -1,11 +1,15 @@
 package com.vblessings.nhs.model.entity.business;
 
+import com.vblessings.nhs.model.typehandler.ListStringHandler;
 import lombok.Data;
 import sun.awt.SunHints;
 import io.swagger.annotations.ApiModelProperty;
+import tk.mybatis.mapper.annotation.ColumnType;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Data
@@ -88,14 +92,14 @@ public class BusSpecialNursingRecord implements Serializable {
      */
     @ApiModelProperty(value = "出量", required = false)
     @Column(name = "output")
-    private BigDecimal output;
+    private String output;
 
     /**
      * 入量
      */
     @ApiModelProperty(value = "入量", required = false)
     @Column(name = "input")
-    private BigDecimal input;
+    private String input;
 
     /**
      * 精神状态和其他
@@ -116,7 +120,8 @@ public class BusSpecialNursingRecord implements Serializable {
      */
     @ApiModelProperty(value = "医院诊断", required = false)
     @Column(name = "hospital_diagnosis")
-    private String hospitalDiagnosis;
+    @ColumnType(typeHandler = ListStringHandler.class)
+    private List<String> hospitalDiagnosis;
 
     /**
      * 创建人

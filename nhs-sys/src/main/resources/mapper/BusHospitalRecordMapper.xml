@@ -41,6 +41,10 @@
         <result property="roomCode" column="room_code"/>
         <result property="peopleFrom" column="people_from"/>
         <result property="peopleTo" column="people_to"/>
+        <result property="roomName" column="room_name"/>
+        <result property="buildingName" column="building_name"/>
+        <result property="bedName" column="bed_name"/>
+        <result property="floorName" column="floor_name"/>
     </resultMap>
     <update id="out">
     update bus_hospital_record
