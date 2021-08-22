@@ -128,9 +128,6 @@ public class SysEmployeeInfo implements Serializable {
     private Integer useFlag;
 
 
-    @ApiModelProperty(value="是否为管理员 0:不是 1:是")
-    @Column(name = "is_administrator")
-    private Integer isAdministrator;
 
 
 }

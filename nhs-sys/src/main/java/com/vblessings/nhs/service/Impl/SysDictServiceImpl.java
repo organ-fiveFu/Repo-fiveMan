@@ -2,6 +2,7 @@ package com.vblessings.nhs.service.Impl;
 
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.SysDictDataMapper;
 import com.vblessings.nhs.mapper.SysDictTypeMapper;
 import com.vblessings.nhs.model.entity.sys.SysDictData;
@@ -42,7 +43,7 @@ public class SysDictServiceImpl implements SysDictService {
         List<String> codes = sysDictTypeList.stream().map(SysDictType::getDictTypeCode).collect(Collectors.toList());
         if(codes!=null && !codes.isEmpty()){
             if(codes.contains(sysDictType.getDictTypeCode())){
-                throw new MyException("code已重复");
+                throw ResponseEnum.CODE_ALREADY_EXISTS.newException("code已重复");
             }
         }
         OperateUtil.onSaveNew(sysDictType,userInfo,id);
@@ -102,7 +103,7 @@ public class SysDictServiceImpl implements SysDictService {
             List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
             List<String> dictDataList = sysDictDataList.stream().map(SysDictData::getDictCode).collect(Collectors.toList());
             if(dictDataList!=null && !dictDataList.isEmpty()){
-                throw new MyException("该字典类型下存在明细不可删除");
+                throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该字典类型下存在明细不可删除");
             }
             sysDictTypeMapper.delByTypeCode(typeCode);
         }

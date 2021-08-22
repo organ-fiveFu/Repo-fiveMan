@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.SysEmployeeInfoMapper;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
 import com.vblessings.nhs.model.po.QueryEmployeePO;
@@ -59,7 +60,7 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
         List<String> codes = sysEmployeeInfoMapper.selectAllCode();
         if(codes!=null && !codes.isEmpty()){
             if(codes.contains(sysEmployeeInfo.getEmployeeCode())){
-                throw new MyException("code已重复,不可增加此员工");
+                throw ResponseEnum.CODE_ALREADY_EXISTS.newException("code已重复,不可增加此员工");
             }
         }
         OperateUtil.onSaveNew(sysEmployeeInfo,userInfo,id);

@@ -66,7 +66,7 @@ public class CareServiceImpl implements CareService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
         if(keyWordPO.getKeyWord()!=null){
-            if(StringUtil.isChinese(keyWordPO.getKeyWord())){
+            if(StringUtil.isChinese(keyWordPO.getKeyWord())|| StringUtil.isEnglish(keyWordPO.getKeyWord())){
                 criteria.andLike("name","%"+keyWordPO.getKeyWord()+"%");
             }
             //如果是数字说明查code
@@ -74,6 +74,7 @@ public class CareServiceImpl implements CareService {
                 criteria.andEqualTo("careCode",keyWordPO.getKeyWord());
             }
         }
+
         List<SysCarerInfo> sysCarerInfoList = careMapper.selectByExample(example);
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), sysCarerInfoList);
 

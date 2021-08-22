@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.SysDictDataMapper;
 import com.vblessings.nhs.model.entity.sys.SysDictData;
 import com.vblessings.nhs.model.po.QueryDictPO;
@@ -41,7 +42,7 @@ public class SysDictDataServiceImpl implements SysDictDataService {
         List<String> dictCodeList = sysDictDataMapper.selectByTypeCode(sysDictData.getDictTypeCode());
         if(dictCodeList!=null && !dictCodeList.isEmpty()){
             if(dictCodeList.contains(sysDictData.getDictCode())){
-                throw new MyException("该字典明细code已存在");
+                throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该字典明细code已存在");
             }
         }
         OperateUtil.onSaveNew(sysDictData,userInfo,id);
