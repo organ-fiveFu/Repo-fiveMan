@@ -43,7 +43,7 @@
         select * from  bus_take_medicine_record
         <where>
             <if test="takeMedicineDate !=null">
-                date_format(take_medicine_date,'%Y-%m-%d ') = date_format(#{takeMedicineDate},'%Y-%m-%d')
+                date_format(take_medicine_date,'%Y-%m-%d') = date_format(#{takeMedicineDate},'%Y-%m-%d')
             </if>
             <if test="name !=null and name !=''">
                 and name like concat('%',#{name},'%')

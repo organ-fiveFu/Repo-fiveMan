@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service;
 
 import com.vblessings.nhs.model.po.business.*;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
@@ -17,4 +18,6 @@ public interface BusVitalSignRecordService {
     List<BusVitalSignRecordVO> batchQueryVitalSignRecord(QueryBatchVitalSignPO queryBatchVitalSignPO);
 
     void delVitalSignRecord(String ids);
+
+    PageVO<BusVitalSignRecordPO> pageVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO);
 }

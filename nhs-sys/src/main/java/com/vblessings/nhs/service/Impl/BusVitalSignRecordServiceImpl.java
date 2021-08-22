@@ -1,12 +1,16 @@
 package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusVitalSignRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
+import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusVitalSignRecord;
 import com.vblessings.nhs.model.po.business.*;
+import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusVitalSignRecordService;
@@ -116,5 +120,45 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
     public void delVitalSignRecord(String ids) {
         String[] id = ids.split(",");
         busVitalSignRecordMapper.batchDel(id);
+    }
+
+    @Override
+    public PageVO<BusVitalSignRecordPO> pageVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO) {
+        Page<BusVitalSignRecord> result = PageHelper.startPage(queryVitalSignPagePO.getPageNum(), queryVitalSignPagePO.getPageSize());
+        List<BusVitalSignRecordPO> busVitalSignRecordPOS = new ArrayList<>();
+        if (queryVitalSignPagePO.getId() != null) {
+            BusVitalSignRecord busVitalSignRecord = busVitalSignRecordMapper.selectByPrimaryKey(queryVitalSignPagePO.getId());
+            BusVitalSignRecordPO busVitalSignRecordPO = new BusVitalSignRecordPO();
+            BeanUtil.copyProperties(busVitalSignRecord, busVitalSignRecordPO);
+            busVitalSignRecordPO.setRecordTime(sdf.format(busVitalSignRecord.getRecordTime()));
+            busVitalSignRecordPOS.add(busVitalSignRecordPO);
+        } else {
+            Example example = new Example(BusVitalSignRecord.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("isDel", 0);
+            if (Strings.isNotBlank(queryVitalSignPagePO.getName())) {
+                criteria.andLike("name", "%" + queryVitalSignPagePO.getName() + "%");
+            }
+            if (Strings.isNotBlank(queryVitalSignPagePO.getBusinessNo())) {
+                criteria.andEqualTo("businessNo", queryVitalSignPagePO.getBusinessNo());
+            }
+            if (Strings.isNotBlank(queryVitalSignPagePO.getStartTime()) && Strings.isNotBlank(queryVitalSignPagePO.getEndTime())) {
+                try {
+                    Date start = sdf.parse(queryVitalSignPagePO.getStartTime());
+                    Date end = sdf.parse(queryVitalSignPagePO.getEndTime());
+                    criteria.andBetween("recordTime", start, end);
+                } catch (ParseException e) {
+                    throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
+                }
+            }
+            List<BusVitalSignRecord> busVitalSignRecords = busVitalSignRecordMapper.selectByExample(example);
+            busVitalSignRecords.forEach(busVitalSignRecord -> {
+                BusVitalSignRecordPO busVitalSignRecordPO = new BusVitalSignRecordPO();
+                BeanUtil.copyProperties(busVitalSignRecord, busVitalSignRecordPO);
+                busVitalSignRecordPO.setRecordTime(sdf.format(busVitalSignRecord.getRecordTime()));
+                busVitalSignRecordPOS.add(busVitalSignRecordPO);
+            });
+        }
+        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busVitalSignRecordPOS);
     }
 }

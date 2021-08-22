@@ -162,6 +162,16 @@ public class NursingManageController {
     }
 
     /**
+     * 分页查询三测单记录 ---- 作废
+     */
+    @ApiOperation("分页查询三测单记录")
+    @PostMapping("/pageVitalSignRecord")
+    public ResultBody<PageVO<BusVitalSignRecordPO>> pageVitalSignRecord(@RequestBody QueryVitalSignPagePO queryVitalSignPagePO){
+        log.info("queryVitalSignRecord, 入参： " + JSON.toJSONString(queryVitalSignPagePO));
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.pageVitalSignRecord(queryVitalSignPagePO));
+    }
+
+    /**
      * 批量插入——查询当前时间点三测单列表
      */
     @ApiOperation("批量插入——查询当前时间点三测单列表")

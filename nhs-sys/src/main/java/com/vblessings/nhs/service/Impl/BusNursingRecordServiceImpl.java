@@ -78,6 +78,9 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
             if (Strings.isNotBlank(queryNursingRecordPO.getName())) {
                 criteria.andLike("name", "%" + queryNursingRecordPO.getName() + "%");
             }
+            if (Strings.isNotBlank(queryNursingRecordPO.getBusinessNo())) {
+                criteria.andEqualTo("businessNo", queryNursingRecordPO.getBusinessNo());
+            }
             List<BusNursingRecord> busNursingRecords = busNursingRecordMapper.selectByExample(example);
             busNursingRecords.forEach(busNursingRecord -> {
                 BusNursingRecordPO busNursingRecordPO = new BusNursingRecordPO();
