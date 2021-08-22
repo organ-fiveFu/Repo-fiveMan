@@ -34,4 +34,7 @@ public class ContractQueryVO {
 
     @ApiModelProperty(value = "监护人签订时间", required = false)
     private String guardianTime;
+
+    @ApiModelProperty(value = "合同签订状态", required = false)
+    private String isSignContract;
 }
