@@ -115,6 +115,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         BusHospitalRecord busHospitalRecord = busHospitalRecordMapper.selectOneByExample(example2);
         busHospitalRecord.setBusinessNo(businessNo);
         busHospitalRecord.setDischargeTime(new Date());
+        busHospitalRecord.setUpdateTime(new Date());
         busHospitalRecord.setPeopleTo(to);
         busHospitalRecord.setStatus("1");
 

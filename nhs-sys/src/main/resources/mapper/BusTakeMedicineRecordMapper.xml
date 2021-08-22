@@ -12,7 +12,7 @@
         <result property="sex" column="sex"/>
         <result property="age" column="age"/>
         <result property="hospitalDiagnosis" column="hospital_diagnosis"
-                typeHandler="com.vblessings.nhs.model.typehandler.EvaluationContentHandler"/>
+                typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
         <result property="takeMedicineDate" column="take_medicine_date"/>
         <result property="drugName" column="drug_name"/>
         <result property="measure" column="measure"/>

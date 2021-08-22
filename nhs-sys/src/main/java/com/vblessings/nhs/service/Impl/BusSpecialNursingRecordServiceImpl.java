@@ -43,7 +43,7 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         List<BusSpecialNursingRecord> busSpecialNursingRecordList = new ArrayList<>();
 
         if(Strings.isNotBlank(querySpecialNursingPO.getName())){
-            criteria.andLike("name","%"+querySpecialNursingPO.getName()+"%");
+            criteria.andLike("patientName","%"+querySpecialNursingPO.getName()+"%");
            }
         if(Strings.isNotBlank(querySpecialNursingPO.getId())){
             criteria.andEqualTo("id",Long.parseLong(querySpecialNursingPO.getId()));
