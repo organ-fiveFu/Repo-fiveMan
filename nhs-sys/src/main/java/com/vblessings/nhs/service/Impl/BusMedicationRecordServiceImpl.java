@@ -43,7 +43,10 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
     public PageVO<BusMedicationRecord> pageMedicationRecord(QueryMedicineRecordPO queryMedicineRecordPO) {
         Page<BusMedicationRecord> result = PageHelper.startPage(queryMedicineRecordPO.getPageNum(), queryMedicineRecordPO.getPageSize());
         Example example = new Example(BusMedicationRecord.class);
-        example.createCriteria().andLike("name","%"+queryMedicineRecordPO.getName()+"%");
+        Example.Criteria C = example.createCriteria();
+        if(queryMedicineRecordPO.getName()!=null){
+        C.andLike("name","%"+queryMedicineRecordPO.getName()+"%");}
+        C.andEqualTo("isDel",0);
         List<BusMedicationRecord> busMedicationRecordList = busMedicationRecordMapper.selectByExample(example);
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busMedicationRecordList);
     }

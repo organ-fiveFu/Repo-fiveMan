@@ -18,6 +18,6 @@ public class BusHospitalRecordPO extends PageParam {
     private String bedCode;
 
 
-    private Integer statue;
+    private Integer status;
 
 }

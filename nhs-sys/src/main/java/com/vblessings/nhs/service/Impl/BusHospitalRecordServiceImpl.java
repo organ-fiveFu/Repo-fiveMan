@@ -102,7 +102,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         if (Strings.isNotBlank(busHospitalRecordPO.getBedCode())) {
             C.andEqualTo("bedCode", busHospitalRecordPO.getBedCode());
         }
-        C.andEqualTo("isDel", 0).andEqualTo("status", busHospitalRecordPO.getStatue());
+        C.andEqualTo("isDel", 0).andEqualTo("status", busHospitalRecordPO.getStatus());
         List<BusHospitalRecord> busHospitalRecords = busHospitalRecordMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(busHospitalRecords);
         return pageInfo;
