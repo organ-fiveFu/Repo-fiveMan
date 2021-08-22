@@ -7,6 +7,7 @@ import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.component.RedisCache;
 import com.vblessings.nhs.exception.MyException;
 import com.vblessings.nhs.model.entity.auth.SysUserLogin;
+import com.vblessings.nhs.model.po.UpdatePasswordPO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.LoginService;
 import com.vblessings.nhs.model.result.ResultBody;
@@ -69,13 +70,13 @@ public class LoginController {
 
     /**
      * 修改密码
-     * @param password
+     * @param
      * @return
      */
     @ApiOperation("修改密码")
     @PostMapping("/updatePassword")
-    public ResultBody updatePassword(String password,String employeeCode) {
-        return ResultBody.newSuccessInstance(loginService.updatePassword(password,employeeCode));
+    public ResultBody updatePassword(@RequestBody UpdatePasswordPO updatePasswordPO) {
+        return ResultBody.newSuccessInstance(loginService.updatePassword(updatePasswordPO.getPassword(),updatePasswordPO.getEmployeeCode()));
     }
 
     @ApiOperation("获取ip")
