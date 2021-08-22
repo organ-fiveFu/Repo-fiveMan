@@ -311,6 +311,7 @@ public class BedServiceImpl implements BedService {
         Example example = new Example(SysRoomInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel", 0);
+        criteria.andEqualTo("buildingCode", sysFloorInfo.getBuildingCode());
         criteria.andEqualTo("floorCode", sysFloorInfo.getFloorCode());
         int count = sysRoomInfoMapper.selectCountByExample(example);
         if(count > 0){
@@ -760,7 +761,6 @@ public class BedServiceImpl implements BedService {
         Example example = new Example(SysBedInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel", 0);
-        criteria.andEqualTo("status", "0");
         criteria.andEqualTo("useFlag", 1);
         if(Strings.isNotBlank(sysBedInfoAllQueryPO.getKeyWords())){
             Example.Criteria criteria1 = example.createCriteria();
@@ -784,6 +784,7 @@ public class BedServiceImpl implements BedService {
             sysBedInfoAllQueryVO.setRoomName(sysBedInfo.getRoomName());
             sysBedInfoAllQueryVO.setBedCode(sysBedInfo.getBedCode());
             sysBedInfoAllQueryVO.setBedName(sysBedInfo.getName());
+            sysBedInfoAllQueryVO.setStatus(sysBedInfo.getStatus());
             sysBedInfoAllQueryVO.setName(sysBedInfoAllQueryVO.getBuildingName() + sysBedInfoAllQueryVO.getFloorName() + sysBedInfoAllQueryVO.getRoomName() + sysBedInfoAllQueryVO.getBedName());
             sysBedInfoAllQueryVOList.add(sysBedInfoAllQueryVO);
         }

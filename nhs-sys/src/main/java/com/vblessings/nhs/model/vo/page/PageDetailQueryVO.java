@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @ApiModel(value = "首页查询详情出参")
 public class PageDetailQueryVO {
@@ -66,13 +68,13 @@ public class PageDetailQueryVO {
     private String admissionTime;
 
     @ApiModelProperty(value = "入院诊断")
-    private String hospitalDiagnosis;
+    private List<String> hospitalDiagnosis;
 
     @ApiModelProperty(value = "监护人联系电话")
     private String contactNumber;
 
     @ApiModelProperty(value = "过敏史")
-    private String allergy;
+    private List<String> allergy;
 
     @ApiModelProperty(value = "费用到期标志(0:未到期)")
     private Integer feesDueStatue = 0;

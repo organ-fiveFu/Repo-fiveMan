@@ -137,15 +137,13 @@ public class PageServiceImpl implements PageService {
         Map<String, List<PageRoomQueryVO>> map = pageRoomQueryVOList.stream().collect(Collectors.groupingBy(PageRoomQueryVO::getFloorCode));
         Map<String, List<PageDetailQueryVO>> roomMap = pageDetailQueryVOList.stream().collect(Collectors.groupingBy(PageDetailQueryVO::getRoomCode));
         //字典code -> name
-        List<String> roomTypeNameList = new ArrayList<>();
         List<String> nursingLevelNameList = new ArrayList<>();
         List<String> sexNameList = new ArrayList<>();
         for (PageDetailQueryVO detailQueryVO : pageDetailQueryVOList) {
-            roomTypeNameList.add(detailQueryVO.getRoomType());
             nursingLevelNameList.add(detailQueryVO.getNursingLevel());
             sexNameList.add(detailQueryVO.getSex());
         }
-        Map<String, String> roomTypeNameMap = sysDictDataService.getDictName(DictTypeEnum.ROOM_TYPE.getCode(), roomTypeNameList);
+        Map<String, String> roomTypeNameMap = sysDictDataService.getDictName(DictTypeEnum.ROOM_TYPE.getCode(), null);
         Map<String, String> nursingLevelNameMap = sysDictDataService.getDictName(DictTypeEnum.NURSING_LEVEL.getCode(), nursingLevelNameList);
         Map<String, String> sexNameMap = sysDictDataService.getDictName(DictTypeEnum.SEX.getCode(), sexNameList);
         pageDetailQueryVOList.forEach(pageDetailQueryVO -> {
