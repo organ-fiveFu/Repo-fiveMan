@@ -98,7 +98,7 @@ public class SysDictServiceImpl implements SysDictService {
                 result) {
             Example example = new Example(SysDictData.class);
             example.selectProperties("dictCode");
-            example.createCriteria().andEqualTo("dictTypeCode",typeCode);
+            example.createCriteria().andEqualTo("dictTypeCode",typeCode).andEqualTo("isDel",0);
 
             List<SysDictData> sysDictDataList = sysDictDataMapper.selectByExample(example);
             List<String> dictDataList = sysDictDataList.stream().map(SysDictData::getDictCode).collect(Collectors.toList());
