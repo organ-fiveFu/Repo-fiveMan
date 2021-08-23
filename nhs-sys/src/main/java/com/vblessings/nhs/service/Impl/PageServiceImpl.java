@@ -66,7 +66,7 @@ public class PageServiceImpl implements PageService {
         criteria.andEqualTo("useFlag", 1);
         int bedNum = sysBedInfoMapper.selectCountByExample(example);
         //空闲
-        criteria.andEqualTo("status", "0001");
+        criteria.andEqualTo("status", "0");
         int freeBedNum = sysBedInfoMapper.selectCountByExample(example);
         //入住
         int checkInBedNum = 0;
@@ -132,7 +132,7 @@ public class PageServiceImpl implements PageService {
             pageRoomQueryVO.setRoomType(sysRoomInfo.getRoomType());
             pageRoomQueryVOList.add(pageRoomQueryVO);
         });
-        List<String> roomCodeList = sysRoomInfoList.stream().map(SysRoomInfo::getFloorCode).collect(Collectors.toList());
+        List<String> roomCodeList = sysRoomInfoList.stream().map(SysRoomInfo::getRoomCode).collect(Collectors.toList());
         List<PageDetailQueryVO> pageDetailQueryVOList = sysBedInfoMapper.queryPatient(pageQueryPO.getBuildingCode(), floorCodeList, roomCodeList);
         Map<String, List<PageRoomQueryVO>> map = pageRoomQueryVOList.stream().collect(Collectors.groupingBy(PageRoomQueryVO::getFloorCode));
         Map<String, List<PageDetailQueryVO>> roomMap = pageDetailQueryVOList.stream().collect(Collectors.groupingBy(PageDetailQueryVO::getRoomCode));

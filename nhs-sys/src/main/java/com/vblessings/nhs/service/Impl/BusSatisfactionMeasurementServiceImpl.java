@@ -28,11 +28,12 @@ public class BusSatisfactionMeasurementServiceImpl implements BusSatisfactionMea
         if(b!= null && b.size()>=1){
             throw new MyException("今天已评价，不可重复提交");
         }
-            Long id = snowflakeComponent.getInstance().nextId();
-            busSatisfactionMeasurement.setId(id);
-            busSatisfactionMeasurement.setCreateTime(new Date());
-            busSatisfactionMeasurement.setUpdateTime(new Date());
-            busSatisfactionMeasurementMapper.insert(busSatisfactionMeasurement);
+        Long id = snowflakeComponent.getInstance().nextId();
+        busSatisfactionMeasurement.setId(id);
+        busSatisfactionMeasurement.setCreateTime(new Date());
+        busSatisfactionMeasurement.setUpdateTime(new Date());
+        busSatisfactionMeasurement.setIsDel(0);
+        busSatisfactionMeasurementMapper.insert(busSatisfactionMeasurement);
     }
 
     @Override

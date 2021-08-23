@@ -26,56 +26,56 @@ public class BusSatisfactionMeasurement implements Serializable {
      */
     @ApiModelProperty(value = "生活环境测评", required = false)
     @Column(name = "environment")
-    private Integer environment;
+    private String environment;
 
     /**
      * 护理质量测评
      */
     @ApiModelProperty(value = "护理质量测评", required = false)
     @Column(name = "care_quality")
-    private Integer careQuality;
+    private String careQuality;
 
     /**
      * 客服人员测评
      */
     @ApiModelProperty(value = "客服人员测评", required = false)
     @Column(name = "customer_service")
-    private Integer customerService;
+    private String customerService;
 
     /**
      * 医疗服务测评
      */
     @ApiModelProperty(value = "医疗服务测评", required = false)
     @Column(name = "medical_service")
-    private Integer medicalService;
+    private String medicalService;
 
     /**
      * 文娱活动测评
      */
     @ApiModelProperty(value = "文娱活动测评", required = false)
     @Column(name = "recreational_activity")
-    private Integer recreationalActivity;
+    private String recreationalActivity;
 
     /**
      * 饮食测评
      */
     @ApiModelProperty(value = "饮食测评", required = false)
     @Column(name = "diet")
-    private Integer diet;
+    private String diet;
 
     /**
      * 事务处理测评
      */
     @ApiModelProperty(value = "事务处理测评", required = false)
     @Column(name = "deal")
-    private Integer deal;
+    private String deal;
 
     /**
      * 综合服务测评
      */
     @ApiModelProperty(value = "综合服务测评", required = false)
     @Column(name = "synthetic_service")
-    private Integer syntheticService;
+    private String syntheticService;
 
     /**
      * 建议
@@ -89,7 +89,7 @@ public class BusSatisfactionMeasurement implements Serializable {
      */
     @ApiModelProperty(value = "总计", required = false)
     @Column(name = "total")
-    private Integer total;
+    private String total;
 
     /**
      * 创建人

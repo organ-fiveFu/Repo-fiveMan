@@ -6,6 +6,7 @@ import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.component.RedisCache;
 import com.vblessings.nhs.exception.MyException;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.model.entity.auth.SysUserLogin;
 import com.vblessings.nhs.model.po.UpdatePasswordPO;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -58,7 +59,7 @@ public class LoginController {
     @PostMapping("/loginOut")
     public ResultBody loginOut(@ApiIgnore @CurrentUser UserInfoToken userInfo){
         if (StrUtil.isAllBlank(userInfo.getToken())) {
-            throw new MyException("未获取到token");
+            throw ResponseEnum.TOKEN_FAILE_GET_INFO.newException("token获取信息失败，该用户已登出或过期，请重新登录");
         }
         UserInfoToken userInfoToken = redisCache.getCacheObject(userInfo.getToken());
             if (userInfoToken!=null){

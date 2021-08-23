@@ -49,8 +49,8 @@ public class DictDataController {
 
     @ApiOperation("根据字典code删除字典")
     @GetMapping("/del")
-    public ResultBody del(String dictCodes) {
-        sysDictDataService.del(dictCodes);
+    public ResultBody del(String dictCodes,String typeCode) {
+        sysDictDataService.del(dictCodes,typeCode);
         return ResultBody.newSuccessInstance();
     }
 
