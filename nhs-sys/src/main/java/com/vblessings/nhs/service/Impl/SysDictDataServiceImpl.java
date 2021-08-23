@@ -20,10 +20,7 @@ import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -90,9 +87,15 @@ public class SysDictDataServiceImpl implements SysDictDataService {
     }
 
     @Override
-    public void del(String dictCodes) {
-        String[] code = dictCodes.split(",");
-        sysDictDataMapper.updateIsDel(code);
+    public void del(String dictCodes, String typeCode) {
+        List<String> code = Arrays.asList(dictCodes.split(","));
+        SysDictData sysDictData = new SysDictData();
+        sysDictData.setIsDel(1);
+        Example example = new Example(SysDictData.class);
+        Example.Criteria C = example.createCriteria();
+        C.andEqualTo("dictTypeCode",typeCode);
+        C.andIn("dictCode",code);
+        sysDictDataMapper.updateByExampleSelective(sysDictData,example);
     }
 
     @Override
