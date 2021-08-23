@@ -101,6 +101,15 @@ public class NursingManageController {
     }
 
     /**
+     * 根据时间点查询护理记录
+     */
+    @ApiOperation("根据时间点查询护理记录")
+    @PostMapping("/nursingRecordByTimePoint")
+    public ResultBody<BusNursingRecordPO> nursingRecordByTimePoint(@RequestBody QueryNursingRecordByTimePO queryNursingRecordByTimePO){
+        return ResultBody.newSuccessInstance(busNursingRecordService.nursingRecordByTimePoint(queryNursingRecordByTimePO));
+    }
+
+    /**
      * 更新护理记录
      */
     @ApiOperation("更新护理记录")
