@@ -53,17 +53,19 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         List<BusLeaveApplication> busLeaveApplicationList = busLeaveApplicationMapper.selectByExample(example);
         if(CollectionUtil.isNotEmpty(busLeaveApplicationList)){
             busLeaveApplicationList.forEach(busLeaveApplication -> {
-                //判断病人请假开始时间是否在历史数据里的时间段内
-                DateTime startTime = DateUtil.date(busLeaveApplication.getLeaveStartTime());
-                DateTime endTime = DateUtil.date(busLeaveApplication.getLeaveEndTime());
-                DateTime start = DateUtil.date(leaveApplicationInsertPO.getLeaveStartTime());
-                DateTime end = DateUtil.date(leaveApplicationInsertPO.getLeaveEndTime());
-                if (DateUtil.isIn(start, startTime, endTime)) {
-                    throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人请假开始时间在历史数据的开始时间和结束时间的时间段里，无法新增");
-                }
-                //判断病人请假结束时间是否在历史数据里的时间段内
-                if(DateUtil.isIn(end, startTime, endTime)){
-                    throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人请假结束时间在历史数据的开始时间和结束时间的时间段里，无法新增");
+                if(!StringUtils.isEmpty(busLeaveApplication.getLeaveStartTime()) && !StringUtils.isEmpty(busLeaveApplication.getLeaveEndTime())){
+                    //判断病人请假开始时间是否在历史数据里的时间段内
+                    DateTime startTime = DateUtil.date(busLeaveApplication.getLeaveStartTime());
+                    DateTime endTime = DateUtil.date(busLeaveApplication.getLeaveEndTime());
+                    DateTime start = DateUtil.date(leaveApplicationInsertPO.getLeaveStartTime());
+                    DateTime end = DateUtil.date(leaveApplicationInsertPO.getLeaveEndTime());
+                    if (DateUtil.isIn(start, startTime, endTime)) {
+                        throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人请假开始时间在历史数据的开始时间和结束时间的时间段里，无法新增");
+                    }
+                    //判断病人请假结束时间是否在历史数据里的时间段内
+                    if(DateUtil.isIn(end, startTime, endTime)){
+                        throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该病人请假结束时间在历史数据的开始时间和结束时间的时间段里，无法新增");
+                    }
                 }
             });
         }

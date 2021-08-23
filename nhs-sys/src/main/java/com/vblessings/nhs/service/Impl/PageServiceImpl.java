@@ -66,7 +66,7 @@ public class PageServiceImpl implements PageService {
         criteria.andEqualTo("useFlag", 1);
         int bedNum = sysBedInfoMapper.selectCountByExample(example);
         //空闲
-        criteria.andEqualTo("status", "0001");
+        criteria.andEqualTo("status", "0");
         int freeBedNum = sysBedInfoMapper.selectCountByExample(example);
         //入住
         int checkInBedNum = 0;

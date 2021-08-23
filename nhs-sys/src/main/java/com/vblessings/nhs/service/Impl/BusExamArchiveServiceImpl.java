@@ -238,69 +238,112 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
     public boolean update(ExamArchiveUpdatePO examArchiveUpdatePO, UserInfoToken userInfoToken) {
         //主表相关数据
         BusExamArchive busExamArchive = new BusExamArchive();
-        //从表相关数据
-        BusExamEntArchive busExamEntArchive = new BusExamEntArchive();
-        BusExamEyesArchive busExamEyesArchive = new BusExamEyesArchive();
-        BusExamInternalArchive busExamInternalArchive = new BusExamInternalArchive();
-        BusExamOtherArchive busExamOtherArchive = new BusExamOtherArchive();
-        BusExamSurgicalArchive busExamSurgicalArchive = new BusExamSurgicalArchive();
-
         BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamArchiveUpdatePO(),busExamArchive);
-        BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEntArchiveUpdatePO(),busExamEntArchive);
-        BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEyesArchiveUpdatePO(),busExamEyesArchive);
-        BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamInternalArchiveUpdatePO(),busExamInternalArchive);
-        BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamOtherArchiveUpdatePO(),busExamOtherArchive);
-        BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamSurgicalArchiveUpdatePO(),busExamSurgicalArchive);
+        //五官科
+        Example example1 = new Example(BusExamEntArchive.class);
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("examId", busExamArchive.getArchiveId());
+        BusExamEntArchive busExamEntArchive = busExamEntArchiveMapper.selectOneByExample(example1);
+        BusExamEntArchive busExamEntArchive1 = new BusExamEntArchive();
+        if(!StringUtils.isEmpty(busExamEntArchive)){
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEntArchiveUpdatePO(),busExamEntArchive);
+        }else {
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamArchiveUpdatePO(),busExamEntArchive1);
+            busExamEntArchive1.setId(snowflakeComponent.getInstance().nextId());
+            busExamEntArchive1.setExamId(busExamArchive.getArchiveId());
+        }
+        //眼科
+        Example example2 = new Example(BusExamEyesArchive.class);
+        Example.Criteria criteria2 = example2.createCriteria();
+        criteria2.andEqualTo("examId", busExamArchive.getArchiveId());
+        BusExamEyesArchive busExamEyesArchive = busExamEyesArchiveMapper.selectOneByExample(example2);
+        BusExamEyesArchive busExamEyesArchive1 = new BusExamEyesArchive();
+        if(!StringUtils.isEmpty(busExamEyesArchive)){
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEyesArchiveUpdatePO(),busExamEyesArchive);
+        }else {
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEyesArchiveUpdatePO(),busExamEyesArchive1);
+            busExamEyesArchive1.setId(snowflakeComponent.getInstance().nextId());
+            busExamEyesArchive1.setExamId(busExamArchive.getArchiveId());
+        }
+        //内科
+        Example example3 = new Example(BusExamInternalArchive.class);
+        Example.Criteria criteria3 = example3.createCriteria();
+        criteria3.andEqualTo("examId", busExamArchive.getArchiveId());
+        BusExamInternalArchive busExamInternalArchive = busExamInternalArchiveMapper.selectOneByExample(example3);
+        BusExamInternalArchive busExamInternalArchive1 = new BusExamInternalArchive();
+        if(!StringUtils.isEmpty(busExamInternalArchive)){
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamInternalArchiveUpdatePO(),busExamInternalArchive);
+        }else {
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamInternalArchiveUpdatePO(),busExamInternalArchive1);
+            busExamInternalArchive1.setId(snowflakeComponent.getInstance().nextId());
+            busExamInternalArchive1.setExamId(busExamArchive.getArchiveId());
+        }
+        //其他科
+        Example example4 = new Example(BusExamOtherArchive.class);
+        Example.Criteria criteria4 = example4.createCriteria();
+        criteria4.andEqualTo("examId", busExamArchive.getArchiveId());
+        BusExamOtherArchive busExamOtherArchive = busExamOtherArchiveMapper.selectOneByExample(example4);
+        BusExamOtherArchive busExamOtherArchive1 = new BusExamOtherArchive();
+        if(!StringUtils.isEmpty(busExamOtherArchive)){
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamOtherArchiveUpdatePO(),busExamOtherArchive);
+        }else {
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamOtherArchiveUpdatePO(),busExamOtherArchive1);
+            busExamOtherArchive1.setId(snowflakeComponent.getInstance().nextId());
+            busExamOtherArchive1.setExamId(busExamArchive.getArchiveId());
+        }
+        //外科
+        Example example5 = new Example(BusExamSurgicalArchive.class);
+        Example.Criteria criteria5 = example5.createCriteria();
+        criteria5.andEqualTo("examId", busExamArchive.getArchiveId());
+        BusExamSurgicalArchive busExamSurgicalArchive = busExamSurgicalArchiveMapper.selectOneByExample(example5);
+        BusExamSurgicalArchive busExamSurgicalArchive1 = new BusExamSurgicalArchive();
+        if(!StringUtils.isEmpty(busExamSurgicalArchive)){
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamSurgicalArchiveUpdatePO(),busExamSurgicalArchive);
+        }else {
+            BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamSurgicalArchiveUpdatePO(),busExamSurgicalArchive1);
+            busExamSurgicalArchive1.setId(snowflakeComponent.getInstance().nextId());
+            busExamSurgicalArchive1.setExamId(busExamArchive.getArchiveId());
+        }
 
         busExamArchive.setUpdaterId(userInfoToken.getUserId());
         busExamArchive.setUpdateTime(new Date());
         log.info("更新体检登记主表数据,入参busExamArchive:" + busExamArchive);
-        try {
-            busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
-        }catch (Exception e){
-            log.error("更新体检登记主表数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记主表数据失败");
-        }
+        busExamArchiveMapper.updateByPrimaryKeySelective(busExamArchive);
 
         //更新从表数据
-        log.info("更新体检登记-五官科数据,入参busExamEntArchive:" + busExamEntArchive);
-        try {
+        if(!StringUtils.isEmpty(busExamEntArchive)){
             busExamEntArchiveMapper.updateByPrimaryKeySelective(busExamEntArchive);
-        }catch (Exception e){
-            log.error("更新体检登记-五官科数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-五官科数据失败");
+        }
+        if(!StringUtils.isEmpty(busExamEntArchive1)){
+            busExamEntArchiveMapper.insertSelective(busExamEntArchive1);
         }
 
-        log.info("更新体检登记-眼科数据,入参busExamEyesArchive:" + busExamEyesArchive);
-        try {
+        if(!StringUtils.isEmpty(busExamEyesArchive)){
             busExamEyesArchiveMapper.updateByPrimaryKeySelective(busExamEyesArchive);
-        }catch (Exception e){
-            log.error("更新体检登记-眼科数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-眼科数据失败");
+        }
+        if(!StringUtils.isEmpty(busExamEyesArchive1)){
+            busExamEyesArchiveMapper.insertSelective(busExamEyesArchive1);
         }
 
-        log.info("更新体检登记-内科数据,入参busExamInternalArchive:" + busExamInternalArchive);
-        try {
+        if(!StringUtils.isEmpty(busExamInternalArchive)){
             busExamInternalArchiveMapper.updateByPrimaryKeySelective(busExamInternalArchive);
-        }catch (Exception e){
-            log.error("更新体检登记-内科数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-内科数据失败");
+        }
+        if(!StringUtils.isEmpty(busExamInternalArchive1)){
+            busExamInternalArchiveMapper.insertSelective(busExamInternalArchive1);
         }
 
-        log.info("更新体检登记-外科数据,入参busExamSurgicalArchive:" + busExamSurgicalArchive);
-        try {
+        if(!StringUtils.isEmpty(busExamSurgicalArchive)){
             busExamSurgicalArchiveMapper.updateByPrimaryKeySelective(busExamSurgicalArchive);
-        }catch (Exception e){
-            log.error("更新体检登记-外科数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-外科数据失败");
+        }
+        if(!StringUtils.isEmpty(busExamSurgicalArchive1)){
+            busExamSurgicalArchiveMapper.insertSelective(busExamSurgicalArchive1);
         }
 
-        log.info("更新体检登记-其他检查数据,入参busExamOtherArchive:" + busExamOtherArchive);
-        try {
+        if(!StringUtils.isEmpty(busExamOtherArchive)){
             busExamOtherArchiveMapper.updateByPrimaryKeySelective(busExamOtherArchive);
-        }catch (Exception e){
-            log.error("更新体检登记-其他检查数据失败");
-            throw ResponseEnum.FILE_UPDATE_FAIL.newException("更新体检登记-其他检查数据失败");
+        }
+        if(!StringUtils.isEmpty(busExamOtherArchive1)){
+            busExamOtherArchiveMapper.insertSelective(busExamOtherArchive1);
         }
         return true;
     }
@@ -333,6 +376,44 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }catch (Exception e){
             log.error("删除体检档案数据失败");
             throw ResponseEnum.FILE_DELETE_FAIL.newException("删除体检档案数据失败");
+        }
+        //删除从表
+        if(!StringUtils.isEmpty(busExamArchive)){
+            Example example1 = new Example(BusExamEntArchive.class);
+            Example.Criteria criteria1 = example1.createCriteria();
+            criteria1.andEqualTo("examId", busExamArchive.getArchiveId());
+            BusExamEntArchive busExamEntArchive = busExamEntArchiveMapper.selectOneByExample(example1);
+            if(!StringUtils.isEmpty(busExamEntArchive)){
+                busExamEntArchiveMapper.delete(busExamEntArchive);
+            }
+            Example example2 = new Example(BusExamEyesArchive.class);
+            Example.Criteria criteria2 = example2.createCriteria();
+            criteria2.andEqualTo("examId", busExamArchive.getArchiveId());
+            BusExamEyesArchive busExamEyesArchive = busExamEyesArchiveMapper.selectOneByExample(example2);
+            if(!StringUtils.isEmpty(busExamEyesArchive)){
+                busExamEyesArchiveMapper.delete(busExamEyesArchive);
+            }
+            Example example3 = new Example(BusExamInternalArchive.class);
+            Example.Criteria criteria3 = example3.createCriteria();
+            criteria3.andEqualTo("examId", busExamArchive.getArchiveId());
+            BusExamInternalArchive busExamInternalArchive = busExamInternalArchiveMapper.selectOneByExample(example3);
+            if(!StringUtils.isEmpty(busExamInternalArchive)){
+                busExamInternalArchiveMapper.delete(busExamInternalArchive);
+            }
+            Example example4 = new Example(BusExamOtherArchive.class);
+            Example.Criteria criteria4 = example4.createCriteria();
+            criteria4.andEqualTo("examId", busExamArchive.getArchiveId());
+            BusExamOtherArchive busExamOtherArchive = busExamOtherArchiveMapper.selectOneByExample(example4);
+            if(!StringUtils.isEmpty(busExamOtherArchive)){
+                busExamOtherArchiveMapper.delete(busExamOtherArchive);
+            }
+            Example example5 = new Example(BusExamSurgicalArchive.class);
+            Example.Criteria criteria5 = example5.createCriteria();
+            criteria5.andEqualTo("examId", busExamArchive.getArchiveId());
+            BusExamSurgicalArchive busExamSurgicalArchive = busExamSurgicalArchiveMapper.selectOneByExample(example5);
+            if(!StringUtils.isEmpty(busExamSurgicalArchive)){
+                busExamSurgicalArchiveMapper.delete(busExamSurgicalArchive);
+            }
         }
         return true;
     }
