@@ -11,9 +11,6 @@ import java.math.BigDecimal;
 @ApiModel(value = "住院档案-外科更新入参")
 public class BusExamSurgicalArchiveUpdatePO {
 
-    @ApiModelProperty(value = "主键", name = "id")
-    private Long id;
-
     @ApiModelProperty(value = "身高", name = "height")
     private BigDecimal height;
 

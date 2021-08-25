@@ -8,9 +8,6 @@ import lombok.Data;
 @ApiModel(value = "住院档案-其他检查更新入参")
 public class BusExamOtherArchiveUpdatePO {
 
-    @ApiModelProperty(value = "主键", name = "id")
-    private Long id;
-
     @ApiModelProperty(value = "血常规编码", name = "routineBloodCode")
     private String routineBloodCode;
 

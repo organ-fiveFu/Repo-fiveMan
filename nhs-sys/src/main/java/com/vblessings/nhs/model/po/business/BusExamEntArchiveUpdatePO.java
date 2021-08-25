@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 @ApiModel(value = "住院档案-五官科更新入参")
 public class BusExamEntArchiveUpdatePO {
 
-    @ApiModelProperty(value = "主键", name = "id")
-    private Long id;
-
     @ApiModelProperty(value = "听力左", name = "hearingLeft")
     private BigDecimal hearingLeft;
 

@@ -314,35 +314,35 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         if(!StringUtils.isEmpty(busExamEntArchive)){
             busExamEntArchiveMapper.updateByPrimaryKeySelective(busExamEntArchive);
         }
-        if(!StringUtils.isEmpty(busExamEntArchive1)){
+        if(!StringUtils.isEmpty(busExamEntArchive1.getId())){
             busExamEntArchiveMapper.insertSelective(busExamEntArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamEyesArchive)){
             busExamEyesArchiveMapper.updateByPrimaryKeySelective(busExamEyesArchive);
         }
-        if(!StringUtils.isEmpty(busExamEyesArchive1)){
+        if(!StringUtils.isEmpty(busExamEyesArchive1.getId())){
             busExamEyesArchiveMapper.insertSelective(busExamEyesArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamInternalArchive)){
             busExamInternalArchiveMapper.updateByPrimaryKeySelective(busExamInternalArchive);
         }
-        if(!StringUtils.isEmpty(busExamInternalArchive1)){
+        if(!StringUtils.isEmpty(busExamInternalArchive1.getId())){
             busExamInternalArchiveMapper.insertSelective(busExamInternalArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamSurgicalArchive)){
             busExamSurgicalArchiveMapper.updateByPrimaryKeySelective(busExamSurgicalArchive);
         }
-        if(!StringUtils.isEmpty(busExamSurgicalArchive1)){
+        if(!StringUtils.isEmpty(busExamSurgicalArchive1.getId())){
             busExamSurgicalArchiveMapper.insertSelective(busExamSurgicalArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamOtherArchive)){
             busExamOtherArchiveMapper.updateByPrimaryKeySelective(busExamOtherArchive);
         }
-        if(!StringUtils.isEmpty(busExamOtherArchive1)){
+        if(!StringUtils.isEmpty(busExamOtherArchive1.getId())){
             busExamOtherArchiveMapper.insertSelective(busExamOtherArchive1);
         }
         return true;

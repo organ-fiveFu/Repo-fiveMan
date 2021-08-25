@@ -8,9 +8,6 @@ import lombok.Data;
 @ApiModel(value = "住院档案-内科更新入参")
 public class BusExamInternalArchiveUpdatePO {
 
-    @ApiModelProperty(value = "主键", name = "id")
-    private Long id;
-
     @ApiModelProperty(value = "心率", name = "heartRate")
     private Integer heartRate;
 
