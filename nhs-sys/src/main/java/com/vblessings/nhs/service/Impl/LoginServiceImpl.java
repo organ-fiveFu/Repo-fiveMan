@@ -122,6 +122,7 @@ public class LoginServiceImpl implements LoginService {
         sysLogin.setId(id);
         sysLogin.setEmployeeCode(employeeCode);
         sysLogin.setPassword("000000");
+        sysLogin.setIsDel(0);
         loginMapper.insert(sysLogin);
     }
 
