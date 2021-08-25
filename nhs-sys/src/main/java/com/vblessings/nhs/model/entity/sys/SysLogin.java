@@ -28,5 +28,9 @@ public class SysLogin implements Serializable {
     @ApiModelProperty(value="密码")
     private String password;
 
+    @ApiModelProperty(value = "", required = false)
+    @Column(name = "is_del")
+    private Integer isDel;
+
 
 }

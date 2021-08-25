@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="employeeCode" column="employee_code"/>
         <result property="password" column="password"/>
+        <result property="isDel" column="is_del"/>
     </resultMap>
     <update id="resetPassword">
         update sys_login

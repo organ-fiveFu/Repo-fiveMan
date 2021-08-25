@@ -53,6 +53,7 @@ public class LoginServiceImpl implements LoginService {
         Example example = new Example(SysLogin.class);
         Example.Criteria c = example.createCriteria();
         c.andEqualTo("employeeCode",sysUserLogin.getEmployeeCode());
+        c.andEqualTo("isDel",0);
         SysLogin sysLogin = loginMapper.selectOneByExample(example);
 
         if(sysLogin==null){

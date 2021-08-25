@@ -5,8 +5,10 @@ import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
 import com.vblessings.nhs.exception.ResponseEnum;
+import com.vblessings.nhs.mapper.LoginMapper;
 import com.vblessings.nhs.mapper.SysEmployeeInfoMapper;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
+import com.vblessings.nhs.model.entity.sys.SysLogin;
 import com.vblessings.nhs.model.po.QueryEmployeePO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -19,8 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
@@ -33,6 +38,9 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
 
     @Resource
     private LoginService loginService;
+
+    @Resource
+    private LoginMapper loginMapper;
     @Override
     public SysEmployeeInfo selectOneInfo(String employeeCode) {
         Example example = new Example(SysEmployeeInfo.class);
@@ -105,6 +113,27 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
 
     @Override
     public void del(String ids) {
+
+        List<String> idList = Arrays.asList(ids.split(","));
+        Example example = new Example(SysEmployeeInfo.class);
+        example.selectProperties("employeeCode");
+        Example.Criteria c = example.createCriteria();
+        c.andEqualTo("isDel",0).andIn("id",idList);
+        List<SysEmployeeInfo> sysEmployeeInfos = sysEmployeeInfoMapper.selectByExample(example);
+
+        List<String> employeeList = sysEmployeeInfos.stream().map(e->e.getEmployeeCode()).collect(Collectors.toList());
+        //将账号表状态置为删除状态
+        for (String s:
+        employeeList) {
+            Example example1 = new Example(SysLogin.class);
+            Example.Criteria C = example1.createCriteria();
+            C.andEqualTo("employeeCode",s);
+            SysLogin sysLogin = new SysLogin();
+            sysLogin.setEmployeeCode(s);
+            sysLogin.setIsDel(1);
+            loginMapper.updateByExample(sysLogin,example1);
+        }
+
         String[] id = ids.split(",");
         sysEmployeeInfoMapper.del(id);
     }
