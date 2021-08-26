@@ -112,7 +112,7 @@ public class BloodSugarServiceImpl implements BloodSugarService {
         Example example = new Example(BusBloodSugarRecord.class);
         Example.Criteria criteria = example.createCriteria();
         if(!StringUtils.isEmpty(bloodSugarQueryPO.getBusinessNo())){
-            criteria.andLike("businessNo", "%" + bloodSugarQueryPO.getBusinessNo() + "%");
+            criteria.andEqualTo("businessNo", bloodSugarQueryPO.getBusinessNo());
         }
         if(!StringUtils.isEmpty(bloodSugarQueryPO.getPatientName())){
             criteria.andLike("patientName", "%" + bloodSugarQueryPO.getPatientName() + "%");

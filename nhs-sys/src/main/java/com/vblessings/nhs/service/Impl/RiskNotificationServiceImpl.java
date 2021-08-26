@@ -124,7 +124,7 @@ public class RiskNotificationServiceImpl implements RiskNotificationService {
             criteria.andLike("name", "%" + riskNotificationQueryPO.getName() + "%");
         }
         if(!StringUtils.isEmpty(riskNotificationQueryPO.getBusinessNo())){
-            criteria.andLike("businessNo", "%" + riskNotificationQueryPO.getBusinessNo() + "%");
+            criteria.andEqualTo("businessNo", riskNotificationQueryPO.getBusinessNo());
         }
         criteria.andEqualTo("isDel", 0);
         List<BusRiskNotification> busRiskNotificationList = busRiskNotificationMapper.selectByExample(example);

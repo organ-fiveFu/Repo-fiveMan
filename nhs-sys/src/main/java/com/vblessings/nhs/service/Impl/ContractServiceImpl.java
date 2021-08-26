@@ -124,7 +124,7 @@ public class ContractServiceImpl implements ContractService {
             criteria.andLike("name", "%" + riskNotificationQueryPO.getName() + "%");
         }
         if(!StringUtils.isEmpty(riskNotificationQueryPO.getBusinessNo())){
-            criteria.andLike("businessNo", "%" + riskNotificationQueryPO.getBusinessNo() + "%");
+            criteria.andEqualTo("businessNo", riskNotificationQueryPO.getBusinessNo());
         }
         criteria.andEqualTo("isDel", 0);
         List<BusContract> busContractList = busContractMapper.selectByExample(example);

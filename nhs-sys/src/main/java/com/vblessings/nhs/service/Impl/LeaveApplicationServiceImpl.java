@@ -134,7 +134,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
             criteria.andLike("name", "%" + leaveApplicationQueryPO.getName() + "%");
         }
         if(!StringUtils.isEmpty(leaveApplicationQueryPO.getBusinessNo())){
-            criteria.andLike("businessNo", "%" + leaveApplicationQueryPO.getBusinessNo() + "%");
+            criteria.andEqualTo("businessNo", leaveApplicationQueryPO.getBusinessNo());
         }
         if (!StringUtils.isEmpty(leaveApplicationQueryPO.getStartTime()) && !StringUtils.isEmpty(leaveApplicationQueryPO.getEndTime())) {
             try {
