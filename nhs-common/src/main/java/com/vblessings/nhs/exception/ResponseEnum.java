@@ -53,6 +53,7 @@ public enum ResponseEnum implements BusinessExceptionAssert {
     UPLOAD_EXCEL_TEMPLATE_ERROR(6021, "上传模板错误"),
     DATA_INTEGRITY_VIOLATION(6022, "数据库校验异常"),
     TOO_MANY_RESULT_ERROR(6023, "查询到多条结果异常"),
+    ACCOUNT_IS_DEL(6024, "账号已停用"),
 
     SIGN_ERROR(7001, "签名验证失败."),
     APP_KEY_ERROR(7002, "appKey错误."),

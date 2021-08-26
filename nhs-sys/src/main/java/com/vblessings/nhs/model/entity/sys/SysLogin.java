@@ -32,5 +32,9 @@ public class SysLogin implements Serializable {
     @Column(name = "is_del")
     private Integer isDel;
 
+    @ApiModelProperty(value = "是否启用", required = false)
+    @Column(name = "use_flag")
+    private Integer useFlag;
+
 
 }

@@ -57,4 +57,8 @@ public interface SysEmployeeInfoService{
      * @return
      */
     void resetPassword(String employeeCode);
+
+    void stop(String employeeCode);
+
+    void start(String employeeCode);
 }

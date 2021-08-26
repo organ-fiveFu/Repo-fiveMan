@@ -131,7 +131,7 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
             SysLogin sysLogin = new SysLogin();
             sysLogin.setEmployeeCode(s);
             sysLogin.setIsDel(1);
-            loginMapper.updateByExample(sysLogin,example1);
+            loginMapper.updateByExampleSelective(sysLogin,example1);
         }
 
         String[] id = ids.split(",");
@@ -145,6 +145,34 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
     public void resetPassword(String employeeCode) {
         loginService.resetPassword(employeeCode);
         sysEmployeeInfoMapper.resetPassword(employeeCode);
+    }
+
+    /**
+     * 停用账号
+     * @param employeeCode
+     */
+    @Override
+    public void stop(String employeeCode) {
+        Example example = new Example(SysLogin.class);
+        Example.Criteria c = example.createCriteria();
+        c.andEqualTo("employeeCode",employeeCode);
+        SysLogin sysLogin = new SysLogin();
+        sysLogin.setUseFlag(0);
+        loginMapper.updateByExampleSelective(sysLogin,example);
+    }
+
+    /**
+     * 启用账号
+     * @param employeeCode
+     */
+    @Override
+    public void start(String employeeCode) {
+        Example example = new Example(SysLogin.class);
+        Example.Criteria c = example.createCriteria();
+        c.andEqualTo("employeeCode",employeeCode);
+        SysLogin sysLogin = new SysLogin();
+        sysLogin.setUseFlag(1);
+        loginMapper.updateByExampleSelective(sysLogin,example);
     }
 
 

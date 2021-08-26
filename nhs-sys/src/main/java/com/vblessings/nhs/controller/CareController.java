@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 护工api
@@ -64,5 +65,12 @@ public class CareController {
         careService.del(ids);
         return ResultBody.newSuccessInstance();
     }
+
+    @ApiOperation("根据姓名模糊查询护工信息")
+    @GetMapping("/selectByName")
+    public ResultBody<List<SysCarerInfo>> selectByName(String carerName){
+        return ResultBody.newSuccessInstance(careService.selectByName(carerName));
+    }
+
 
 }

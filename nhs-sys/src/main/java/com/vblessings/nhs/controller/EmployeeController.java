@@ -69,4 +69,20 @@ public class EmployeeController {
         return ResultBody.newSuccessInstance();
     }
 
+    @ApiOperation("停用账号")
+    @GetMapping("/stop")
+    public ResultBody stop(String employeeCode){
+        sysEmployeeInfoService.stop(employeeCode);
+        return ResultBody.newSuccessInstance();
+    }
+
+    @ApiOperation("启用账号")
+    @GetMapping("/start")
+    public ResultBody start(String employeeCode){
+        sysEmployeeInfoService.start(employeeCode);
+        return ResultBody.newSuccessInstance();
+    }
+
+
+
 }

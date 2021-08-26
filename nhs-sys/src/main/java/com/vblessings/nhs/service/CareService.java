@@ -5,6 +5,8 @@ import com.vblessings.nhs.model.po.KeyWordPO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
+
 public interface CareService {
     /**
      * 新增护工
@@ -32,4 +34,6 @@ public interface CareService {
      * @param ids
      */
     void del(String ids);
+
+    List<SysCarerInfo> selectByName(String carerName);
 }

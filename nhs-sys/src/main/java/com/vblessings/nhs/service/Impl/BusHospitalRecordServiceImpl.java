@@ -189,6 +189,14 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         //所有记录list
         List<BusHospitalRecord> busHospitalRecordList = busHospitalRecordMapper.selectByExample(example);
         QuerySummaryVO querySummaryVO = new QuerySummaryVO();
+        querySummaryVO.setStayHospitalNum(0);
+        querySummaryVO.setOriginalNum(0);
+        querySummaryVO.setProvideForOneself(0);
+        querySummaryVO.setPartialDisability(0);
+        querySummaryVO.setDisabilityNum(0);
+        querySummaryVO.setTakeUpBed(0);
+        querySummaryVO.setOutHospitalNum(0);
+        querySummaryVO.setInHospitalNum(0);
         if (busHospitalRecordList != null && busHospitalRecordList.size() > 0) {
 
             List<BusHospitalRecord> OriginalList = new ArrayList<>();
@@ -423,7 +431,11 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         example.createCriteria().andEqualTo("isDel", 0);
         //所有记录list
         List<BusHospitalRecord> busHospitalRecordList = busHospitalRecordMapper.selectByExample(example);
-
+        PeopleSourceVO peopleSourceVO = new PeopleSourceVO();
+        peopleSourceVO.setToHsp(0);
+        peopleSourceVO.setToSociety(0);
+        peopleSourceVO.setFromHsp(0);
+        peopleSourceVO.setFromSociety(0);
         if (busHospitalRecordList != null && busHospitalRecordList.size() > 0) {
             //入院列表
             List<BusHospitalRecord> inHsp = new ArrayList<>();
@@ -453,7 +465,6 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             if (querySourcePO.getStartTime() == null && querySourcePO.getEndTime() == null) {
                 inHsp = busHospitalRecordList;
             }
-            PeopleSourceVO peopleSourceVO = new PeopleSourceVO();
             peopleSourceVO.setFromHsp(inHsp.stream().filter(e -> e.getPeopleFrom().equals("2")).collect(Collectors.toList()).size());
             peopleSourceVO.setFromSociety(inHsp.stream().filter(e -> e.getPeopleFrom().equals("1")).collect(Collectors.toList()).size());
             peopleSourceVO.setToSociety(outHsp.stream().filter(e -> e.getPeopleTo().equals("1")).collect(Collectors.toList()).size());
@@ -461,6 +472,6 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             return peopleSourceVO;
 
         }
-        return null;
+        return peopleSourceVO;
     }
 }

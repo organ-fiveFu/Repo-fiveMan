@@ -3,6 +3,7 @@ package com.vblessings.nhs.service.Impl;
 import com.vblessings.nhs.component.RedisCache;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.MyException;
+import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.jwt.JWTInfo;
 import com.vblessings.nhs.jwt.jwtHelper;
 import com.vblessings.nhs.mapper.LoginMapper;
@@ -56,12 +57,19 @@ public class LoginServiceImpl implements LoginService {
         c.andEqualTo("isDel",0);
         SysLogin sysLogin = loginMapper.selectOneByExample(example);
 
+
         if(sysLogin==null){
-            throw new MyException("该账号不存在");
+
+            throw ResponseEnum.CODE_ALREADY_EXISTS.newException("该账号不存在");
         }
 
         if(!sysUserLogin.getPassword().equals(sysLogin.getPassword())){
-            throw new MyException("密码错误");
+            throw ResponseEnum.ACCOUNT_PWD_ERROR.newException("账号或密码错误.");
+        }
+
+        if(sysLogin!=null && sysLogin.getUseFlag()==0){
+            throw ResponseEnum.ACCOUNT_IS_DEL.newException("账号已停用.");
+
         }
 
         //查询使用该账号员工的信息
@@ -123,6 +131,7 @@ public class LoginServiceImpl implements LoginService {
         sysLogin.setEmployeeCode(employeeCode);
         sysLogin.setPassword("000000");
         sysLogin.setIsDel(0);
+        sysLogin.setUseFlag(1);
         loginMapper.insert(sysLogin);
     }
 
