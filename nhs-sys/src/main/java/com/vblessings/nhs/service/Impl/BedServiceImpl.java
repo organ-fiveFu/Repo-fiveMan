@@ -726,9 +726,6 @@ public class BedServiceImpl implements BedService {
     @Override
     public List<Tree<String>> queryBedTree(UserInfoToken userInfoToken) {
         List<BedTreeVO> bedTreeVOList = sysBuildingInfoMapper.queryBedTree();
-        if(CollectionUtil.isEmpty(bedTreeVOList)){
-            return null;
-        }
         BedTreeVO bedTreeVO = new BedTreeVO();
         bedTreeVO.setId(1L);
         bedTreeVO.setParentId(0L);

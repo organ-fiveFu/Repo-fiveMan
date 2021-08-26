@@ -4,11 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @ApiModel(value = "首页查询详情出参")
-public class PageDetailQueryVO {
+public class PageDetailQueryVO implements Serializable {
 
     @ApiModelProperty(value = "住院号")
     private String businessNo;

@@ -22,7 +22,29 @@
         <result property="floorName" column="floor_name"/>
         <result property="roomName" column="room_name"/>
     </resultMap>
-    <select id="queryPatient" resultType="com.vblessings.nhs.model.vo.page.PageDetailQueryVO">
+    <resultMap type="com.vblessings.nhs.model.vo.page.PageDetailQueryVO" id="queryPatientMap">
+        <result property="businessNo" column="business_no"/>
+        <result property="archiveId" column="archive_id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="buildingCode" column="building_code"/>
+        <result property="floorCode" column="floor_code"/>
+        <result property="roomCode" column="room_code"/>
+        <result property="roomName" column="name"/>
+        <result property="bedCode" column="bed_code"/>
+        <result property="bedName" column="name"/>
+        <result property="roomType" column="room_type"/>
+        <result property="nursingLevel" column="nursing_level"/>
+        <result property="admissionTime" column="admission_time"/>
+        <result property="hospitalDiagnosis" column="hospital_diagnosis" typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
+        <result property="contactNumber" column="contact_number"/>
+        <result property="allergy" column="allergy" typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
+        <result property="feesDueStatue" column="fees_due_statue"/>
+        <result property="feesDueDate" column="fees_due_date"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <select id="queryPatient" resultMap="queryPatientMap">
         SELECT
           t2.business_no AS "businessNo",
           t2.archive_id AS "archiveId",
@@ -41,7 +63,7 @@
           t2.hospital_diagnosis AS "hospitalDiagnosis",
           t2.contact_number AS "contactNumber",
           t2.allergy AS "allergy",
-          t2.fees_due_statue AS "feeDueStatue",
+          t2.fees_due_statue AS "feesDueStatue",
           DATE_FORMAT(t2.fees_due_date,'%Y-%m-%d %H:%i:%s') AS "feesDueDate",
           t1.status AS "status"
         FROM sys_bed_info t1

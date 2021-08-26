@@ -242,7 +242,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         //五官科
         Example example1 = new Example(BusExamEntArchive.class);
         Example.Criteria criteria1 = example1.createCriteria();
-        criteria1.andEqualTo("examId", busExamArchive.getArchiveId());
+        criteria1.andEqualTo("examId", busExamArchive.getId());
         BusExamEntArchive busExamEntArchive = busExamEntArchiveMapper.selectOneByExample(example1);
         BusExamEntArchive busExamEntArchive1 = new BusExamEntArchive();
         if(!StringUtils.isEmpty(busExamEntArchive)){
@@ -250,12 +250,12 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }else {
             BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamArchiveUpdatePO(),busExamEntArchive1);
             busExamEntArchive1.setId(snowflakeComponent.getInstance().nextId());
-            busExamEntArchive1.setExamId(busExamArchive.getArchiveId());
+            busExamEntArchive1.setExamId(busExamArchive.getId());
         }
         //眼科
         Example example2 = new Example(BusExamEyesArchive.class);
         Example.Criteria criteria2 = example2.createCriteria();
-        criteria2.andEqualTo("examId", busExamArchive.getArchiveId());
+        criteria2.andEqualTo("examId", busExamArchive.getId());
         BusExamEyesArchive busExamEyesArchive = busExamEyesArchiveMapper.selectOneByExample(example2);
         BusExamEyesArchive busExamEyesArchive1 = new BusExamEyesArchive();
         if(!StringUtils.isEmpty(busExamEyesArchive)){
@@ -263,12 +263,12 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }else {
             BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamEyesArchiveUpdatePO(),busExamEyesArchive1);
             busExamEyesArchive1.setId(snowflakeComponent.getInstance().nextId());
-            busExamEyesArchive1.setExamId(busExamArchive.getArchiveId());
+            busExamEyesArchive1.setExamId(busExamArchive.getId());
         }
         //内科
         Example example3 = new Example(BusExamInternalArchive.class);
         Example.Criteria criteria3 = example3.createCriteria();
-        criteria3.andEqualTo("examId", busExamArchive.getArchiveId());
+        criteria3.andEqualTo("examId", busExamArchive.getId());
         BusExamInternalArchive busExamInternalArchive = busExamInternalArchiveMapper.selectOneByExample(example3);
         BusExamInternalArchive busExamInternalArchive1 = new BusExamInternalArchive();
         if(!StringUtils.isEmpty(busExamInternalArchive)){
@@ -276,12 +276,12 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }else {
             BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamInternalArchiveUpdatePO(),busExamInternalArchive1);
             busExamInternalArchive1.setId(snowflakeComponent.getInstance().nextId());
-            busExamInternalArchive1.setExamId(busExamArchive.getArchiveId());
+            busExamInternalArchive1.setExamId(busExamArchive.getId());
         }
         //其他科
         Example example4 = new Example(BusExamOtherArchive.class);
         Example.Criteria criteria4 = example4.createCriteria();
-        criteria4.andEqualTo("examId", busExamArchive.getArchiveId());
+        criteria4.andEqualTo("examId", busExamArchive.getId());
         BusExamOtherArchive busExamOtherArchive = busExamOtherArchiveMapper.selectOneByExample(example4);
         BusExamOtherArchive busExamOtherArchive1 = new BusExamOtherArchive();
         if(!StringUtils.isEmpty(busExamOtherArchive)){
@@ -289,12 +289,12 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }else {
             BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamOtherArchiveUpdatePO(),busExamOtherArchive1);
             busExamOtherArchive1.setId(snowflakeComponent.getInstance().nextId());
-            busExamOtherArchive1.setExamId(busExamArchive.getArchiveId());
+            busExamOtherArchive1.setExamId(busExamArchive.getId());
         }
         //外科
         Example example5 = new Example(BusExamSurgicalArchive.class);
         Example.Criteria criteria5 = example5.createCriteria();
-        criteria5.andEqualTo("examId", busExamArchive.getArchiveId());
+        criteria5.andEqualTo("examId", busExamArchive.getId());
         BusExamSurgicalArchive busExamSurgicalArchive = busExamSurgicalArchiveMapper.selectOneByExample(example5);
         BusExamSurgicalArchive busExamSurgicalArchive1 = new BusExamSurgicalArchive();
         if(!StringUtils.isEmpty(busExamSurgicalArchive)){
@@ -302,7 +302,7 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         }else {
             BeanUtil.copyProperties(examArchiveUpdatePO.getBusExamSurgicalArchiveUpdatePO(),busExamSurgicalArchive1);
             busExamSurgicalArchive1.setId(snowflakeComponent.getInstance().nextId());
-            busExamSurgicalArchive1.setExamId(busExamArchive.getArchiveId());
+            busExamSurgicalArchive1.setExamId(busExamArchive.getId());
         }
 
         busExamArchive.setUpdaterId(userInfoToken.getUserId());
@@ -381,35 +381,35 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
         if(!StringUtils.isEmpty(busExamArchive)){
             Example example1 = new Example(BusExamEntArchive.class);
             Example.Criteria criteria1 = example1.createCriteria();
-            criteria1.andEqualTo("examId", busExamArchive.getArchiveId());
+            criteria1.andEqualTo("examId", busExamArchive.getId());
             BusExamEntArchive busExamEntArchive = busExamEntArchiveMapper.selectOneByExample(example1);
             if(!StringUtils.isEmpty(busExamEntArchive)){
                 busExamEntArchiveMapper.delete(busExamEntArchive);
             }
             Example example2 = new Example(BusExamEyesArchive.class);
             Example.Criteria criteria2 = example2.createCriteria();
-            criteria2.andEqualTo("examId", busExamArchive.getArchiveId());
+            criteria2.andEqualTo("examId", busExamArchive.getId());
             BusExamEyesArchive busExamEyesArchive = busExamEyesArchiveMapper.selectOneByExample(example2);
             if(!StringUtils.isEmpty(busExamEyesArchive)){
                 busExamEyesArchiveMapper.delete(busExamEyesArchive);
             }
             Example example3 = new Example(BusExamInternalArchive.class);
             Example.Criteria criteria3 = example3.createCriteria();
-            criteria3.andEqualTo("examId", busExamArchive.getArchiveId());
+            criteria3.andEqualTo("examId", busExamArchive.getId());
             BusExamInternalArchive busExamInternalArchive = busExamInternalArchiveMapper.selectOneByExample(example3);
             if(!StringUtils.isEmpty(busExamInternalArchive)){
                 busExamInternalArchiveMapper.delete(busExamInternalArchive);
             }
             Example example4 = new Example(BusExamOtherArchive.class);
             Example.Criteria criteria4 = example4.createCriteria();
-            criteria4.andEqualTo("examId", busExamArchive.getArchiveId());
+            criteria4.andEqualTo("examId", busExamArchive.getId());
             BusExamOtherArchive busExamOtherArchive = busExamOtherArchiveMapper.selectOneByExample(example4);
             if(!StringUtils.isEmpty(busExamOtherArchive)){
                 busExamOtherArchiveMapper.delete(busExamOtherArchive);
             }
             Example example5 = new Example(BusExamSurgicalArchive.class);
             Example.Criteria criteria5 = example5.createCriteria();
-            criteria5.andEqualTo("examId", busExamArchive.getArchiveId());
+            criteria5.andEqualTo("examId", busExamArchive.getId());
             BusExamSurgicalArchive busExamSurgicalArchive = busExamSurgicalArchiveMapper.selectOneByExample(example5);
             if(!StringUtils.isEmpty(busExamSurgicalArchive)){
                 busExamSurgicalArchiveMapper.delete(busExamSurgicalArchive);
