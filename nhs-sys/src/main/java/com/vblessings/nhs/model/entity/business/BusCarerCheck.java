@@ -112,6 +112,12 @@ public class BusCarerCheck implements Serializable {
     @Column(name = "carer_id")
     private Long carerId;
 
+    /**
+     * 护工编号
+     */
+    @ApiModelProperty(value = "护工编号", required = false)
+    @Column(name = "care_code")
+    private String careCode;
 
 }
 

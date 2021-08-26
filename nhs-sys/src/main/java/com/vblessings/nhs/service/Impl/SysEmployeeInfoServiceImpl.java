@@ -89,6 +89,13 @@ public class SysEmployeeInfoServiceImpl implements SysEmployeeInfoService {
         sysEmployeeInfo.setUpdateTime(new Date());
         sysEmployeeInfo.setUpdaterId(userInfo.getUserId());
         sysEmployeeInfoMapper.updateByPrimaryKeySelective(sysEmployeeInfo);
+        if(sysEmployeeInfo.getUseFlag()!=null){
+        Example example = new Example(SysLogin.class);
+        Example.Criteria c = example.createCriteria();
+        c.andEqualTo("employeeCode",sysEmployeeInfo.getEmployeeCode());
+        SysLogin sysLogin = new SysLogin();
+        sysLogin.setUseFlag(sysEmployeeInfo.getUseFlag());
+        loginMapper.updateByExampleSelective(sysLogin,example);}
     }
 
     @Override

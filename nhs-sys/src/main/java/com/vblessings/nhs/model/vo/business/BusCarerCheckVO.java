@@ -101,4 +101,11 @@ public class BusCarerCheckVO {
     @Column(name = "is_del")
     private Integer isDel;
 
+    /**
+     * 护工编号
+     */
+    @ApiModelProperty(value = "护工编号", required = false)
+    @Column(name = "care_code")
+    private String careCode;
+
 }

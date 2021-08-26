@@ -90,7 +90,7 @@ public class CareServiceImpl implements CareService {
     @Override
     public List<SysCarerInfo> selectByName(String carerName) {
         Example example = new Example(SysCarerInfo.class);
-        example.selectProperties("id","name");
+        example.selectProperties("id","name","careCode");
 
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0).andLike("name","%"+carerName+"%");

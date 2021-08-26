@@ -13,7 +13,8 @@
         <result property="idCard" column="id_card"/>
         <result property="contactNumber" column="contact_number"/>
         <result property="contactAddress" column="contact_address"/>
-        <result property="education" column="education"/>
+        <result property="education" column="education"
+        typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
         <result property="creatorId" column="creator_id"/>
         <result property="updaterId" column="updater_id"/>
         <result property="createTime" column="create_time"/>

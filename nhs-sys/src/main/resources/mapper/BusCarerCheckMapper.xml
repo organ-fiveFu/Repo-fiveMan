@@ -19,6 +19,7 @@
         <result property="updateTime" column="update_time"/>
         <result property="isDel" column="is_del"/>
         <result property="carerId" column="carer_id"/>
+        <result property="careCode" column="care_code"/>
     </resultMap>
     <update id="delCheck">
         update bus_carer_check set

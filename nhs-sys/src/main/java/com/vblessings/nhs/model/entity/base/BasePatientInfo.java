@@ -1,13 +1,16 @@
 package com.vblessings.nhs.model.entity.base;
 
+import com.vblessings.nhs.model.typehandler.ListStringHandler;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table(name = "base_patient_info")
@@ -74,8 +77,9 @@ public class BasePatientInfo implements Serializable {
      * 受教育程度
      */
     @ApiModelProperty(value = "受教育程度", required = false)
+    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "education")
-    private String education;
+    private List<String> education;
 
     /**
      * 创建人
