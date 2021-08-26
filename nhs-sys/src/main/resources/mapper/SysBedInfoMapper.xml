@@ -23,25 +23,25 @@
         <result property="roomName" column="room_name"/>
     </resultMap>
     <resultMap type="com.vblessings.nhs.model.vo.page.PageDetailQueryVO" id="queryPatientMap">
-        <result property="businessNo" column="business_no"/>
-        <result property="archiveId" column="archive_id"/>
+        <result property="businessNo" column="businessNo"/>
+        <result property="archiveId" column="archiveId"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
         <result property="age" column="age"/>
-        <result property="buildingCode" column="building_code"/>
-        <result property="floorCode" column="floor_code"/>
-        <result property="roomCode" column="room_code"/>
+        <result property="buildingCode" column="buildingCode"/>
+        <result property="floorCode" column="floorCode"/>
+        <result property="roomCode" column="roomCode"/>
         <result property="roomName" column="name"/>
-        <result property="bedCode" column="bed_code"/>
+        <result property="bedCode" column="bedCode"/>
         <result property="bedName" column="name"/>
-        <result property="roomType" column="room_type"/>
-        <result property="nursingLevel" column="nursing_level"/>
-        <result property="admissionTime" column="admission_time"/>
-        <result property="hospitalDiagnosis" column="hospital_diagnosis" typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
-        <result property="contactNumber" column="contact_number"/>
+        <result property="roomType" column="roomType"/>
+        <result property="nursingLevel" column="nursingLevel"/>
+        <result property="admissionTime" column="admissionTime"/>
+        <result property="hospitalDiagnosis" column="hospitalDiagnosis" typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
+        <result property="contactNumber" column="contactNumber"/>
         <result property="allergy" column="allergy" typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
-        <result property="feesDueStatue" column="fees_due_statue"/>
-        <result property="feesDueDate" column="fees_due_date"/>
+        <result property="feesDueStatue" column="feesDueStatue"/>
+        <result property="feesDueDate" column="feesDueDate"/>
         <result property="status" column="status"/>
     </resultMap>
     <select id="queryPatient" resultMap="queryPatientMap">
