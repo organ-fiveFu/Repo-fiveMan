@@ -156,7 +156,7 @@ public class PageServiceImpl implements PageService {
             try {
                 if(!StringUtils.isEmpty(pageDetailQueryVO.getFeesDueDate())){
                     feeDate = DateUtils.stringToDateByFormat(pageDetailQueryVO.getFeesDueDate(), "yyyy-MM-dd HH:mm:ss");
-                    if(DateUtils.timeIsMore(new Date(),feeDate)){
+                    if(DateUtils.timeIsMore(feeDate, new Date())){
                         pageDetailQueryVO.setFeesDueStatue(1); //过期
                     }
                 }
