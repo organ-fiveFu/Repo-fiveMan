@@ -312,35 +312,35 @@ public class BusExamArchiveServiceImpl implements BusExamArchiveService {
 
         //更新从表数据
         if(!StringUtils.isEmpty(busExamEntArchive)){
-            busExamEntArchiveMapper.updateByPrimaryKeySelective(busExamEntArchive);
+            busExamEntArchiveMapper.updateByPrimaryKey(busExamEntArchive);
         }
         if(!StringUtils.isEmpty(busExamEntArchive1.getId())){
             busExamEntArchiveMapper.insertSelective(busExamEntArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamEyesArchive)){
-            busExamEyesArchiveMapper.updateByPrimaryKeySelective(busExamEyesArchive);
+            busExamEyesArchiveMapper.updateByPrimaryKey(busExamEyesArchive);
         }
         if(!StringUtils.isEmpty(busExamEyesArchive1.getId())){
             busExamEyesArchiveMapper.insertSelective(busExamEyesArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamInternalArchive)){
-            busExamInternalArchiveMapper.updateByPrimaryKeySelective(busExamInternalArchive);
+            busExamInternalArchiveMapper.updateByPrimaryKey(busExamInternalArchive);
         }
         if(!StringUtils.isEmpty(busExamInternalArchive1.getId())){
             busExamInternalArchiveMapper.insertSelective(busExamInternalArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamSurgicalArchive)){
-            busExamSurgicalArchiveMapper.updateByPrimaryKeySelective(busExamSurgicalArchive);
+            busExamSurgicalArchiveMapper.updateByPrimaryKey(busExamSurgicalArchive);
         }
         if(!StringUtils.isEmpty(busExamSurgicalArchive1.getId())){
             busExamSurgicalArchiveMapper.insertSelective(busExamSurgicalArchive1);
         }
 
         if(!StringUtils.isEmpty(busExamOtherArchive)){
-            busExamOtherArchiveMapper.updateByPrimaryKeySelective(busExamOtherArchive);
+            busExamOtherArchiveMapper.updateByPrimaryKey(busExamOtherArchive);
         }
         if(!StringUtils.isEmpty(busExamOtherArchive1.getId())){
             busExamOtherArchiveMapper.insertSelective(busExamOtherArchive1);
