@@ -112,9 +112,8 @@ public class BusHospitalRecord implements Serializable {
      * 诊断
      */
     @ApiModelProperty(value = "诊断", required = false)
-    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "hospital_diagnosis")
-    private List<String> hospitalDiagnosis;
+    private String hospitalDiagnosis;
 
     /**
      * 是否签署风险告知书
@@ -197,17 +196,15 @@ public class BusHospitalRecord implements Serializable {
      * 过敏史
      */
     @ApiModelProperty(value = "过敏史", required = false)
-    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "allergy")
-    private List<String> allergy;
+    private String allergy;
 
     /**
      * 既往史
      */
     @ApiModelProperty(value = "既往史", required = false)
-    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "previous_history")
-    private  List<String> previousHistory;
+    private  String previousHistory;
 
     @ApiModelProperty(value = "费用过期时间", required = false)
     @Column(name = "fees_due_date")

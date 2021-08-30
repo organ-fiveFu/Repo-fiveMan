@@ -8,8 +8,7 @@
         <result property="id" column="id"/>
         <result property="businessNo" column="business_no"/>
         <result property="patientName" column="patient_name"/>
-        <result property="allergy" column="allergy"
-        typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
+        <result property="allergy" column="allergy"/>
         <result property="bedName" column="bed_name"/>
         <result property="roomName" column="room_name"/>
         <result property="nursingTime" column="nursing_time"/>
@@ -20,8 +19,7 @@
         <result property="input" column="input"/>
         <result property="mentalState" column="mental_state"/>
         <result property="personInCharge" column="person_in_charge"/>
-        <result property="hospitalDiagnosis" column="hospital_diagnosis"
-                typeHandler="com.vblessings.nhs.model.typehandler.ListStringHandler"/>
+        <result property="hospitalDiagnosis" column="hospital_diagnosis"/>
         <result property="creatorId" column="creator_id"/>
         <result property="updaterId" column="updater_id"/>
         <result property="createTime" column="create_time"/>

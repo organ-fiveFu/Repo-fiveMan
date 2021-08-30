@@ -42,9 +42,8 @@ public class BusSpecialNursingRecord implements Serializable {
      * 过敏史
      */
     @ApiModelProperty(value = "过敏史", required = false)
-    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "allergy")
-    private List<String> allergy;
+    private String allergy;
 
     /**
      * 床号
@@ -121,8 +120,7 @@ public class BusSpecialNursingRecord implements Serializable {
      */
     @ApiModelProperty(value = "医院诊断", required = false)
     @Column(name = "hospital_diagnosis")
-    @ColumnType(typeHandler = ListStringHandler.class)
-    private List<String> hospitalDiagnosis;
+    private String hospitalDiagnosis;
 
     /**
      * 创建人

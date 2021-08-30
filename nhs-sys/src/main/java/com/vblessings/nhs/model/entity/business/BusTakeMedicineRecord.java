@@ -64,9 +64,8 @@ public class BusTakeMedicineRecord implements Serializable {
      * 医院诊断
      */
     @ApiModelProperty(value = "医院诊断", required = false)
-    @ColumnType(typeHandler = ListStringHandler.class)
     @Column(name = "hospital_diagnosis")
-    private List<String> hospitalDiagnosis;
+    private String hospitalDiagnosis;
 
     /**
      * 带药日期
