@@ -301,7 +301,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
                     tempDataList.add(tempData);
                 }
             }
-
+            tempDataList = tempDataList.stream().sorted(Comparator.comparing(TempData::getTempData)).collect(Collectors.toList());
             List<TempData> tempDataList1 = busHospitalRecordMapper.queryBrokenLineByMonth1(queryFigurePO);
             List<String> tempTime1 = tempDataList1.stream().map(TempData::getTempData).collect(Collectors.toList());
             for (String s :
@@ -313,6 +313,8 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
                     tempDataList1.add(tempData);
                 }
             }
+            tempDataList1 = tempDataList1.stream().sorted(Comparator.comparing(TempData::getTempData)).collect(Collectors.toList());
+
             map.put("inHospital", tempDataList);
             map.put("outHospital", tempDataList1);
             return map;
@@ -399,6 +401,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
                     tempDataList2.add(tempData);
                 }
             }
+            tempDataList = tempDataList.stream().sorted(Comparator.comparing(TempData::getTempData)).collect(Collectors.toList());
+            tempDataList1 = tempDataList1.stream().sorted(Comparator.comparing(TempData::getTempData)).collect(Collectors.toList());
+            tempDataList2 = tempDataList2.stream().sorted(Comparator.comparing(TempData::getTempData)).collect(Collectors.toList());
 
 
             map.put("disability", tempDataList);
