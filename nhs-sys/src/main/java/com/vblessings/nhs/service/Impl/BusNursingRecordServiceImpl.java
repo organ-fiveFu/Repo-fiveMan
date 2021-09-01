@@ -19,8 +19,7 @@ import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
-import org.apache.ibatis.exceptions.TooManyResultsException;
-import org.apache.logging.log4j.util.Strings;
+import com.google.common.base.Strings;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -76,10 +75,10 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
             Example example = new Example(BusNursingRecord.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("isDel", 0);
-            if (Strings.isNotBlank(queryNursingRecordPO.getName())) {
+            if (!Strings.isNullOrEmpty(queryNursingRecordPO.getName())) {
                 criteria.andLike("name", "%" + queryNursingRecordPO.getName() + "%");
             }
-            if (Strings.isNotBlank(queryNursingRecordPO.getBusinessNo())) {
+            if (!Strings.isNullOrEmpty(queryNursingRecordPO.getBusinessNo())) {
                 criteria.andEqualTo("businessNo", queryNursingRecordPO.getBusinessNo());
             }
             if (queryNursingRecordPO.getStartTime() != null && queryNursingRecordPO.getEndTime() != null) {
@@ -152,7 +151,7 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("businessNo", queryVitalSignPO.getBusinessNo());
         criteria.andEqualTo("isDel", 0);
-        if (Strings.isNotBlank(queryVitalSignPO.getStartTime()) && Strings.isNotBlank(queryVitalSignPO.getEndTime())) {
+        if (!Strings.isNullOrEmpty(queryVitalSignPO.getStartTime()) && !Strings.isNullOrEmpty(queryVitalSignPO.getEndTime())) {
             try {
                 Date start = sdf.parse(queryVitalSignPO.getStartTime());
                 Date end = sdf.parse(queryVitalSignPO.getEndTime());
@@ -187,34 +186,40 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
     }
 
     @Override
-    public List<BusNursingRecordQueryVO> batchQueryVitalSignRecord(QueryBatchVitalSignPO queryBatchVitalSignPO) {
+    public List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO) {
         return busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime(),
                 queryBatchVitalSignPO.getTimePoint());
     }
 
     @Override
-    public BusNursingRecordPO nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO) {
+    public List<BusNursingRecordPO> nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO) {
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Example example = new Example(BusNursingRecord.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("businessNo", queryNursingRecordByTimePO.getBusinessNo());
-        try {
-            criteria.andEqualTo("recordTime", sdf1.parse(queryNursingRecordByTimePO.getRecordTime()));
-        } catch (ParseException e) {
-            throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
+        if (!Strings.isNullOrEmpty(queryNursingRecordByTimePO.getRecordTime()) && !Strings.isNullOrEmpty(queryNursingRecordByTimePO.getTimePoint())) {
+            try {
+                criteria.andEqualTo("recordTime", sdf1.parse(queryNursingRecordByTimePO.getRecordTime()));
+            } catch (ParseException e) {
+                throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
+            }
+            criteria.andEqualTo("timePoint", queryNursingRecordByTimePO.getTimePoint());
         }
-        criteria.andEqualTo("timePoint", queryNursingRecordByTimePO.getTimePoint());
         criteria.andEqualTo("isDel", 0);
-        try {
-            BusNursingRecord busNursingRecord = busNursingRecordMapper.selectOneByExample(example);
-            BusNursingRecordPO busNursingRecordPO = new BusNursingRecordPO();
-            BeanUtil.copyProperties(busNursingRecord, busNursingRecordPO);
-            busNursingRecordPO.setRecordTime(sdf1.format(busNursingRecord.getRecordTime()));
-            busNursingRecordPO.setCreateTime(sdf2.format(busNursingRecord.getCreateTime()));
-            return busNursingRecordPO;
-        } catch (TooManyResultsException e) {
-            throw ResponseEnum.TOO_MANY_RESULT_ERROR.newException("查询到多条结果");
+        List<BusNursingRecord> busNursingRecords = busNursingRecordMapper.selectByExample(example);
+        if (busNursingRecords.size() > 0) {
+            List<BusNursingRecordPO> busNursingRecordPOS = new ArrayList<>();
+            busNursingRecords.forEach(busNursingRecord -> {
+                BusNursingRecordPO busNursingRecordPO = new BusNursingRecordPO();
+                BeanUtil.copyProperties(busNursingRecord, busNursingRecordPO);
+                busNursingRecordPO.setRecordTime(sdf1.format(busNursingRecord.getRecordTime()));
+                busNursingRecordPO.setCreateTime(sdf2.format(busNursingRecord.getCreateTime()));
+                busNursingRecordPOS.add(busNursingRecordPO);
+            });
+            return busNursingRecordPOS;
+        } else {
+            throw ResponseEnum.DATA_NOT_FOUND.newException("未查询到数据");
         }
     }
 }

@@ -53,6 +53,7 @@
           t1.sex AS "sex",
           t1.age AS "age",
           t1.business_no AS "businessNo",
+          concat(t1.building_name,'-',t1.floor_name,'-',t1.room_name,'-',t1.bed_name) AS "bed",
           date_format(t2.record_time, 'yyyy-mm-dd') AS "recordTime",
           t2.time_point AS "timePoint",
           t2.is_haircut AS "isHaircut",

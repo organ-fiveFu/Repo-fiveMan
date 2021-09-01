@@ -8,6 +8,7 @@ import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
+import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignVO;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -92,12 +93,21 @@ public class NursingManageController {
     }
 
     /**
-     * 查询护理记录
+     * 分页查询护理记录
      */
-    @ApiOperation("查询护理记录")
+    @ApiOperation("分页查询护理记录")
     @PostMapping("/pageNursingRecord")
     public ResultBody<PageVO<BusNursingRecordPO>> pageNursingRecord(@RequestBody QueryNursingRecordPO queryNursingRecordPO){
         return ResultBody.newSuccessInstance(busNursingRecordService.pageNursingRecord(queryNursingRecordPO));
+    }
+
+    /**
+     * 批量插入——查询当前时间点护理记录列表
+     */
+    @ApiOperation("批量插入——查询当前时间点护理记录列表")
+    @PostMapping("/batchQueryNursingRecord")
+    public ResultBody<List<BusNursingRecordQueryVO>> batchQueryNursingRecord(@RequestBody QueryBatchVitalSignPO queryBatchVitalSignPO){
+        return ResultBody.newSuccessInstance(busNursingRecordService.batchQueryNursingRecord(queryBatchVitalSignPO));
     }
 
     /**
@@ -105,7 +115,7 @@ public class NursingManageController {
      */
     @ApiOperation("根据时间点查询护理记录")
     @PostMapping("/nursingRecordByTimePoint")
-    public ResultBody<BusNursingRecordPO> nursingRecordByTimePoint(@RequestBody QueryNursingRecordByTimePO queryNursingRecordByTimePO){
+    public ResultBody<List<BusNursingRecordPO>> nursingRecordByTimePoint(@RequestBody QueryNursingRecordByTimePO queryNursingRecordByTimePO){
         return ResultBody.newSuccessInstance(busNursingRecordService.nursingRecordByTimePoint(queryNursingRecordByTimePO));
     }
 
@@ -140,9 +150,9 @@ public class NursingManageController {
     }
 
     /**
-     * 新增三测单---作废，合入新增护理记录
+     * 新增三测单
      */
-    @ApiOperation("新增三测单---作废，合入新增护理记录")
+    @ApiOperation("新增三测单")
     @PostMapping("/addVitalSignRecord")
     public ResultBody<Boolean> addVitalSignRecord(@RequestBody BusVitalSignRecordPO busVitalSignRecordPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busVitalSignRecordService.addVitalSignRecord(busVitalSignRecordPO, userInfo);
@@ -150,9 +160,9 @@ public class NursingManageController {
     }
 
     /**
-     * 批量更新三测单---作废，合入批量更新护理记录
+     * 批量更新三测单
      */
-    @ApiOperation("批量更新三测单---作废，合入批量更新护理记录")
+    @ApiOperation("批量更新三测单")
     @PostMapping("/batchUpdateVitalSignRecord")
     public ResultBody<Boolean> batchUpdateVitalSignRecord(@RequestBody List<BusVitalSignRecordPO> busVitalSignRecordPOS, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         busVitalSignRecordService.batchUpdateVitalSignRecord(busVitalSignRecordPOS, userInfo);
@@ -164,10 +174,19 @@ public class NursingManageController {
      */
     @ApiOperation("查询三测单记录")
     @PostMapping("/queryVitalSignRecord")
-    public ResultBody<List<BusVitalSignRecordPO>> queryVitalSignRecord(@RequestBody QueryVitalSignPO queryVitalSignPO){
+    public ResultBody<BusVitalSignVO> queryVitalSignRecord(@RequestBody QueryVitalSignPO queryVitalSignPO){
 //        return ResultBody.newSuccessInstance(busNursingRecordService.queryVitalSignRecord(queryVitalSignPO));
         log.info("queryVitalSignRecord, 入参： " + JSON.toJSONString(queryVitalSignPO));
         return ResultBody.newSuccessInstance(busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPO));
+    }
+
+    /**
+     * 批量插入——查询当前时间点三测单列表
+     */
+    @ApiOperation("批量插入——查询当前时间点三测单列表")
+    @PostMapping("/batchQueryVitalSignRecord")
+    public ResultBody<List<BusVitalSignRecordQueryVO>> batchQueryVitalSignRecord(@RequestBody QueryBatchVitalSignPO queryBatchVitalSignPO){
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.batchQueryVitalSignRecord(queryBatchVitalSignPO));
     }
 
     /**
@@ -181,18 +200,9 @@ public class NursingManageController {
     }
 
     /**
-     * 批量插入——查询当前时间点三测单列表
+     * 删除三测单记录
      */
-    @ApiOperation("批量插入——查询当前时间点三测单列表")
-    @PostMapping("/batchQueryVitalSignRecord")
-    public ResultBody<List<BusNursingRecordQueryVO>> batchQueryVitalSignRecord(@RequestBody QueryBatchVitalSignPO queryBatchVitalSignPO){
-        return ResultBody.newSuccessInstance(busNursingRecordService.batchQueryVitalSignRecord(queryBatchVitalSignPO));
-    }
-
-    /**
-     * 删除三测单记录---作废，合入删除护理记录
-     */
-    @ApiOperation("删除三测单记录---作废，合入删除护理记录")
+    @ApiOperation("删除三测单记录")
     @GetMapping("/delVitalSignRecord")
     public ResultBody<Boolean> delVitalSignRecord(String ids) {
         busVitalSignRecordService.delVitalSignRecord(ids);

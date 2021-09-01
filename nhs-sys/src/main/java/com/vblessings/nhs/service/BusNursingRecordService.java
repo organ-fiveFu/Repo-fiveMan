@@ -21,7 +21,7 @@ public interface BusNursingRecordService {
 
     BusVitalSignVO queryVitalSignRecord(QueryVitalSignPO queryVitalSignPO);
 
-    List<BusNursingRecordQueryVO> batchQueryVitalSignRecord(QueryBatchVitalSignPO queryBatchVitalSignPO);
+    List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO);
 
-    BusNursingRecordPO nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO);
+    List<BusNursingRecordPO> nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO);
 }

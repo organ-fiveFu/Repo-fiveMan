@@ -106,26 +106,8 @@ public class BusVitalSignRecordPO {
     private Long creatorId;
 
     /**
-     * 更新人
-     */
-    @ApiModelProperty(value = "更新人")
-    private Long updaterId;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
-
-    /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
-
-    /**
-     * 是否启用
-     */
-    @ApiModelProperty(value = "是否启用")
-    private Integer isDel;
 }

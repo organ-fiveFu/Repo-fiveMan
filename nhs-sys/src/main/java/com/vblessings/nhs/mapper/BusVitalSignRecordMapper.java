@@ -1,7 +1,8 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.business.BusVitalSignRecord;
-import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
+import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
+import org.springframework.data.repository.query.Param;
 import tk.mybatis.mapper.common.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ public interface BusVitalSignRecordMapper extends Mapper<BusVitalSignRecord> {
 
     void batchDel(String[] id);
 
-    List<BusVitalSignRecordVO> batchQueryVitalSignRecord(String recordTime);
+    List<BusVitalSignRecordQueryVO> batchQueryVitalSignRecord(@Param("recordTime") String recordTime,
+                                                              @Param("timePoint") String timePoint);
 
 }

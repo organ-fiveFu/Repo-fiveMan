@@ -160,6 +160,6 @@ public class BusVitalSignRecord implements Serializable {
 	 */
 	@ApiModelProperty(value = "是否启用")
     @Column(name = "is_del")
-    private Integer isDel;
+    private Integer isDel = 0;
 	
 }
