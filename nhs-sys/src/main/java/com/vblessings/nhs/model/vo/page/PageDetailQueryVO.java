@@ -69,13 +69,13 @@ public class PageDetailQueryVO implements Serializable {
     private String admissionTime;
 
     @ApiModelProperty(value = "入院诊断")
-    private List<String> hospitalDiagnosis;
+    private String hospitalDiagnosis;
 
     @ApiModelProperty(value = "监护人联系电话")
     private String contactNumber;
 
     @ApiModelProperty(value = "过敏史")
-    private List<String> allergy;
+    private String allergy;
 
     @ApiModelProperty(value = "费用到期标志(0:未到期)")
     private Integer feesDueStatue = 0;
