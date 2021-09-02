@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -80,6 +82,14 @@ public class NursingManageController {
     public ResultBody delSpecialNursing(String  ids){
         busSpecialNursingRecordService.delSpecialNursing(ids);
         return ResultBody.newSuccessInstance();
+    }
+    /**
+     * 特级护理导出
+     */
+    @ApiOperation("导出特级护理记录")
+    @GetMapping("/exportSpecialNursing")
+   public void exportSpecialNursing(String  ids, HttpServletResponse response) throws IOException {
+        busSpecialNursingRecordService.exportSpecialNursing(ids,response);
     }
 
     /**
