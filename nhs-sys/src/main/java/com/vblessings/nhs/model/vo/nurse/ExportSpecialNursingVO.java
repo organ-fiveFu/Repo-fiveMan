@@ -11,12 +11,6 @@ import java.util.Date;
 @Data
 @ApiModel("特级护理excel导出实体类")
 public class ExportSpecialNursingVO {
-    /**
-     * 住院号
-     */
-    @ApiModelProperty(value = "住院号", required = false)
-    @ExcelProperty(value = "business_no")
-    private String businessNo;
 
     /**
      * 病人姓名
