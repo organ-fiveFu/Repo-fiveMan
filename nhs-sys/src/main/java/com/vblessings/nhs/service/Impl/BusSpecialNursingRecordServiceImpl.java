@@ -17,6 +17,7 @@ import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusSpecialNursingRecordService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -100,22 +101,22 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         head1.add("过敏史");
         List<String> head2 = new ArrayList<>();
         head2.add(bigTitle);
-        head2.add("医院诊断");
+        head2.add("床号");
         List<String> head3 = new ArrayList<>();
         head3.add(bigTitle);
         head3.add("房间号");
         List<String> head4 = new ArrayList<>();
         head4.add(bigTitle);
-        head4.add("床号");
+        head4.add("时间");
         List<String> head5 = new ArrayList<>();
         head5.add(bigTitle);
-        head5.add("时间");
+        head5.add("晨间护理");
         List<String> head6 = new ArrayList<>();
         head6.add(bigTitle);
-        head6.add("晨间护理");
+        head6.add("预防压疮护理");
         List<String> head7 = new ArrayList<>();
         head7.add(bigTitle);
-        head7.add("预防压疮护理");
+        head7.add("晚间护理");
         List<String> head8 = new ArrayList<>();
         head8.add(bigTitle);
         head8.add("出量记录");
@@ -124,13 +125,13 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         head9.add("入量记录");
         List<String> head10 = new ArrayList<>();
         head10.add(bigTitle);
-        head10.add("晚间护理");
+        head10.add("精神状态及其他");
         List<String> head11 = new ArrayList<>();
         head11.add(bigTitle);
-        head11.add("精神状态及其他");
+        head11.add("责任人");
         List<String> head12 = new ArrayList<>();
         head12.add(bigTitle);
-        head12.add("责任人");
+        head12.add("医院诊断");
         head.add(head0);
         head.add(head1);
         head.add(head2);
@@ -207,9 +208,8 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         contentWriteCellStyle.setBorderLeft(BorderStyle.THIN);
         contentWriteCellStyle.setBorderRight(BorderStyle.THIN);
         contentWriteCellStyle.setBorderTop(BorderStyle.THIN);
-        HorizontalCellStyleStrategy horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
-        OutputStream out = response.getOutputStream();
-            EasyExcel.write(out,ExportSpecialNursingVO.class).excelType(ExcelTypeEnum.XLSX).head(getSpecialNursing(bigTitle.toString())).registerWriteHandler(horizontalCellStyleStrategy).sheet("特级护理").doWrite(exportSpecialNursingVOList);
+         OutputStream out = response.getOutputStream();
+            EasyExcel.write(out,ExportSpecialNursingVO.class).excelType(ExcelTypeEnum.XLSX).head(getSpecialNursing(bigTitle.toString())).registerWriteHandler(new CustomCellWriteHandler()).sheet("特级护理").doWrite(exportSpecialNursingVOList);
 
     }
 }
