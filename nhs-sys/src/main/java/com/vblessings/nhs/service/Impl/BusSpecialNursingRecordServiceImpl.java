@@ -167,21 +167,21 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
             ExportSpecialNursingVO exportSpecialNursingVO = new ExportSpecialNursingVO();
             BeanUtils.copyProperties(busSpecialNursingRecord,exportSpecialNursingVO);
             exportSpecialNursingVO.setNursingTime(sdf.format(busSpecialNursingRecord.getNursingTime()));
-            if(busSpecialNursingRecord.getIsEveningCare().equals(0)){
+            if(busSpecialNursingRecord.getIsEveningCare().equals("0")){
                 exportSpecialNursingVO.setIsEveningCare("是");
-            } if(busSpecialNursingRecord.getIsEveningCare().equals(1)){
+            } if(busSpecialNursingRecord.getIsEveningCare().equals("1")){
                 exportSpecialNursingVO.setIsEveningCare("否");
             }
-            if(busSpecialNursingRecord.getIsMorningCare().equals(0)){
+            if(busSpecialNursingRecord.getIsMorningCare().equals("0")){
                 exportSpecialNursingVO.setIsMorningCare("是");
             }
-            if(busSpecialNursingRecord.getIsMorningCare().equals(1)){
+            if(busSpecialNursingRecord.getIsMorningCare().equals("1")){
                 exportSpecialNursingVO.setIsMorningCare("否");
             }
-            if(busSpecialNursingRecord.getIsPressureUlcersCare().equals(0)){
+            if(busSpecialNursingRecord.getIsPressureUlcersCare().equals("0")){
                 exportSpecialNursingVO.setIsPressureUlcersCare("是");
             }
-            if(busSpecialNursingRecord.getIsPressureUlcersCare().equals(1)){
+            if(busSpecialNursingRecord.getIsPressureUlcersCare().equals("1")){
                 exportSpecialNursingVO.setIsPressureUlcersCare("否");
             }
             exportSpecialNursingVOList.add(exportSpecialNursingVO);

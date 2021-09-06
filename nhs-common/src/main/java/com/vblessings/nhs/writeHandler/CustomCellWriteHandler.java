@@ -47,7 +47,9 @@ public class CustomCellWriteHandler extends AbstractColumnWidthStyleStrategy {
     private Integer dataLength(List<CellData> cellDataList, Cell cell, Boolean isHead) {
         if (isHead) {
             return cell.getStringCellValue().getBytes().length;
-        } else {
+        }
+        //自定义单元格长度 过长的自动隐藏
+        else return 10;/* else {
             CellData cellData = cellDataList.get(0);
             CellDataTypeEnum type = cellData.getType();
             if (type == null) {
@@ -64,6 +66,6 @@ public class CustomCellWriteHandler extends AbstractColumnWidthStyleStrategy {
                         return -1;
                 }
             }
-        }
+        }*/
     }
 }
