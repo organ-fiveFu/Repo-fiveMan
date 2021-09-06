@@ -39,6 +39,7 @@
         <hibernate-validator.version>6.0.18.Final</hibernate-validator.version>
         <nimbus-jose-jwt.version>6.0</nimbus-jose-jwt.version>
         <c3p0.version>0.9.5.2</c3p0.version>
+        <commons.net>3.7.2</commons.net>
         <fastjson.version>1.2.58</fastjson.version>
     </properties>
     <!--依赖统一管理-->
@@ -158,6 +159,12 @@
                 <artifactId>fastjson</artifactId>
                 <groupId>com.alibaba</groupId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons.net}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

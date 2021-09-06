@@ -200,13 +200,13 @@ public class NursingManageController {
     }
 
     /**
-     * 分页查询三测单记录 ---- 作废
+     * 查询患者三测单记录
      */
-    @ApiOperation("分页查询三测单记录")
-    @PostMapping("/pageVitalSignRecord")
-    public ResultBody<PageVO<BusVitalSignRecordPO>> pageVitalSignRecord(@RequestBody QueryVitalSignPagePO queryVitalSignPagePO){
+    @ApiOperation("查询患者三测单记录")
+    @PostMapping("/queryVitalSignRecord")
+    public ResultBody<List<BusVitalSignRecordPO>> queryVitalSignRecord(@RequestBody QueryVitalSignPagePO queryVitalSignPagePO){
         log.info("queryVitalSignRecord, 入参： " + JSON.toJSONString(queryVitalSignPagePO));
-        return ResultBody.newSuccessInstance(busVitalSignRecordService.pageVitalSignRecord(queryVitalSignPagePO));
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPagePO));
     }
 
     /**

@@ -94,6 +94,12 @@ public class BusVitalSignRecordPO {
     private BigDecimal urine;
 
     /**
+     * 排便
+     */
+    @ApiModelProperty(value = "排便")
+    private Integer defecate;
+
+    /**
      * 体重
      */
     @ApiModelProperty(value = "体重")
@@ -106,8 +112,8 @@ public class BusVitalSignRecordPO {
     private Long creatorId;
 
     /**
-     * 更新时间
+     * 创建时间
      */
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 }

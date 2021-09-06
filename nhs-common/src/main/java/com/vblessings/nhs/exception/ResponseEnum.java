@@ -63,6 +63,7 @@ public enum ResponseEnum implements BusinessExceptionAssert {
     ABNORMAL_DATA_VERIFICATION(7006, "数据校验异常"),
     NAME_ALREADY_EXISTS(7007, "名称已存在"),
     CODE_ALREADY_EXISTS(7008, "编码已存在"),
+    DATA_ALREADY_EXISTS(7009, "该数据已存在"),
     DATA_NOTEXIST(7011, "该数据不存在"),
     DATA_DELETED(7012, "该数据已删除"),
     DATA_AUDITED(7013, "已审核的数据不能执行该操作"),

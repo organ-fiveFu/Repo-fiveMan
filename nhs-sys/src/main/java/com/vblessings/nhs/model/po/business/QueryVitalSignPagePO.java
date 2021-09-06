@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @ApiModel(value = "分页查询三测单入参")
-public class QueryVitalSignPagePO extends PageParam {
+public class QueryVitalSignPagePO {
 
     @ApiModelProperty(value = "id", required = true)
     private Long id;
