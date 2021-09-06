@@ -203,10 +203,10 @@ public class NursingManageController {
      * 查询患者三测单记录
      */
     @ApiOperation("查询患者三测单记录")
-    @PostMapping("/queryVitalSignRecord")
-    public ResultBody<List<BusVitalSignRecordPO>> queryVitalSignRecord(@RequestBody QueryVitalSignPagePO queryVitalSignPagePO){
+    @PostMapping("/queryPatientVitalSignRecord")
+    public ResultBody<List<BusVitalSignRecordPO>> queryPatientVitalSignRecord(@RequestBody QueryVitalSignPagePO queryVitalSignPagePO){
         log.info("queryVitalSignRecord, 入参： " + JSON.toJSONString(queryVitalSignPagePO));
-        return ResultBody.newSuccessInstance(busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPagePO));
+        return ResultBody.newSuccessInstance(busVitalSignRecordService.queryPatientVitalSignRecord(queryVitalSignPagePO));
     }
 
     /**

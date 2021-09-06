@@ -136,7 +136,7 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
     }
 
     @Override
-    public List<BusVitalSignRecordPO> queryVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO) {
+    public List<BusVitalSignRecordPO> queryPatientVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO) {
         List<BusVitalSignRecordPO> busVitalSignRecordPOS = new ArrayList<>();
         if (queryVitalSignPagePO.getId() != null) {
             BusVitalSignRecord busVitalSignRecord = busVitalSignRecordMapper.selectByPrimaryKey(queryVitalSignPagePO.getId());

@@ -21,5 +21,5 @@ public interface BusVitalSignRecordService {
 
     void delVitalSignRecord(String ids);
 
-    List<BusVitalSignRecordPO> queryVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO);
+    List<BusVitalSignRecordPO> queryPatientVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO);
 }
