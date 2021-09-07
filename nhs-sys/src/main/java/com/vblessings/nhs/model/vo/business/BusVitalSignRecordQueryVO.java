@@ -110,6 +110,12 @@ public class BusVitalSignRecordQueryVO {
 	private BigDecimal urine;
 
 	/**
+	 * 排便
+	 */
+	@ApiModelProperty(value = "排便")
+	private Integer defecate;
+
+	/**
 	 * 体重
 	 */
 	@ApiModelProperty(value = "体重")

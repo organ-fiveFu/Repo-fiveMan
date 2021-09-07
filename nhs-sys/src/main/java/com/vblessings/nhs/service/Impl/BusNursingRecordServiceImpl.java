@@ -20,7 +20,9 @@ import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
 import com.google.common.base.Strings;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -32,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class BusNursingRecordServiceImpl implements BusNursingRecordService {
     @Resource
     private SnowflakeComponent snowflakeComponent;
@@ -54,7 +57,11 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
             throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
         }
         OperateUtil.onSaveNew(busNursingRecord, userInfo, id);
-        busNursingRecordMapper.insert(busNursingRecord);
+        try {
+            busNursingRecordMapper.insert(busNursingRecord);
+        } catch (DuplicateKeyException e) {
+            throw ResponseEnum.DATA_ALREADY_EXISTS.newException("数据已存在");
+        }
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.vblessings.nhs.service.BusVitalSignRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -57,7 +58,11 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
         }
         OperateUtil.onSaveNew(busVitalSignRecord, userInfo, id);
-        busVitalSignRecordMapper.insert(busVitalSignRecord);
+        try {
+            busVitalSignRecordMapper.insert(busVitalSignRecord);
+        } catch (DuplicateKeyException e) {
+            throw ResponseEnum.DATA_ALREADY_EXISTS.newException("数据已存在");
+        }
     }
 
     @Override
@@ -131,8 +136,7 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
     }
 
     @Override
-    public PageVO<BusVitalSignRecordPO> pageVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO) {
-        Page<BusVitalSignRecord> result = PageHelper.startPage(queryVitalSignPagePO.getPageNum(), queryVitalSignPagePO.getPageSize());
+    public List<BusVitalSignRecordPO> queryPatientVitalSignRecord(QueryVitalSignPagePO queryVitalSignPagePO) {
         List<BusVitalSignRecordPO> busVitalSignRecordPOS = new ArrayList<>();
         if (queryVitalSignPagePO.getId() != null) {
             BusVitalSignRecord busVitalSignRecord = busVitalSignRecordMapper.selectByPrimaryKey(queryVitalSignPagePO.getId());
@@ -167,7 +171,7 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                 busVitalSignRecordPOS.add(busVitalSignRecordPO);
             });
         }
-        return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busVitalSignRecordPOS);
+        return busVitalSignRecordPOS;
     }
 
     @Override

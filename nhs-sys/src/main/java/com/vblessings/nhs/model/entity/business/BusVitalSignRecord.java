@@ -119,6 +119,13 @@ public class BusVitalSignRecord implements Serializable {
 	@ApiModelProperty(value = "尿量")
     @Column(name = "urine")
     private BigDecimal urine;
+
+	/**
+	 * 排便
+	 */
+	@ApiModelProperty(value = "排便")
+	@Column(name = "defecate")
+	private Integer defecate;
 	
 		/**
 	 * 体重
