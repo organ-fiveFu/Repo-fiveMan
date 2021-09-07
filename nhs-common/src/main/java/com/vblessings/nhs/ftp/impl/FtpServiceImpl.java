@@ -40,37 +40,39 @@ public class FtpServiceImpl implements IFtpService {
     public UploadSuccessVO uploadFile(File file) {
         String realName = file.getName();
         File rename = MultipartFileToFile.rename(file);
-        return uploadImpl(rename, realName);
+        return uploadImpl(rename, realName, "/");
     }
 
     /**
      * 文件上传
      *
      * @param multipartFile web文件
+     * @param workPath      工作目录
      * @return 上传回参
      */
     @Override
-    public UploadSuccessVO upload(MultipartFile multipartFile) {
+    public UploadSuccessVO upload(MultipartFile multipartFile, String workPath) {
         // 文件校验
         ftpProperties.validFile(multipartFile);
         String realName = multipartFile.getOriginalFilename();
         // 转换成file并重命名
         File file = MultipartFileToFile.transFormAndRename(multipartFile);
-        return uploadImpl(file, realName);
+        return uploadImpl(file, realName, workPath);
     }
 
     /**
      * @param file     文件
      * @param realName 原文件名称
+     * @param workPath 工作目录
      * @return UploadSuccessVO
      */
-    private UploadSuccessVO uploadImpl(File file, String realName) {
+    private UploadSuccessVO uploadImpl(File file, String realName, String workPath) {
         UploadSuccessVO successVO = new UploadSuccessVO();
         successVO.setDocName(realName);
         // 上传文件
         String ftpFileName;
         try {
-            ftpFileName = FtpUtils.uploadFile(file, true);
+            ftpFileName = FtpUtils.uploadFile(file, workPath, true);
         } catch (IOException e) {
             throw ResponseEnum.BAD_REQUEST.newException("文件上传失败");
         }
@@ -78,9 +80,9 @@ public class FtpServiceImpl implements IFtpService {
             throw ResponseEnum.BAD_REQUEST.newException("文件上传失败");
         }
         successVO.setFtpName(ftpFileName);
-        String ftpUrl = normalFtpUrl();
+        String ftpUrl = normalFtpUrl(workPath);
         successVO.setDocUrl(ftpUrl + ftpFileName);
-        successVO.setFtpPath(FtpUtils.getWorkspace());
+        successVO.setFtpPath(FtpUtils.getWorkspace() + workPath);
         return successVO;
     }
 
@@ -108,7 +110,7 @@ public class FtpServiceImpl implements IFtpService {
         uploadFileMap.forEach((key, value) -> {
             UploadSuccessVO vo = new UploadSuccessVO();
             vo.setDocName(realNameMap.get(key));
-            String ftpUrl = normalFtpUrl();
+            String ftpUrl = normalFtpUrl("/");
             vo.setDocUrl(ftpUrl + value);
             vo.setFtpName(value);
             vo.setFtpPath(FtpUtils.getWorkspace());
@@ -164,10 +166,11 @@ public class FtpServiceImpl implements IFtpService {
     /**
      * @return 拼接的路径
      */
-    private String normalFtpUrl() {
-        String s = URLUtil.normalize(ftpProperties.getAccessPath() + "/" + ftpProperties.getWorkspace() + "/").replaceAll("http://", "");
-        int i = s.indexOf("/");
-        return s.substring(i);
+    private String normalFtpUrl(String workPath) {
+        String s = URLUtil.normalize(ftpProperties.getAccessPath() + "/" + workPath + "/").replaceAll("http://", "");
+//        int i = s.indexOf("/");
+//        return s.substring(i);
+        return s;
     }
 
     @Override

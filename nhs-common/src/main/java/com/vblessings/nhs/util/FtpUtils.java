@@ -1,6 +1,5 @@
 package com.vblessings.nhs.util;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.vblessings.nhs.ftp.FtpBatchDelPO;
 import com.vblessings.nhs.ftp.FtpProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -63,18 +62,18 @@ public class FtpUtils {
     }
 
 
-    /**
-     * 文件上传,支持追加路径
-     *
-     * @param path        文件路径
-     * @param deleteLocal 上传成功后是否删除本地文件
-     * @return 文件名
-     * @throws IOException io
-     */
-    public static String uploadFile(String path, Boolean deleteLocal) throws IOException {
-        File file = new File(path);
-        return uploadFileImpl(file, deleteLocal);
-    }
+//    /**
+//     * 文件上传,支持追加路径
+//     *
+//     * @param path        文件路径
+//     * @param deleteLocal 上传成功后是否删除本地文件
+//     * @return 文件名
+//     * @throws IOException io
+//     */
+//    public static String uploadFile(String path, Boolean deleteLocal) throws IOException {
+//        File file = new File(path);
+//        return uploadFileImpl(file, path, deleteLocal);
+//    }
 
 
     /**
@@ -82,11 +81,12 @@ public class FtpUtils {
      *
      * @param file        文件
      * @param deleteLocal 上传成功后是否删除本地文件
+     * @param workPath    工作目录
      * @return 文件名
      * @throws IOException io
      */
-    public static String uploadFile(File file, Boolean deleteLocal) throws IOException {
-        return uploadFileImpl(file, deleteLocal);
+    public static String uploadFile(File file, String workPath, Boolean deleteLocal) throws IOException {
+        return uploadFileImpl(file, workPath, deleteLocal);
     }
 
 
@@ -131,20 +131,23 @@ public class FtpUtils {
      *
      * @param file        文件
      * @param deleteLocal 上传成功后是否删除本地文件
+     * @param workPath    工作目录
      * @return 文件名
      */
-    private static String uploadFileImpl(File file, Boolean deleteLocal) throws IOException {
+    private static String uploadFileImpl(File file, String workPath, Boolean deleteLocal) throws IOException {
         FTPClient ftpClient = getClient();
         String finalName = file.getName();
+        String realPath = ftpProperties.getWorkspace() + workPath;
         if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
             log.info("连接ftp失败");
             return "";
         }
         try {
-            if (!recurDictionary(ftpClient, true)) {
+            if (!recurDictionary(ftpClient, realPath, true)) {
                 log.error("创建目录失败!");
                 return "";
             }
+            log.info("当前工作路径为：" + ftpClient.printWorkingDirectory());
             // 开启服务器对UTF-8的支持，如果服务器支持就用UTF-8编码，否则就使用本地编码（GBK）.
             if (FTPReply.isPositiveCompletion(ftpClient.sendCommand(OPTS, STATUS))) {
                 LOCAL_CHARSET = "UTF-8";
@@ -189,18 +192,19 @@ public class FtpUtils {
      *
      * @param fileMap     文件map  key是标识
      * @param deleteLocal 是否删除本地文件
-     * @param addPath     追加路径,默认追加在工作目录后
+     * @param workPath     追加路径,默认追加在工作目录后
      * @return 文件名
      */
-    private static Map<String, String> batchUploadFileImpl(Map<String, File> fileMap, Boolean deleteLocal, String addPath) throws IOException {
+    private static Map<String, String> batchUploadFileImpl(Map<String, File> fileMap, Boolean deleteLocal, String workPath) throws IOException {
         Map<String, String> resultMap = new HashMap<>();
+        String realPath = ftpProperties.getWorkspace() + workPath;
         FTPClient ftpClient = getClient();
         if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
             log.info("连接ftp失败");
             return resultMap;
         }
         try {
-            if (!recurDictionary(ftpClient, true)) {
+            if (!recurDictionary(ftpClient, realPath, true)) {
                 log.error("创建目录失败!");
                 return resultMap;
             }
@@ -392,26 +396,39 @@ public class FtpUtils {
         return false;
     }
 
+    private static boolean recurDictionary(FTPClient ftpClient, Boolean make) throws IOException {
+        return recurDictionary(ftpClient, null, make);
+    }
+
     /**
      * 递归创建/切换多级目录
      *
      * @param ftpClient 客户端
+     * @param realPath  服务端真实路径
      * @param make      是否创建
      */
-    private static boolean recurDictionary(FTPClient ftpClient, Boolean make) throws IOException {
-        String addPath = ftpProperties.getWorkspace();
-        if (Strings.isBlank(addPath)) {
+    private static boolean recurDictionary(FTPClient ftpClient, String realPath, Boolean make) throws IOException {
+        String workspace = ftpProperties.getWorkspace();
+        if (!ftpClient.changeWorkingDirectory(workspace)) {
+            log.error("切换至workspace失败");
+            return false;
+        }
+        if (Strings.isBlank(realPath)) {
             return true;
         }
-        String workPath = ftpClient.printWorkingDirectory();
-        String[] split = addPath.split(PATH_LINE);
+        String relativePath = realPath;
+        // 获取相对路径
+        if (realPath.contains(workspace)) {
+            relativePath = realPath.replace(workspace, "");
+        }
+        String[] split = relativePath.split(PATH_LINE);
         for (String s : split) {
-            if (ftpClient.changeWorkingDirectory(workPath)) {
+            if (ftpClient.changeWorkingDirectory(workspace)) {
                 if (Strings.isNotBlank(s)) {
                     if (make) {
                         ftpClient.makeDirectory(s);
                     }
-                    workPath += PATH_LINE + s;
+                    workspace += PATH_LINE + s;
                 }
             } else {
                 String info = make ? "创建" : "切换";
@@ -419,7 +436,7 @@ public class FtpUtils {
                 break;
             }
         }
-        return ftpClient.changeWorkingDirectory(workPath);
+        return ftpClient.changeWorkingDirectory(workspace);
     }
 
     /**

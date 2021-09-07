@@ -23,9 +23,10 @@ public interface IFtpService {
      * 文件上传
      *
      * @param multipartFile web文件
+     * @param workPath      工作目录
      * @return 上传回参
      */
-    UploadSuccessVO upload(MultipartFile multipartFile);
+    UploadSuccessVO upload(MultipartFile multipartFile, String workPath);
 
     /**
      * 批量上传
