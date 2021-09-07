@@ -160,6 +160,9 @@ public class BloodSugarServiceImpl implements BloodSugarService {
             //采样时间
             String samplingTime = null == busBloodSugarRecord.getSamplingTime() ? "" :
                     DateFormatUtils.format(busBloodSugarRecord.getSamplingTime(), "yyyy-MM-dd HH:mm:ss");
+            if(!samplingTime.equals("")){
+                samplingTime = DateUtil.formatTime(busBloodSugarRecord.getSamplingTime());
+            }
             bloodSugarQueryVO.setBloodSugarRecordDate(s);
             bloodSugarQueryVO.setSamplingTime(samplingTime);
             bloodSugarQueryVO.setSamplingStatusName(samplingStatusMap.get(busBloodSugarRecord.getSamplingStatus()));
