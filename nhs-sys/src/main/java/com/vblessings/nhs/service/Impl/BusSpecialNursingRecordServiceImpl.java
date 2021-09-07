@@ -91,57 +91,45 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
      * @param bigTitle
      * @return
      */
-    public   List<List<String>> getSpecialNursing(String bigTitle){
+    public  List<List<String>> getSpecialNursing(String bigTitle,BusSpecialNursingRecord busSpecialNursingRecord){
+        String secondTitle = "姓名:"+busSpecialNursingRecord.getPatientName()+"  药物过敏史:"+busSpecialNursingRecord.getAllergy()+"  医院诊断:"+busSpecialNursingRecord.getHospitalDiagnosis()+"  房(床)号:"+
+                busSpecialNursingRecord.getRoomName()+busSpecialNursingRecord.getBedName();
         List<List<String>> head = new ArrayList<List<String>>();
         List<String> head0 = new ArrayList<>();
         head0.add(bigTitle);
-        head0.add("姓名");
+        head0.add(secondTitle);
+        head0.add("时间");
         List<String> head1 = new ArrayList<>();
         head1.add(bigTitle);
-        head1.add("过敏史");
+        head1.add(secondTitle);
+        head1.add("晨间护理");
         List<String> head2 = new ArrayList<>();
         head2.add(bigTitle);
-        head2.add("床号");
+        head2.add(secondTitle);
+        head2.add("预防压疮护理");
         List<String> head3 = new ArrayList<>();
         head3.add(bigTitle);
-        head3.add("房间号");
+        head3.add(secondTitle);
+        head3.add("出量记录");
         List<String> head4 = new ArrayList<>();
         head4.add(bigTitle);
-        head4.add("时间");
+        head4.add(secondTitle);
+        head4.add("晚间护理");
         List<String> head5 = new ArrayList<>();
         head5.add(bigTitle);
-        head5.add("晨间护理");
+        head5.add(secondTitle);
+        head5.add("精神状态及其他");
         List<String> head6 = new ArrayList<>();
         head6.add(bigTitle);
-        head6.add("预防压疮护理");
-        List<String> head7 = new ArrayList<>();
-        head7.add(bigTitle);
-        head7.add("晚间护理");
-        List<String> head8 = new ArrayList<>();
-        head8.add(bigTitle);
-        head8.add("出量记录");
-        List<String> head9 = new ArrayList<>();
-        head9.add(bigTitle);
-        head9.add("入量记录");
-        List<String> head10 = new ArrayList<>();
-        head10.add(bigTitle);
-        head10.add("精神状态及其他");
-        List<String> head11 = new ArrayList<>();
-        head11.add(bigTitle);
-        head11.add("责任人");
-        List<String> head12 = new ArrayList<>();
-        head12.add(bigTitle);
-        head12.add("医院诊断");
+        head6.add(secondTitle);
+        head6.add("责任人");
         head.add(head0);
         head.add(head1);
         head.add(head2);
         head.add(head3);
         head.add(head4);
-        head.add(head5);head.add(head6);
-        head.add(head7);
-        head.add(head8);
-        head.add(head9);head.add(head10);
-        head.add(head11);head.add(head12);
+        head.add(head5);
+        head.add(head6);
         return head;
     }
 
@@ -158,6 +146,7 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         criteria.andEqualTo("isDel",0);
         criteria.andIn("id",id);
         List<BusSpecialNursingRecord> busSpecialNursingRecordList = busSpecialNursingRecordMapper.selectByExample(example);
+        BusSpecialNursingRecord busSpecialNursingRecord1 = busSpecialNursingRecordList.get(0);
         List<ExportSpecialNursingVO> exportSpecialNursingVOList = new ArrayList<>();
         //获取特级护理信息
         for (BusSpecialNursingRecord busSpecialNursingRecord:
@@ -189,7 +178,7 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
 
         //头信息
         StringBuffer bigTitle = new StringBuffer();
-        bigTitle.append("特级护理");
+        bigTitle.append("特级(专户)护理记录");
 
         String fileName = URLEncoder.encode(bigTitle.toString(), "UTF-8");
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
@@ -200,16 +189,10 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         WriteCellStyle headWriteCellStyle = new WriteCellStyle();
         headWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
-
-        contentWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
-        contentWriteCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
-        contentWriteCellStyle.setBorderBottom(BorderStyle.THIN);
-        contentWriteCellStyle.setBorderLeft(BorderStyle.THIN);
-        contentWriteCellStyle.setBorderRight(BorderStyle.THIN);
-        contentWriteCellStyle.setBorderTop(BorderStyle.THIN);
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy
+                =new HorizontalCellStyleStrategy(headWriteCellStyle,contentWriteCellStyle);
          OutputStream out = response.getOutputStream();
-            EasyExcel.write(out,ExportSpecialNursingVO.class).excelType(ExcelTypeEnum.XLSX).head(getSpecialNursing(bigTitle.toString())).registerWriteHandler(new CustomCellWriteHandler()).sheet("特级护理").doWrite(exportSpecialNursingVOList);
+            EasyExcel.write(out,ExportSpecialNursingVO.class).excelType(ExcelTypeEnum.XLSX).head(getSpecialNursing(bigTitle.toString(),busSpecialNursingRecord1)).registerWriteHandler(horizontalCellStyleStrategy).registerWriteHandler(new CustomCellWriteHandler()).sheet("特级护理").doWrite(exportSpecialNursingVOList);
 
     }
 }

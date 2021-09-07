@@ -2,6 +2,11 @@ package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -14,13 +19,16 @@ import com.vblessings.nhs.model.po.nurse.BloodSugarInsertPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarQueryPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarUpdatePO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.nurse.BloodSugarExcelVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BloodSugarService;
 import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +36,10 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -148,6 +160,9 @@ public class BloodSugarServiceImpl implements BloodSugarService {
             //采样时间
             String samplingTime = null == busBloodSugarRecord.getSamplingTime() ? "" :
                     DateFormatUtils.format(busBloodSugarRecord.getSamplingTime(), "yyyy-MM-dd HH:mm:ss");
+            if(!samplingTime.equals("")){
+                samplingTime = DateUtil.formatTime(busBloodSugarRecord.getSamplingTime());
+            }
             bloodSugarQueryVO.setBloodSugarRecordDate(s);
             bloodSugarQueryVO.setSamplingTime(samplingTime);
             bloodSugarQueryVO.setSamplingStatusName(samplingStatusMap.get(busBloodSugarRecord.getSamplingStatus()));
@@ -170,5 +185,82 @@ public class BloodSugarServiceImpl implements BloodSugarService {
             throw ResponseEnum.FILE_DELETE_FAIL.newException("删除血糖记录失败");
         }
         return true;
+    }
+
+    @Override
+    public void exportBloodSugar(String ids, HttpServletResponse response) throws IOException {
+        List<String> id = Arrays.asList(ids.split(","));
+        Example example = new Example(BusBloodSugarRecord.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel",0);
+        criteria.andIn("id",id);
+        List<BusBloodSugarRecord> busBloodSugarRecords = busBloodSugarRecordMapper.selectByExample(example);
+        BusBloodSugarRecord busBloodSugarRecord1 = busBloodSugarRecords.get(0);
+        List<String> samplingStatusList = busBloodSugarRecords.stream().map(BusBloodSugarRecord::getSamplingStatus).collect(Collectors.toList());
+        Map<String, String> samplingStatusMap = sysDictDataService.getDictName(DictTypeEnum.BLOOD_SAMPLING_STATUS.getCode(), samplingStatusList);
+        List<BloodSugarExcelVO> bloodSugarExcelVOList = new ArrayList<>();
+        busBloodSugarRecords.forEach(busBloodSugarRecord -> {
+            BloodSugarExcelVO bloodSugarExcelVO = new BloodSugarExcelVO();
+            //采样时间
+            String samplingTime = null == busBloodSugarRecord.getSamplingTime() ? "" :
+                    DateFormatUtils.format(busBloodSugarRecord.getSamplingTime(), "yyyy-MM-dd HH:mm:ss");
+            bloodSugarExcelVO.setSamplingTime(samplingTime);
+            bloodSugarExcelVO.setSamplingStatusName(samplingStatusMap.get(busBloodSugarRecord.getSamplingStatus()));
+            bloodSugarExcelVO.setBloodGlucoseValue(busBloodSugarRecord.getBloodGlucoseValue());
+            bloodSugarExcelVOList.add(bloodSugarExcelVO);
+        });
+        //头信息
+        StringBuffer bigTitle = new StringBuffer();
+        bigTitle.append("血糖记录表");
+        // 头的策略
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        headWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy
+                =new HorizontalCellStyleStrategy(headWriteCellStyle,contentWriteCellStyle);
+        String fileName = URLEncoder.encode(bigTitle.toString(), "UTF-8");
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+        OutputStream out = response.getOutputStream();
+        EasyExcel.write(out, BloodSugarExcelVO.class)
+                .excelType(ExcelTypeEnum.XLSX)
+                .head(getBloodSugar(bigTitle.toString(), busBloodSugarRecord1))
+                .registerWriteHandler(horizontalCellStyleStrategy)
+                //设置列宽
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(22))
+                .registerWriteHandler(new CustomCellWriteHandler())
+                .sheet("血糖记录表").doWrite(bloodSugarExcelVOList);
+    }
+
+    /**
+     * 血糖记录信息头
+     * @param bigTitle
+     * @return
+     */
+    public   List<List<String>> getBloodSugar(String bigTitle, BusBloodSugarRecord busBloodSugarRecord){
+        String secondTitle = "床号:"+busBloodSugarRecord.getBedName()+ "   姓名:"+busBloodSugarRecord.getPatientName()+"    医院诊断:"+busBloodSugarRecord.getHospitalDiagnosis();
+        List<List<String>> head = new ArrayList<>();
+        List<String> head0 = new ArrayList<>();
+        head0.add(bigTitle);
+        head0.add(secondTitle);
+        head0.add("采样日期");
+        List<String> head1 = new ArrayList<>();
+        head1.add(bigTitle);
+        head1.add(secondTitle);
+        head1.add("采样状态");
+        List<String> head2 = new ArrayList<>();
+        head2.add(bigTitle);
+        head2.add(secondTitle);
+        head2.add("血糖值");
+        List<String> head3 = new ArrayList<>();
+        head3.add(bigTitle);
+        head3.add(secondTitle);
+        head3.add("单位");
+        head.add(head0);
+        head.add(head1);
+        head.add(head2);
+        head.add(head3);
+        return head;
     }
 }
