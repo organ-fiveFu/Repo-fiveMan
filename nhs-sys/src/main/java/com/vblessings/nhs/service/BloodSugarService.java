@@ -7,6 +7,9 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 public interface BloodSugarService {
     boolean insertBloodSugar(BloodSugarInsertPO bloodSugarInsertPO, UserInfoToken userInfoToken);
 
@@ -15,4 +18,6 @@ public interface BloodSugarService {
     PageVO<BloodSugarQueryVO> queryBloodSugar(BloodSugarQueryPO bloodSugarQueryPO);
 
     boolean deleteBloodSugar(Long id, UserInfoToken userInfoToken);
+
+    void exportBloodSugar(String ids, HttpServletResponse response) throws IOException;
 }

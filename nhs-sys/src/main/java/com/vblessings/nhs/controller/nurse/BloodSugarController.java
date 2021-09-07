@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/blood-sugar")
@@ -53,5 +55,11 @@ public class BloodSugarController {
     public ResultBody<Boolean> deleteBloodSugar(Long id, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("删除血糖记录,id:" + id);
         return ResultBody.newSuccessInstance(bloodSugarService.deleteBloodSugar(id, userInfoToken));
+    }
+
+    @ApiOperation("导出血糖记录")
+    @GetMapping("/export")
+    public void exportBloodSugar(String  ids, HttpServletResponse response) throws IOException {
+        bloodSugarService.exportBloodSugar(ids,response);
     }
 }
