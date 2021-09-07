@@ -6,6 +6,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -24,15 +25,10 @@ import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BloodSugarService;
 import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.OperateUtil;
-import com.vblessings.nhs.writeHandler.BloodSugarCellWriteHandler;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
-import com.vblessings.nhs.writeHandler.CustomHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -213,7 +209,12 @@ public class BloodSugarServiceImpl implements BloodSugarService {
         //头信息
         StringBuffer bigTitle = new StringBuffer();
         bigTitle.append("血糖记录表");
-
+        // 头的策略
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        headWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy
+                =new HorizontalCellStyleStrategy(headWriteCellStyle,contentWriteCellStyle);
         String fileName = URLEncoder.encode(bigTitle.toString(), "UTF-8");
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         response.setCharacterEncoding("utf-8");
@@ -222,8 +223,10 @@ public class BloodSugarServiceImpl implements BloodSugarService {
         EasyExcel.write(out, BloodSugarExcelVO.class)
                 .excelType(ExcelTypeEnum.XLSX)
                 .head(getBloodSugar(bigTitle.toString(), busBloodSugarRecord1))
-                .registerWriteHandler(new CustomHandler())
-                .registerWriteHandler(new BloodSugarCellWriteHandler())
+                .registerWriteHandler(horizontalCellStyleStrategy)
+                //设置列宽
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(22))
+                .registerWriteHandler(new CustomCellWriteHandler())
                 .sheet("血糖记录表").doWrite(bloodSugarExcelVOList);
     }
 

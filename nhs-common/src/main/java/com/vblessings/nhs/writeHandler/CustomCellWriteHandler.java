@@ -41,7 +41,6 @@ public class CustomCellWriteHandler implements CellWriteHandler {
             cellStyle.setFont(font);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-
             cellStyle.setWrapText(true);
            Row row = cell.getRow();
            row.setHeightInPoints(30);
@@ -53,6 +52,10 @@ public class CustomCellWriteHandler implements CellWriteHandler {
             cellStyle.setFont(font);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setWrapText(true);
             Row row = cell.getRow();
             row.setHeightInPoints(26);
@@ -64,6 +67,10 @@ public class CustomCellWriteHandler implements CellWriteHandler {
             cellStyle.setFont(font);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
             Row row = cell.getRow();
             row.setHeightInPoints(31);
         }
@@ -73,11 +80,14 @@ public class CustomCellWriteHandler implements CellWriteHandler {
             cellStyle.setFont(font);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setWrapText(true);
             Row row = cell.getRow();
             row.setHeightInPoints(30);
         }
-        //
        cell.setCellStyle(cellStyle);
 
     }
