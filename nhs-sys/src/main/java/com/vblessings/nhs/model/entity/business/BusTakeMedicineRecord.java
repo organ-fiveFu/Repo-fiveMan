@@ -109,19 +109,13 @@ public class BusTakeMedicineRecord implements Serializable {
     @Column(name = "family_sign")
     private String familySign;
 
-    /**
-     * 收药人签名
-     */
-    @ApiModelProperty(value = "收药人签名", required = false)
-    @Column(name = "drugs_receiver_sign")
-    private String drugsReceiverSign;
 
     /**
-     * 验收人签名
+     * 护士签名
      */
-    @ApiModelProperty(value = "验收人签名", required = false)
-    @Column(name = "accepter_sign")
-    private String accepterSign;
+    @ApiModelProperty(value = "护士签名", required = false)
+    @Column(name = "nursing_sign")
+    private String nursingSign;
 
     /**
      * 备注

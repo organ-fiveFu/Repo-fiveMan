@@ -5,6 +5,10 @@ import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 public interface BusTakeMedicineRecordService {
     void add(BusTakeMedicineRecord busTakeMedicineRecord, UserInfoToken userInfo);
 
@@ -13,4 +17,8 @@ public interface BusTakeMedicineRecordService {
     PageVO<BusTakeMedicineRecord> pageTakeMedicine(QueryTakeMedicineRecord queryTakeMedicineRecord);
 
     void delTakeMedicine(String ids);
+
+    void exportTakeMedicine(String  ids, HttpServletResponse response) throws IOException;
+
+    void exportDispensing(String ids, HttpServletResponse response) throws IOException;
 }

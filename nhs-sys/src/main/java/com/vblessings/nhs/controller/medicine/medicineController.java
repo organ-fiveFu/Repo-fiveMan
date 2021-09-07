@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 药物相关api
@@ -65,6 +67,18 @@ public class medicineController {
         return ResultBody.newSuccessInstance();
     }
 
+    @ApiOperation("导出自带药记录")
+    @GetMapping("/exportTakeMedicine")
+    public void exportTakeMedicine(String  ids, HttpServletResponse response) throws IOException {
+        busTakeMedicineRecordService.exportTakeMedicine(ids,response);
+    }
+
+    @ApiOperation("导出代配药记录")
+    @GetMapping("/exportDispensing")
+    public void exportDispensing(String  ids, HttpServletResponse response) throws IOException {
+        busTakeMedicineRecordService.exportDispensing(ids,response);
+    }
+
     @ApiOperation("新增用药记录")
     @PostMapping("/addMedicationRecord")
     public ResultBody addMedicationRecordS(@RequestBody BusMedicationRecord busMedicationRecord, @ApiIgnore @CurrentUser UserInfoToken userInfo){
@@ -94,6 +108,12 @@ public class medicineController {
     public ResultBody delMedicationRecord(String ids) {
         busMedicationRecordService.delMedicationRecord(ids);
         return ResultBody.newSuccessInstance();
+    }
+
+    @ApiOperation("导出用药记录")
+    @GetMapping("/exportMedicationRecord")
+    public void exportMedicationRecord(String  ids, HttpServletResponse response) throws IOException {
+        busMedicationRecordService.exportMedicationRecord(ids,response);
     }
 
 

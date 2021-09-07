@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -55,6 +56,11 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
     public void delMedicationRecord(String ids) {
         String[] id = ids.split(",");
         busMedicationRecordMapper.del(id);
+    }
+
+    @Override
+    public void exportMedicationRecord(String ids, HttpServletResponse response) {
+
     }
 
 }

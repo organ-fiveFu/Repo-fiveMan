@@ -5,6 +5,8 @@ import com.vblessings.nhs.model.po.business.QueryMedicineRecordPO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface BusMedicationRecordService {
     void add(BusMedicationRecord busMedicationRecord, UserInfoToken userInfo);
 
@@ -13,4 +15,6 @@ public interface BusMedicationRecordService {
     PageVO<BusMedicationRecord> pageMedicationRecord(QueryMedicineRecordPO queryMedicineRecordPO);
 
     void delMedicationRecord(String ids);
+
+    void exportMedicationRecord(String ids, HttpServletResponse response);
 }
