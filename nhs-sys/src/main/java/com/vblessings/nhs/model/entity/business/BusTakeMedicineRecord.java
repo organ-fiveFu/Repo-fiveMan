@@ -180,4 +180,8 @@ public class BusTakeMedicineRecord implements Serializable {
     @Column(name = "is_taken")
     private Integer isTaken;
 
+    @ApiModelProperty(value = "住院号", required = false)
+    @Column(name = "business_no")
+    private String businessNo;
+
 }

@@ -6,6 +6,8 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public interface BusMedicationRecordService {
     void add(BusMedicationRecord busMedicationRecord, UserInfoToken userInfo);
@@ -16,5 +18,5 @@ public interface BusMedicationRecordService {
 
     void delMedicationRecord(String ids);
 
-    void exportMedicationRecord(String ids, HttpServletResponse response);
+    void exportMedicationRecord(String ids, HttpServletResponse response) throws IOException;
 }
