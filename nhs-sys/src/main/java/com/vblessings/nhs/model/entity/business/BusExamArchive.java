@@ -146,4 +146,18 @@ public class BusExamArchive implements Serializable {
     @ColumnType(typeHandler = ListStringHandler.class)
     private List<String> medicalHistoryName;
 
+    /**
+     * 体检报告名称
+     */
+    @ApiModelProperty(value = "体检报告名称")
+    @Column(name = "exam_archive_name")
+    private String examArchiveName;
+
+    /**
+     * 体检报告地址
+     */
+    @ApiModelProperty(value = "体检报告地址")
+    @Column(name = "exam_archive_url")
+    private String examArchiveUrl;
+
 }

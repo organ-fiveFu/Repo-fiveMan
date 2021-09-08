@@ -33,7 +33,7 @@ public class ExamArchiveController {
      */
     @ApiOperation("新增体检档案")
     @PostMapping("/save")
-    public ResultBody<Boolean> add(@RequestBody ExamArchiveInsertPO examArchiveInsertPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
+    public ResultBody<Boolean> add(ExamArchiveInsertPO examArchiveInsertPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         log.info("体检档案入参："+ examArchiveInsertPO);
         return ResultBody.newSuccessInstance(busExamArchiveService.save(examArchiveInsertPO,userInfo));
     }
@@ -48,7 +48,7 @@ public class ExamArchiveController {
      */
     @ApiOperation("更新体检档案")
     @PostMapping("/update")
-    public ResultBody<Boolean> update(@RequestBody ExamArchiveUpdatePO examArchiveUpdatePO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
+    public ResultBody<Boolean> update(ExamArchiveUpdatePO examArchiveUpdatePO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("更新体检档案入参："+ examArchiveUpdatePO);
         return ResultBody.newSuccessInstance(busExamArchiveService.update(examArchiveUpdatePO,userInfoToken));
     }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.component.RedisCache;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.ftp.service.IFtpService;
 import com.vblessings.nhs.jwt.JWTInfo;
 import com.vblessings.nhs.jwt.jwtHelper;
 import com.vblessings.nhs.mapper.LoginMapper;
@@ -42,6 +43,9 @@ class BsHealthyApplicationTests {
 
     @Resource
     private LoginService loginService;
+
+    @Resource
+    private IFtpService iFtpService;
 
     @Resource
     RedisCache redisCache;
@@ -92,6 +96,12 @@ class BsHealthyApplicationTests {
 
         // 获取列表总数
         System.out.println(pageInfo);
+    }
+
+    @Test
+    public void play5(){
+
+//        System.out.println(iFtpService.normalFtpUrl());
     }
 
     /**
