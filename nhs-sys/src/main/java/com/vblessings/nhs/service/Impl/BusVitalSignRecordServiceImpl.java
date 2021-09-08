@@ -57,6 +57,8 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         } catch (ParseException e) {
             throw ResponseEnum.DATA_TRANSFER_ERROR.newException("日期格式转换错误");
         }
+        busVitalSignRecord.setCreatorId(null);
+        busVitalSignRecord.setCreateTime(null);
         OperateUtil.onSaveNew(busVitalSignRecord, userInfo, id);
         try {
             busVitalSignRecordMapper.insert(busVitalSignRecord);

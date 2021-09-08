@@ -47,49 +47,49 @@ public class BusNursingRecord implements Serializable {
 	 */
 	@ApiModelProperty(value = "是否洗头理发")
     @Column(name = "is_haircut")
-    private String isHaircut;
+    private Boolean isHaircut;
 	
 		/**
 	 * 是否修剪指甲
 	 */
 	@ApiModelProperty(value = "是否修剪指甲")
     @Column(name = "is_manicure")
-    private String isManicure;
+    private Boolean isManicure;
 	
 		/**
 	 * 是否清洗便器
 	 */
 	@ApiModelProperty(value = "是否清洗便器")
     @Column(name = "is_clean_toilet")
-    private String isCleanToilet;
+    private Boolean isCleanToilet;
 	
 		/**
 	 * 是否晾晒衣服
 	 */
 	@ApiModelProperty(value = "是否晾晒衣服")
     @Column(name = "is_hang_clothes")
-    private String isHangClothes;
+    private Boolean isHangClothes;
 	
 		/**
 	 * 是否打扫房间
 	 */
 	@ApiModelProperty(value = "是否打扫房间")
     @Column(name = "is_clean_room")
-    private String isCleanRoom;
+    private Boolean isCleanRoom;
 	
 		/**
 	 * 是否进餐送餐
 	 */
 	@ApiModelProperty(value = "是否进餐送餐")
     @Column(name = "is_meals")
-    private String isMeals;
+    private Boolean isMeals;
 	
 		/**
 	 * 是否送开水
 	 */
 	@ApiModelProperty(value = "是否送开水")
     @Column(name = "is_wash_gargle")
-    private String isWashGargle;
+    private Boolean isWashGargle;
 	
 		/**
 	 * 身心状况观察处理
