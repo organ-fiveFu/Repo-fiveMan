@@ -14,7 +14,6 @@ public class QueryBatchVitalSignPO {
     @ApiModelProperty(value = "记录时间", required = true)
     private String recordTime;
 
-    @NotBlank(message = "记录时间点不能为空")
     @ApiModelProperty(value = "记录时间点", required = true)
     private String timePoint;
 }

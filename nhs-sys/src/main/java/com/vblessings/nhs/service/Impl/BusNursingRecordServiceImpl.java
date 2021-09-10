@@ -194,8 +194,7 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
 
     @Override
     public List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO) {
-        return busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime(),
-                queryBatchVitalSignPO.getTimePoint());
+        return busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime());
     }
 
     @Override
