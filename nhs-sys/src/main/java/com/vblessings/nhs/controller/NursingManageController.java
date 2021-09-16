@@ -92,6 +92,19 @@ public class NursingManageController {
         busSpecialNursingRecordService.exportSpecialNursing(ids,response);
     }
 
+
+
+    /**
+     * 护理记录导出
+     */
+    @ApiOperation("护理记录导出")
+    @GetMapping("/exportNursingRecord")
+    public void exportNursingRecord(String  ids, HttpServletResponse response) throws IOException {
+        busNursingRecordService.exportNursingRecord(ids,response);
+    }
+
+
+
     /**
      * 新增护理记录
      */

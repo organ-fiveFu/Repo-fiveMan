@@ -2,6 +2,11 @@ package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
@@ -10,28 +15,35 @@ import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
 import com.vblessings.nhs.mapper.BusNursingRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
+import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignVO;
+import com.vblessings.nhs.model.vo.business.ExportNursingRecordVO;
+import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
 import com.google.common.base.Strings;
+import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -227,5 +239,151 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
         } else {
             throw ResponseEnum.DATA_NOT_FOUND.newException("未查询到数据");
         }
+    }
+
+    @Override
+    public void exportNursingRecord(String ids, HttpServletResponse response) throws IOException {
+        Example example = new Example(BusNursingRecord.class);
+        Example.Criteria criteria = example.createCriteria();
+        List<String> id = Arrays.asList(ids.split(","));
+        criteria.andEqualTo("isDel", 0);
+        criteria.andIn("id", id);
+        List<BusNursingRecord> busNursingRecordList = busNursingRecordMapper.selectByExample(example);
+        BusNursingRecord busNursingRecord = busNursingRecordList.get(0);
+        List<ExportNursingRecordVO> exportNursingRecordVOList = new ArrayList<>();
+        if (busNursingRecordList != null && busNursingRecordList.size() > 0) {
+            for (BusNursingRecord busNursingRecord1 :
+                    busNursingRecordList) {
+                ExportNursingRecordVO exportNursingRecordVO = new ExportNursingRecordVO();
+                BeanUtil.copyProperties(busNursingRecord1, exportNursingRecordVO);
+                if (busNursingRecord1.getIsHaircut()!=null){
+                    if(busNursingRecord1.getIsHaircut()){
+                        exportNursingRecordVO.setIsHaircut("是");
+                    }else {
+                        exportNursingRecordVO.setIsHaircut("否");
+                    }
+                }
+                if (busNursingRecord1.getIsManicure()!=null) {
+                    if (busNursingRecord1.getIsHaircut()) {
+                        exportNursingRecordVO.setIsManicure("是");
+                    } else {
+                        exportNursingRecordVO.setIsManicure("否");
+                    }
+                }
+                if (busNursingRecord1.getIsCleanToilet()!=null) {
+                    if (busNursingRecord1.getIsCleanToilet()) {
+                        exportNursingRecordVO.setIsCleanToilet("是");
+                    } else {
+                        exportNursingRecordVO.setIsCleanToilet("否");
+                    }
+                }
+                if (busNursingRecord1.getIsHangClothes()!=null) {
+                    if (busNursingRecord1.getIsHangClothes()) {
+                        exportNursingRecordVO.setIsHangClothes("是");
+                    } else {
+                        exportNursingRecordVO.setIsHangClothes("否");
+                    }
+                }
+                if (busNursingRecord1.getIsCleanRoom()!=null) {
+                    if (busNursingRecord1.getIsCleanRoom()) {
+                        exportNursingRecordVO.setIsCleanRoom("是");
+                    } else {
+                        exportNursingRecordVO.setIsCleanRoom("否");
+                    }
+                }
+
+                if (busNursingRecord1.getIsMeals()!=null) {
+                    if (busNursingRecord1.getIsMeals()) {
+                        exportNursingRecordVO.setIsMeals("是");
+                    } else {
+                        exportNursingRecordVO.setIsMeals("否");
+                    }
+                }
+                if (busNursingRecord1.getIsWashGargle()!=null) {
+                    if (busNursingRecord1.getIsWashGargle()) {
+                        exportNursingRecordVO.setIsWashGargle("是");
+                    } else {
+                        exportNursingRecordVO.setIsWashGargle("否");
+                    }
+                }
+                exportNursingRecordVOList.add(exportNursingRecordVO);
+
+            }
+        }
+
+        //头信息
+        StringBuffer bigTitle = new StringBuffer();
+        bigTitle.append("护理记录");
+
+        String fileName = URLEncoder.encode(bigTitle.toString(), "UTF-8");
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+        // 头的策略
+
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        headWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy
+                =new HorizontalCellStyleStrategy(headWriteCellStyle,contentWriteCellStyle);
+        OutputStream out = response.getOutputStream();
+        EasyExcel.write(out, ExportNursingRecordVO.class)
+                .excelType(ExcelTypeEnum.XLSX)
+                .head(getNursingRecord(bigTitle.toString(),busNursingRecord))
+                .registerWriteHandler(horizontalCellStyleStrategy)
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(12))
+                .registerWriteHandler(new CustomCellWriteHandler())
+                .sheet("老人自带药品记录表").doWrite(exportNursingRecordVOList);
+
+    }
+    public  List<List<String>> getNursingRecord(String bigTitle, BusNursingRecord busNursingRecord){
+        String secondTitle ="住院号:"+busNursingRecord.getBusinessNo()+" 姓名:"+busNursingRecord.getName();
+        List<List<String>> head = new ArrayList<List<String>>();
+        List<String> head0 = new ArrayList<>();
+        head0.add(bigTitle);
+        head0.add(secondTitle);
+        head0.add("洗头理发");
+        List<String> head1 = new ArrayList<>();
+        head1.add(bigTitle);
+        head1.add(secondTitle);
+        head1.add("修剪指甲");
+        List<String> head2 = new ArrayList<>();
+        head2.add(bigTitle);
+        head2.add(secondTitle);
+        head2.add("清洗便器");
+        List<String> head3 = new ArrayList<>();
+        head3.add(bigTitle);
+        head3.add(secondTitle);
+        head3.add("更换清洗晾晒衣服");
+        List<String> head4 = new ArrayList<>();
+        head4.add(bigTitle);
+        head4.add(secondTitle);
+        head4.add("清扫房间");
+        List<String> head5 = new ArrayList<>();
+        head5.add(bigTitle);
+        head5.add(secondTitle);
+        head5.add("订餐送餐");
+        List<String> head6 = new ArrayList<>();
+        head6.add(bigTitle);
+        head6.add(secondTitle);
+        head6.add("送开水打洗漱水");
+        List<String> head7 = new ArrayList<>();
+        head7.add(bigTitle);
+        head7.add(secondTitle);
+        head7.add("老年人身心观察处理");
+        List<String> head8 = new ArrayList<>();
+        head8.add(bigTitle);
+        head8.add(secondTitle);
+        head8.add("其他");
+        head.add(head0);
+        head.add(head1);
+        head.add(head2);
+        head.add(head3);
+        head.add(head4);
+        head.add(head5);
+        head.add(head6);
+        head.add(head7);
+        head.add(head8);
+        return head;
     }
 }

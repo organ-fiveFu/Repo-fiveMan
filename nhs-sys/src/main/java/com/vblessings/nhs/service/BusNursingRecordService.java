@@ -6,6 +6,9 @@ import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface BusNursingRecordService {
@@ -24,4 +27,6 @@ public interface BusNursingRecordService {
     List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO);
 
     List<BusNursingRecordPO> nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO);
+
+    void exportNursingRecord(String ids, HttpServletResponse response) throws IOException;
 }
