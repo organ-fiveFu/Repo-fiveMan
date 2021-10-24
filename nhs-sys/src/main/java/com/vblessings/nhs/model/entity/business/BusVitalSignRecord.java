@@ -168,5 +168,12 @@ public class BusVitalSignRecord implements Serializable {
 	@ApiModelProperty(value = "是否启用")
     @Column(name = "is_del")
     private Integer isDel = 0;
+
+	/**
+	 * 血氧饱和度
+	 */
+	@ApiModelProperty(value = "血氧饱和度")
+	@Column(name = "blood_oxygen")
+	private Integer bloodOxygen;
 	
 }

@@ -2,15 +2,13 @@ package com.vblessings.nhs.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
-import com.vblessings.nhs.model.entity.business.BusNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
-import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
-import com.vblessings.nhs.model.vo.business.BusVitalSignVO;
+import com.vblessings.nhs.model.vo.nurse.VitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.service.BusSpecialNursingRecordService;
@@ -197,7 +195,7 @@ public class NursingManageController {
      */
     @ApiOperation("查询三测单记录")
     @PostMapping("/queryVitalSignRecord")
-    public ResultBody<BusVitalSignVO> queryVitalSignRecord(@RequestBody QueryVitalSignPO queryVitalSignPO){
+    public ResultBody<VitalSignRecordVO> queryVitalSignRecord(@RequestBody QueryVitalSignPO queryVitalSignPO){
 //        return ResultBody.newSuccessInstance(busNursingRecordService.queryVitalSignRecord(queryVitalSignPO));
         log.info("queryVitalSignRecord, 入参： " + JSON.toJSONString(queryVitalSignPO));
         return ResultBody.newSuccessInstance(busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPO));

@@ -20,6 +20,7 @@
         <result property="output" column="output"/>
         <result property="urine" column="urine"/>
         <result property="defecate" column="defecate"/>
+        <result property="bloodOxygen" column="blood_oxygen"/>
         <result property="weight" column="weight"/>
         <result property="creatorId" column="creator_id"/>
         <result property="updaterId" column="updater_id"/>
