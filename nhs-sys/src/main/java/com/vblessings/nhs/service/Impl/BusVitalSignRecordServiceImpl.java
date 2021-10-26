@@ -9,11 +9,14 @@ import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.entity.business.BusVitalSignRecord;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
+import com.vblessings.nhs.model.vo.nurse.PatientInfo;
+import com.vblessings.nhs.model.vo.nurse.PointTime;
 import com.vblessings.nhs.model.vo.nurse.VitalSignRecord;
 import com.vblessings.nhs.model.vo.nurse.VitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusVitalSignRecordService;
 import com.vblessings.nhs.util.OperateUtil;
+import com.vblessings.nhs.util.StringUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -206,7 +209,9 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         if (busHospitalRecords.size() == 0) {
             throw ResponseEnum.DATA_NOT_FOUND.newException("未找到患者住院信息");
         }
-        BeanUtil.copyProperties(busHospitalRecords.get(0), vitalSignRecordVO.getPatientInfoList());
+        PatientInfo patientInfo = new PatientInfo();
+        BeanUtil.copyProperties(busHospitalRecords.get(0), patientInfo);
+        vitalSignRecordVO.setPatientInfoList(patientInfo);
 
         // 判断开始时间是否在入院时间之前
         Calendar admissionCalendar = Calendar.getInstance();
@@ -232,12 +237,16 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         List<BusVitalSignRecord> busVitalSignRecords = busVitalSignRecordMapper.selectByExample(example);
         long days = (startTime.getTime() - admissionDay.getTime()) / (24*3600*1000) + 1;
         vitalSignRecordVO.setBeginDate(sdf.format(startTime));
+
         List<String> intakeList = new ArrayList<>();
         List<String> outputList = new ArrayList<>();
         List<String> urineList = new ArrayList<>();
         List<String> defecateList = new ArrayList<>();
         List<String> weightList = new ArrayList<>();
         List<String> bloodOxygenList = new ArrayList<>();
+
+        List<VitalSignRecord> mb = new ArrayList<>();
+        List<VitalSignRecord> wd = new ArrayList<>();
 
         // 7天一个循环
         for (int i = 0; i < 7; i++) {
@@ -248,13 +257,13 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             // 第i天超过截止日期
             if (startCalendar.getTime().compareTo(endTime) > 0) {
                 vitalSignRecordVO.getDayList().add("");
-                addRecord(vitalSignRecordVO, null, intakeList, outputList, urineList, defecateList, weightList, bloodOxygenList);
+                addRecord(vitalSignRecordVO, null, intakeList, outputList, urineList, defecateList, weightList, bloodOxygenList, mb, wd);
                 continue;
             }
             // 获取第i天记录列表
             List<BusVitalSignRecord> dayRecordList = busVitalSignRecords.stream().filter(s -> s.getRecordTime().compareTo(startCalendar.getTime()) == 0).collect(Collectors.toList());
             vitalSignRecordVO.getDayList().add(String.valueOf(days + i));
-            addRecord(vitalSignRecordVO, dayRecordList, intakeList, outputList, urineList, defecateList, weightList, bloodOxygenList);
+            addRecord(vitalSignRecordVO, dayRecordList, intakeList, outputList, urineList, defecateList, weightList, bloodOxygenList, mb, wd);
         }
         vitalSignRecordVO.getDayMap().put("{name:'入量',units:'ml'}", intakeList);
         vitalSignRecordVO.getDayMap().put("{name:'出量',units:'ml'}", outputList);
@@ -262,6 +271,12 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         vitalSignRecordVO.getDayMap().put("{name:'大便',units:'次/日'}", defecateList);
         vitalSignRecordVO.getDayMap().put("{name:'体重',units:'kg'}", weightList);
         vitalSignRecordVO.getDayMap().put("{name:'血氧饱和度',units:''}", bloodOxygenList);
+
+        PointTime pointTime = new PointTime();
+        pointTime.setMb(mb);
+        pointTime.setWd(wd);
+        vitalSignRecordVO.setPointTime(pointTime);
+
         return vitalSignRecordVO;
     }
 
@@ -272,7 +287,9 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                            List<String> urineList,
                            List<String> defecateList,
                            List<String> weightList,
-                           List<String> bloodOxygenList) {
+                           List<String> bloodOxygenList,
+                           List<VitalSignRecord> mbList,
+                           List<VitalSignRecord> wdList) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         vitalSignRecordVO.getDayOps().add("");
         if (dayRecordList == null || dayRecordList.size() == 0) {
@@ -307,54 +324,54 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                     mb.setDate(date);
                     mb.setHour(hour);
                     mb.setType("");
-                    mb.setValue(busVitalSignRecord.getPulse().toString());
+                    mb.setValue(StringUtil.intToString(busVitalSignRecord.getPulse()));
                     wd.setDataTime(dateTime);
                     wd.setDate(date);
                     wd.setHour(hour);
                     wd.setType("ew");
-                    wd.setValue(busVitalSignRecord.getTemperature().toPlainString());
+                    wd.setValue(StringUtil.bigDecimalToString(busVitalSignRecord.getTemperature()));
                 }
-                vitalSignRecordVO.getPointTime().getMb().add(mb);
-                vitalSignRecordVO.getPointTime().getWd().add(wd);
+                mbList.add(mb);
+                wdList.add(wd);
                 // 呼吸
                 if (breathCount < 6 && busVitalSignRecord.getBreathing() != null) {
-                    vitalSignRecordVO.getBreathingList().add(busVitalSignRecord.getBreathing().toString());
+                    vitalSignRecordVO.getBreathingList().add(StringUtil.intToString(busVitalSignRecord.getBreathing()));
                     breathCount ++;
                 }
                 // 血压
                 if (!xyFlag && busVitalSignRecord.getLowBloodPressure() != null && busVitalSignRecord.getHighBloodPressure() != null) {
-                    vitalSignRecordVO.getXyList().add(busVitalSignRecord.getLowBloodPressure().toString());
-                    vitalSignRecordVO.getXyList().add(busVitalSignRecord.getHighBloodPressure().toString());
+                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getLowBloodPressure()));
+                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getHighBloodPressure()));
                     xyFlag = true;
                 }
                 // 入量
                 if (!intakeFlag && busVitalSignRecord.getIntake() != null) {
-                    intakeList.add(busVitalSignRecord.getIntake().toPlainString());
+                    intakeList.add(StringUtil.bigDecimalToString(busVitalSignRecord.getIntake()));
                     intakeFlag = true;
                 }
                 // 出量
                 if (!outputFlag && busVitalSignRecord.getOutput() != null) {
-                    outputList.add(busVitalSignRecord.getOutput().toPlainString());
+                    outputList.add(StringUtil.bigDecimalToString(busVitalSignRecord.getOutput()));
                     outputFlag = true;
                 }
                 // 小便
                 if (!urineFlag && busVitalSignRecord.getUrine() != null) {
-                    urineList.add(busVitalSignRecord.getUrine().toPlainString());
+                    urineList.add(StringUtil.bigDecimalToString(busVitalSignRecord.getUrine()));
                     urineFlag = true;
                 }
                 // 大便
                 if (!defecateFlag && busVitalSignRecord.getDefecate() != null) {
-                    defecateList.add(busVitalSignRecord.getDefecate().toString());
+                    defecateList.add(StringUtil.intToString(busVitalSignRecord.getDefecate()));
                     defecateFlag = true;
                 }
                 // 体重
                 if (!weightFlag && busVitalSignRecord.getWeight() != null) {
-                    weightList.add(busVitalSignRecord.getWeight().toPlainString());
+                    weightList.add(StringUtil.bigDecimalToString(busVitalSignRecord.getWeight()));
                     weightFlag = true;
                 }
                 // 血氧
                 if (!bloodOxygenFlag && busVitalSignRecord.getBloodOxygen() != null) {
-                    bloodOxygenList.add(busVitalSignRecord.getBloodOxygen().toString());
+                    bloodOxygenList.add(StringUtil.intToString(busVitalSignRecord.getBloodOxygen()));
                     bloodOxygenFlag = true;
                 }
             }

@@ -10,13 +10,17 @@ import com.vblessings.nhs.jwt.jwtHelper;
 import com.vblessings.nhs.mapper.LoginMapper;
 import com.vblessings.nhs.model.entity.sys.SysEmployeeInfo;
 import com.vblessings.nhs.model.entity.sys.SysLogin;
+import com.vblessings.nhs.model.po.business.QueryVitalSignPO;
 import com.vblessings.nhs.model.vo.business.BusMenuSelectVO;
+import com.vblessings.nhs.model.vo.nurse.VitalSignRecordVO;
+import com.vblessings.nhs.service.BusVitalSignRecordService;
 import com.vblessings.nhs.service.Impl.MenuServiceImpl;
 import com.vblessings.nhs.service.LoginService;
 import com.vblessings.nhs.util.AESUtill;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import tk.mybatis.mapper.entity.Example;
 
@@ -28,6 +32,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BsHealthyApplication.class})
+@ActiveProfiles("dev")
 class BsHealthyApplicationTests {
 
     //加密密钥
@@ -52,6 +57,9 @@ class BsHealthyApplicationTests {
 
     @Resource
     private LoginMapper loginMapper;
+
+    @Resource
+    private BusVitalSignRecordService busVitalSignRecordService;
 
     @Test
     public void play(){
@@ -100,8 +108,12 @@ class BsHealthyApplicationTests {
 
     @Test
     public void play5(){
-
-//        System.out.println(iFtpService.normalFtpUrl());
+        QueryVitalSignPO queryVitalSignPO = new QueryVitalSignPO();
+        queryVitalSignPO.setBusinessNo("202109052217");
+        queryVitalSignPO.setStartTime("2021-09-06");
+        queryVitalSignPO.setEndTime("2021-09-10");
+        VitalSignRecordVO vitalSignRecordVO = busVitalSignRecordService.queryVitalSignRecord(queryVitalSignPO);
+        System.out.println(vitalSignRecordVO);
     }
 
     /**

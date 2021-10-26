@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,31 +25,31 @@ public class VitalSignRecordVO {
      * 住院天数 共七条，没有的那天数据返回''
      */
     @ApiModelProperty(value = "住院天数 共七条，没有的那天数据返回''")
-    private List<String> dayList;
+    private List<String> dayList = new ArrayList<>();
 
     /**
      * 产后/术后天数 共七条，没有的那天数据返回''
      */
     @ApiModelProperty(value = "产后/术后天数 共七条，没有的那天数据返回''")
-    private List<String> dayOps;
+    private List<String> dayOps = new ArrayList<>();
 
     /**
      * 呼吸 42条数据 某个时间点空值返回''
      */
     @ApiModelProperty(value = "呼吸 42条数据 某个时间点空值返回''")
-    private List<String> breathingList;
+    private List<String> breathingList = new ArrayList<>();
 
     /**
      * 血压 14条，当天空值返回''
      */
     @ApiModelProperty(value = "血压 14条，当天空值返回''")
-    private List<String> xyList;
+    private List<String> xyList = new ArrayList<>();
 
     /**
      * 血压 14条，当天空值返回''
      */
     @ApiModelProperty(value = "血压 14条，当天空值返回''")
-    private Map<String, List<String>> dayMap;
+    private Map<String, List<String>> dayMap = new HashMap<>();
 
     /**
      * 记录信息
