@@ -6,9 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
+import com.vblessings.nhs.mapper.BusTakeMedicineRecordMapper;
 import com.vblessings.nhs.mapper.SysBedInfoMapper;
 import com.vblessings.nhs.model.entity.bed.SysBedInfo;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
+import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.QueryFigurePO;
 import com.vblessings.nhs.model.po.QuerySourcePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
@@ -29,6 +31,9 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +47,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
     @Resource
     private SysBedInfoMapper sysBedInfoMapper;
+
+    @Resource
+    private BusTakeMedicineRecordMapper busTakeMedicineRecordMapper;
 
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
@@ -180,6 +188,10 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         }
         busHospitalRecordMapper.updateByPrimaryKeySelective(busHospitalRecord);
     }
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 
     @Override
     public QuerySummaryVO selectTotalByTime(QuerySummaryPO querySummaryPO) {
@@ -188,6 +200,13 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         example.createCriteria().andEqualTo("isDel", 0);
         //所有记录list
         List<BusHospitalRecord> busHospitalRecordList = busHospitalRecordMapper.selectByExample(example);
+        Example example1 = new Example(BusTakeMedicineRecord.class);
+        example1.selectProperties("businessNo","createTime");
+        Example.Criteria criteria1 = example1.createCriteria();
+        criteria1.andEqualTo("isDel",0).andEqualTo("isTaken",0);
+        List<BusTakeMedicineRecord> busTakeMedicineRecordList = busTakeMedicineRecordMapper.selectByExample(example1);
+
+
         QuerySummaryVO querySummaryVO = new QuerySummaryVO();
         querySummaryVO.setStayHospitalNum(0);
         querySummaryVO.setOriginalNum(0);
@@ -197,8 +216,8 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         querySummaryVO.setTakeUpBed(0);
         querySummaryVO.setOutHospitalNum(0);
         querySummaryVO.setInHospitalNum(0);
+        querySummaryVO.setTakeMedicalNum(0);
         if (busHospitalRecordList != null && busHospitalRecordList.size() > 0) {
-
             List<BusHospitalRecord> OriginalList = new ArrayList<>();
             List<BusHospitalRecord> OutHospitalList = busHospitalRecordList.stream().filter(e -> e.getDischargeTime() != null).collect(Collectors.toList());
             List<BusHospitalRecord> INHospitalList = new ArrayList<>();
@@ -254,6 +273,26 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             querySummaryVO.setPartialDisability(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0002")).collect(Collectors.toList()).size());
             //自理老人数
             querySummaryVO.setProvideForOneself(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0003")).collect(Collectors.toList()).size());
+
+        }
+
+        if(busTakeMedicineRecordList!=null && busTakeMedicineRecordList.size()>0){
+            //结果集去重
+            busTakeMedicineRecordList= busTakeMedicineRecordList.stream().filter(distinctByKey(BusTakeMedicineRecord::getBusinessNo)).collect(Collectors.toList());
+            //时间条件过滤一遍
+            if (querySummaryPO.getStartTime() != null && querySummaryPO.getEndTime() != null) {
+                List<BusTakeMedicineRecord> busTakeMedicineRecordListCopy = busTakeMedicineRecordList.stream().filter((e -> e.getCreateTime().compareTo(querySummaryPO.getStartTime()) >= 0)).
+                        filter((e -> e.getCreateTime().compareTo(querySummaryPO.getEndTime())<0)).collect(Collectors.toList());
+                querySummaryVO.setTakeMedicalNum(busTakeMedicineRecordListCopy.size());
+            }
+            if (querySummaryPO.getStartTime() == null && querySummaryPO.getEndTime() != null) {
+                List<BusTakeMedicineRecord> busTakeMedicineRecordListCopy =  busTakeMedicineRecordList.stream().filter(e->e.getCreateTime().compareTo(querySummaryPO.getEndTime())<0).collect(Collectors.toList());
+                querySummaryVO.setTakeMedicalNum(busTakeMedicineRecordListCopy.size());
+            }
+            if (querySummaryPO.getStartTime() != null && querySummaryPO.getEndTime() == null) {
+                List<BusTakeMedicineRecord> busTakeMedicineRecordListCopy =  busTakeMedicineRecordList.stream().filter(e->e.getCreateTime().compareTo(querySummaryPO.getStartTime())>0).collect(Collectors.toList());
+                querySummaryVO.setTakeMedicalNum(busTakeMedicineRecordListCopy.size());
+            }
             return querySummaryVO;
         }
         return querySummaryVO;

@@ -31,5 +31,8 @@ public class QuerySummaryVO {
     @ApiModelProperty(name = "provideForOneself",value = "自理老人数")
     private Integer provideForOneself;
 
+    @ApiModelProperty(name = "takeMedicalNum",value = "带配药人数")
+    private Integer takeMedicalNum;
+
 
 }
