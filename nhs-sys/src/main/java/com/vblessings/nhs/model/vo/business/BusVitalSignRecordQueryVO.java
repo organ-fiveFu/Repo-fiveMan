@@ -116,6 +116,12 @@ public class BusVitalSignRecordQueryVO {
 	private Integer defecate;
 
 	/**
+	 * 大便方式
+	 */
+	@ApiModelProperty(value = "大便方式")
+	private String defecatePattern;
+
+	/**
 	 * 体重
 	 */
 	@ApiModelProperty(value = "体重")

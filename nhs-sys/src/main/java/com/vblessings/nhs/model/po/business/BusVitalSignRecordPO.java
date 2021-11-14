@@ -100,6 +100,12 @@ public class BusVitalSignRecordPO {
     private Integer defecate;
 
     /**
+     * 大便方式
+     */
+    @ApiModelProperty(value = "大便方式")
+    private String defecatePattern;
+
+    /**
      * 体重
      */
     @ApiModelProperty(value = "体重")
@@ -116,4 +122,10 @@ public class BusVitalSignRecordPO {
      */
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
+
+    /**
+     * 血氧饱和度
+     */
+    @ApiModelProperty(value = "血氧饱和度")
+    private Integer bloodOxygen;
 }

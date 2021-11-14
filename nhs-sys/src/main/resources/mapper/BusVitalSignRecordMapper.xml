@@ -21,6 +21,7 @@
         <result property="urine" column="urine"/>
         <result property="defecate" column="defecate"/>
         <result property="bloodOxygen" column="blood_oxygen"/>
+        <result property="defecatePattern" column="defecate_pattern"/>
         <result property="weight" column="weight"/>
         <result property="creatorId" column="creator_id"/>
         <result property="updaterId" column="updater_id"/>
@@ -53,7 +54,10 @@
           t2.breathing AS "breathing",
           t2.low_blood_pressure AS "lowBloodPressure",
           t2.high_blood_pressure AS "highBloodPressure",
+          t2.blood_oxygen AS "bloodOxygen",
           t2.intake AS "intake",
+          t2.defecate AS "defecate",
+          t2.defecate_pattern AS "defecatePattern",
           t2.output AS "output",
           t2.urine AS "urine",
           t2.weight AS "weight",

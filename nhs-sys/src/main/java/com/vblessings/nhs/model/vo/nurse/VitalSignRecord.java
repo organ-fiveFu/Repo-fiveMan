@@ -9,13 +9,13 @@ public class VitalSignRecord {
      * 时间
      */
     @ApiModelProperty(value = "时间")
-    private String dataTime;
+    private String dataTime = "";
 
     /**
      * 日期
      */
     @ApiModelProperty(value = "日期")
-    private String date;
+    private String date = "";
 
     /**
      * 小时
@@ -27,29 +27,29 @@ public class VitalSignRecord {
      * 脉搏
      */
     @ApiModelProperty(value = "脉搏")
-    private String mbValue;
+    private String mbValue = "";
 
     /**
      * ?
      */
     @ApiModelProperty(value = "?")
-    private String phValue;
+    private String phValue = "";
 
     /**
      * 类型
      */
     @ApiModelProperty(value = "类型")
-    private String type;
+    private String type = "";
 
     /**
      * 类型值
      */
     @ApiModelProperty(value = "类型值")
-    private String value;
+    private String value = "";
 
     /**
      * ?
      */
     @ApiModelProperty(value = "?")
-    private String xlValue;
+    private String xlValue = "";
 }

@@ -27,7 +27,7 @@ public class PatientInfo {
      * 科室
      */
     @ApiModelProperty(value = "科室")
-    private String endemicName;
+    private String endemicName = "";
 
     /**
      * 床号
