@@ -74,6 +74,7 @@
           t2.output AS "output",
           t2.urine AS "urine",
           t2.weight AS "weight",
+          t2.blood_oxygen AS "bloodOxygen",
           t2.creator_id AS "creatorId",
           date_format(t2.create_time, '%Y-%m-%d %H:%i:%s') AS "createTime"
         FROM bus_hospital_record t1

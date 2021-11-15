@@ -244,7 +244,6 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
         List<String> outputList = new ArrayList<>();
         List<String> urineList = new ArrayList<>();
         List<String> defecateList = new ArrayList<>();
-        List<String> defecatePatternList = new ArrayList<>();
         List<String> weightList = new ArrayList<>();
         List<String> bloodOxygenList = new ArrayList<>();
 
@@ -260,19 +259,18 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             // 第i天超过截止日期
             if (startCalendar.getTime().compareTo(endTime) > 0) {
                 vitalSignRecordVO.getDayList().add("");
-                addRecord(vitalSignRecordVO, null, intakeList, outputList, urineList, defecateList, defecatePatternList, weightList, bloodOxygenList, mb, wd);
+                addRecord(vitalSignRecordVO, null, intakeList, outputList, urineList, defecateList, weightList, bloodOxygenList, mb, wd);
                 continue;
             }
             // 获取第i天记录列表
             List<BusVitalSignRecord> dayRecordList = busVitalSignRecords.stream().filter(s -> s.getRecordTime().compareTo(startCalendar.getTime()) == 0).collect(Collectors.toList());
             vitalSignRecordVO.getDayList().add(String.valueOf(days + i));
-            addRecord(vitalSignRecordVO, dayRecordList, intakeList, outputList, urineList, defecateList, defecatePatternList, weightList, bloodOxygenList, mb, wd);
+            addRecord(vitalSignRecordVO, dayRecordList, intakeList, outputList, urineList, defecateList,  weightList, bloodOxygenList, mb, wd);
         }
         vitalSignRecordVO.getDayMap().put("{name:'入量',units:'ml'}", intakeList);
         vitalSignRecordVO.getDayMap().put("{name:'出量',units:'ml'}", outputList);
         vitalSignRecordVO.getDayMap().put("{name:'小便',units:'ml'}", urineList);
         vitalSignRecordVO.getDayMap().put("{name:'大便',units:'次/日'}", defecateList);
-        vitalSignRecordVO.getDayMap().put("{name:'大便方式',units:''}", defecatePatternList);
         vitalSignRecordVO.getDayMap().put("{name:'体重',units:'kg'}", weightList);
         vitalSignRecordVO.getDayMap().put("{name:'血氧饱和度',units:''}", bloodOxygenList);
 
@@ -290,7 +288,6 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                            List<String> outputList,
                            List<String> urineList,
                            List<String> defecateList,
-                           List<String> defecatePatternList,
                            List<String> weightList,
                            List<String> bloodOxygenList,
                            List<VitalSignRecord> mbList,
@@ -307,7 +304,6 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             outputList.add("");
             urineList.add("");
             defecateList.add("");
-            defecatePatternList.add("");
             weightList.add("");
             bloodOxygenList.add("");
         } else {
@@ -317,7 +313,6 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             boolean outputFlag = false;
             boolean urineFlag = false;
             boolean defecateFlag = false;
-            boolean defecatePatternFlag = false;
             boolean weightFlag = false;
             boolean bloodOxygenFlag = false;
             for (BusVitalSignRecord busVitalSignRecord : dayRecordList) {
@@ -370,11 +365,6 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                 if (!defecateFlag && busVitalSignRecord.getDefecate() != null) {
                     defecateList.add(StringUtil.intToString(busVitalSignRecord.getDefecate()));
                     defecateFlag = true;
-                }
-                // 大便方式
-                if (!defecatePatternFlag && busVitalSignRecord.getDefecatePattern() != null) {
-                    defecatePatternList.add(busVitalSignRecord.getDefecatePattern());
-                    defecatePatternFlag = true;
                 }
                 // 体重
                 if (!weightFlag && busVitalSignRecord.getWeight() != null) {
