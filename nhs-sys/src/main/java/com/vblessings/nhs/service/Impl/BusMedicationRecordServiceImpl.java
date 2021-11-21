@@ -140,7 +140,7 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
         List<String> head2 = new ArrayList<>();
         head2.add(bigTitle);
         head2.add(secondTitle);
-        head2.add("计量");
+        head2.add("剂量");
         List<String> head3 = new ArrayList<>();
         head3.add(bigTitle);
         head3.add(secondTitle);
