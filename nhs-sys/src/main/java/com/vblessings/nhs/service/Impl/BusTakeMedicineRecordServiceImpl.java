@@ -266,15 +266,12 @@ public class BusTakeMedicineRecordServiceImpl implements BusTakeMedicineRecordSe
         List<String> head1 = new ArrayList<>();
         head1.add(bigTitle);
         head1.add(secondTitle);
-        head1.add("药品名称");
+        head1.add("药品名称及规格");
         List<String> head2 = new ArrayList<>();
         head2.add(bigTitle);
         head2.add(secondTitle);
         head2.add("用法");
         List<String> head3 = new ArrayList<>();
-        head3.add(bigTitle);
-        head3.add(secondTitle);
-        head3.add("用量");
         List<String> head4 = new ArrayList<>();
         head4.add(bigTitle);
         head4.add(secondTitle);
@@ -282,7 +279,6 @@ public class BusTakeMedicineRecordServiceImpl implements BusTakeMedicineRecordSe
         head.add(head0);
         head.add(head1);
         head.add(head2);
-        head.add(head3);
         head.add(head4);
         return head;
     }

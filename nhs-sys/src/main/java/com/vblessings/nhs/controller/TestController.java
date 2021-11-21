@@ -1,7 +1,9 @@
 package com.vblessings.nhs.controller;
 
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +15,13 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 @RestController
-@RequestMapping("/nursingManage")
-@Api(tags = "护理管理")
+@RequestMapping("/test")
+@Api(tags = "测试")
 @Slf4j
 public class TestController {
-    @RequestMapping("/a")
-    protected void doPost(HttpServletRequest request,
+    @PostMapping("/a")
+    @IgnoreUserToken
+    public void doPost(HttpServletRequest request,
                           HttpServletResponse response, BufferedReader br)
             throws ServletException, IOException {
 //Header部分
@@ -28,6 +31,7 @@ public class TestController {
             String key = (String) enum1.nextElement();
             String value = request.getHeader(key);
             System.out.println(key + "\t" + value);
+            log.info(key + "\t" + value);
         }
 //body部分
         String inputLine;
@@ -41,5 +45,6 @@ public class TestController {
             System.out.println("IOException: " + e);
         }
         System.out.println("str:" + str);
+        log.info("str:" + str);
     }
 }
