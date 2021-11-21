@@ -35,6 +35,12 @@ public class SysBedInfoAllQueryVO {
     @ApiModelProperty(value = "楼宇名称")
     private String buildingName;
 
+    @ApiModelProperty(value = "房间类型")
+    private String roomType;
+
+    @ApiModelProperty(value = "房间类型名称")
+    private String roomTypeName;
+
     @ApiModelProperty(value = "楼宇+楼层+房间+床位名称")
     private String name;
 
