@@ -755,36 +755,15 @@ public class BedServiceImpl implements BedService {
 
     @Override
     public List<SysBedInfoAllQueryVO> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, UserInfoToken userInfoToken) {
-        Example example = new Example(SysBedInfo.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDel", 0);
-        criteria.andEqualTo("useFlag", 1);
-        if(Strings.isNotBlank(sysBedInfoAllQueryPO.getKeyWords())){
-            Example.Criteria criteria1 = example.createCriteria();
-            criteria1.orLike("bedCode","%"+sysBedInfoAllQueryPO.getKeyWords()+"%");
-            criteria1.orLike("name","%"+sysBedInfoAllQueryPO.getKeyWords()+"%");
-            example.and(criteria1);
-        }
-        List<SysBedInfo> sysBedInfoList = sysBedInfoMapper.selectByExample(example);
-        if(CollectionUtil.isEmpty(sysBedInfoList)){
+        List<SysBedInfoAllQueryVO> sysBedInfoAllQueryVOList = sysBedInfoMapper.querySysBedInfoGetList(sysBedInfoAllQueryPO);
+        if(CollectionUtil.isEmpty(sysBedInfoAllQueryVOList)){
             return null;
         }
-        List<SysBedInfoAllQueryVO> sysBedInfoAllQueryVOList = new ArrayList<>();
-        for (SysBedInfo sysBedInfo : sysBedInfoList) {
-            SysBedInfoAllQueryVO sysBedInfoAllQueryVO = new SysBedInfoAllQueryVO();
-            sysBedInfoAllQueryVO.setId(sysBedInfo.getId());
-            sysBedInfoAllQueryVO.setBuildingCode(sysBedInfo.getBuildingCode());
-            sysBedInfoAllQueryVO.setBuildingName(sysBedInfo.getBuildingName());
-            sysBedInfoAllQueryVO.setFloorCode(sysBedInfo.getFloorCode());
-            sysBedInfoAllQueryVO.setFloorName(sysBedInfo.getFloorName());
-            sysBedInfoAllQueryVO.setRoomCode(sysBedInfo.getRoomCode());
-            sysBedInfoAllQueryVO.setRoomName(sysBedInfo.getRoomName());
-            sysBedInfoAllQueryVO.setBedCode(sysBedInfo.getBedCode());
-            sysBedInfoAllQueryVO.setBedName(sysBedInfo.getName());
-            sysBedInfoAllQueryVO.setStatus(sysBedInfo.getStatus());
-            sysBedInfoAllQueryVO.setName(sysBedInfoAllQueryVO.getBuildingName() + sysBedInfoAllQueryVO.getFloorName() + sysBedInfoAllQueryVO.getRoomName() + sysBedInfoAllQueryVO.getBedName());
-            sysBedInfoAllQueryVOList.add(sysBedInfoAllQueryVO);
-        }
+        Map<String, String> roomTypeMap = sysDictDataService.getDictName(DictTypeEnum.ROOM_TYPE.getCode(), null);
+        sysBedInfoAllQueryVOList.forEach(sysBedInfoAllQueryVO -> {
+            sysBedInfoAllQueryVO.setRoomTypeName(roomTypeMap.get(sysBedInfoAllQueryVO.getRoomType()));
+            sysBedInfoAllQueryVO.setName(sysBedInfoAllQueryVO.getBuildingName() + sysBedInfoAllQueryVO.getFloorName() + sysBedInfoAllQueryVO.getRoomName() + sysBedInfoAllQueryVO.getBedName() + "(" + sysBedInfoAllQueryVO.getRoomTypeName() + ")");
+        });
         return sysBedInfoAllQueryVOList;
     }
 }
