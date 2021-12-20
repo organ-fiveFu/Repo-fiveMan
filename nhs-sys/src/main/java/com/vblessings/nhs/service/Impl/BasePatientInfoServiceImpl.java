@@ -33,7 +33,7 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
     @Override
     public PageInfo<BasePatientInfo> selectPage(QueryBasePatientPO queryBasePatientPO) {
         PageHelper.startPage(queryBasePatientPO.getPageNum(), queryBasePatientPO.getPageSize());
-        Example example = new Example(BasePatientInfo.class);
+       /* Example example = new Example(BasePatientInfo.class);
         Example.Criteria C = example.createCriteria();
         C.andEqualTo("isDel",0);
         if(Strings.isNotBlank(queryBasePatientPO.getName())){
@@ -41,8 +41,8 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
         }
         if(queryBasePatientPO.getArchiveId()!=null){
             C.andEqualTo("id",queryBasePatientPO.getArchiveId());
-        }
-        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectByExample(example);
+        }*/
+        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectBy(queryBasePatientPO);
         PageInfo pageInfo = new PageInfo(basePatientInfoList);
         return pageInfo;
     }
