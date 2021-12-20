@@ -69,7 +69,7 @@
         SELECT
           t1.id AS "id",
           t1.bed_code AS "bedCode",
-          t1.name AS "name",
+          t1.name AS "bedName",
           t1.room_code AS "roomCode",
           t1.room_name AS "roomName",
           t1.floor_code AS "floorCode",

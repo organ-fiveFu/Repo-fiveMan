@@ -29,14 +29,6 @@ public class ExportTakeMedicineVO {
     private String drugName;
 
 
-
-    /**
-     * 计量
-     */
-    @ApiModelProperty(value = "计量", required = false)
-    @ExcelProperty(value = "measure")
-    private BigDecimal measure;
-
     /**
      * 数量
      */

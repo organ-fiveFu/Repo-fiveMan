@@ -86,7 +86,7 @@ public class BusTakeMedicineRecord implements Serializable {
      */
     @ApiModelProperty(value = "计量", required = false)
     @Column(name = "measure")
-    private BigDecimal measure;
+    private String measure;
 
     /**
      * 数量

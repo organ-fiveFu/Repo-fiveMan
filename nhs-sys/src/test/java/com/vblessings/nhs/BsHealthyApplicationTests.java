@@ -69,8 +69,7 @@ class BsHealthyApplicationTests {
     @Test
     public void paly1(){
         System.out.println(AESUtill.encryptData("123esfre34efresw"));
-        System.out.println(AESUtill.deciTwo("Iq4jyR+440Blhh9ahOwuNjHiJgzgez/xel3LYQhQhr8="));
-    }
+           }
 
     @Test
     public void paly2() throws Exception {

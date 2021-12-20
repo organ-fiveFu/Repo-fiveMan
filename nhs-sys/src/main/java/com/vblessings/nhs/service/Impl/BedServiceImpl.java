@@ -272,9 +272,10 @@ public class BedServiceImpl implements BedService {
      */
     @Override
     public PageVO<SysFloorInfoQueryVO> querySysFloorInfoList(SysFloorInfoQueryPO sysFloorInfoQueryPO, UserInfoToken userInfoToken) {
-        Page<SysFloorInfoQueryVO> result = PageHelper.startPage(sysFloorInfoQueryPO.getPageNum(), sysFloorInfoQueryPO.getPageSize());
         //查询楼宇信息
         SysBuildingInfo sysBuildingInfo = sysBuildingInfoMapper.selectByPrimaryKey(sysFloorInfoQueryPO.getId());
+
+        Page<SysFloorInfoQueryVO> result = PageHelper.startPage(sysFloorInfoQueryPO.getPageNum(), sysFloorInfoQueryPO.getPageSize());
         //查询楼层信息
         Example example = new Example(SysFloorInfo.class);
         Example.Criteria criteria = example.createCriteria();
@@ -412,9 +413,10 @@ public class BedServiceImpl implements BedService {
      */
     @Override
     public PageVO<SysRoomInfoQueryVO> querySysRoomInfoList(SysRoomInfoQueryPO sysRoomInfoQueryPO, UserInfoToken userInfoToken) {
-        Page<SysRoomInfoQueryVO> result = PageHelper.startPage(sysRoomInfoQueryPO.getPageNum(), sysRoomInfoQueryPO.getPageSize());
         //查询楼层信息
         SysFloorInfo sysFloorInfo = sysFloorInfoMapper.selectByPrimaryKey(sysRoomInfoQueryPO.getId());
+
+        Page<SysRoomInfoQueryVO> result = PageHelper.startPage(sysRoomInfoQueryPO.getPageNum(), sysRoomInfoQueryPO.getPageSize());
         //查询房间信息
         Example example = new Example(SysRoomInfo.class);
         Example.Criteria criteria = example.createCriteria();
@@ -586,9 +588,10 @@ public class BedServiceImpl implements BedService {
      */
     @Override
     public PageVO<SysBedInfoQueryVO> querySysBedInfoList(SysBedInfoQueryPO sysBedInfoQueryPO, UserInfoToken userInfoToken) {
-        Page<SysBedInfoQueryVO> result = PageHelper.startPage(sysBedInfoQueryPO.getPageNum(), sysBedInfoQueryPO.getPageSize());
         //查询房间信息
         SysRoomInfo sysRoomInfo = sysRoomInfoMapper.selectByPrimaryKey(sysBedInfoQueryPO.getId());
+
+        Page<SysBedInfoQueryVO> result = PageHelper.startPage(sysBedInfoQueryPO.getPageNum(), sysBedInfoQueryPO.getPageSize());
         //查询床位信息
         Example example = new Example(SysBedInfo.class);
         Example.Criteria criteria = example.createCriteria();
