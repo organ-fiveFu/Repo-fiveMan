@@ -33,7 +33,7 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
     @Override
     public PageInfo<BasePatientInfo> selectPage(QueryBasePatientPO queryBasePatientPO) {
         PageHelper.startPage(queryBasePatientPO.getPageNum(), queryBasePatientPO.getPageSize());
-       /* Example example = new Example(BasePatientInfo.class);
+        Example example = new Example(BasePatientInfo.class);
         Example.Criteria C = example.createCriteria();
         C.andEqualTo("isDel",0);
         if(Strings.isNotBlank(queryBasePatientPO.getName())){
@@ -41,10 +41,8 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
         }
         if(queryBasePatientPO.getArchiveId()!=null){
             C.andEqualTo("id",queryBasePatientPO.getArchiveId());
-        }*/
-        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectBy(queryBasePatientPO);
-        basePatientInfoList = basePatientInfoList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
-                () -> new TreeSet<>(Comparator.comparing(BasePatientInfo::getId))), ArrayList::new));
+        }
+        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(basePatientInfoList);
         return pageInfo;
     }
@@ -94,5 +92,15 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
             return basePatientInfoMapper.baseArchiveListCopy(name);
         }
         return null;
+    }
+
+    @Override
+    public PageInfo<BasePatientInfo> baseArchivePageOut(QueryBasePatientPO queryBasePatientPO) {
+        PageHelper.startPage(queryBasePatientPO.getPageNum(), queryBasePatientPO.getPageSize());
+        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectBy(queryBasePatientPO);
+        basePatientInfoList = basePatientInfoList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
+                () -> new TreeSet<>(Comparator.comparing(BasePatientInfo::getId))), ArrayList::new));
+        PageInfo pageInfo = new PageInfo(basePatientInfoList);
+        return pageInfo;
     }
 }
