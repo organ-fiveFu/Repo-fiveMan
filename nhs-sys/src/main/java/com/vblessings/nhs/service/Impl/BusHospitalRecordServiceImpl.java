@@ -53,6 +53,15 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
+        //查看是否已经在院了
+        Example e= new Example(SysBedInfo.class);
+        Example.Criteria c = e.createCriteria();
+        c.andEqualTo("status",0).andEqualTo("archiveId",busHospitalRecord.getArchiveId()).
+                andEqualTo("isDel",0);
+        List<BusHospitalRecord> list = busHospitalRecordMapper.selectByExample(e);
+        if(list!=null && list.size()>0){
+            throw ResponseEnum.DATA_NOT_FOUND.newException("该老人已入院，无法再次入院");
+        }
         Long id = snowflakeComponent.getInstance().nextId();
         OperateUtil.onSaveNew(busHospitalRecord, userInfo, id);
         //入院时间
