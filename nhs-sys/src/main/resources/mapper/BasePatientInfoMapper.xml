@@ -89,4 +89,22 @@
             )
         </if>
     </select>
+    <select id="selectBy" resultType="com.vblessings.nhs.model.entity.base.BasePatientInfo">
+        select * from base_patient_info a
+        left join bus_hospital_record b on a.id = b.archive_id
+        where
+        a.is_del = 0
+        and
+        b.status != 0
+        <if test="name != null and name !=''">
+            and
+            a.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="archiveId != null and archiveId !=''">
+            and
+            a.archiveId = #{archiveId}
+        </if>
+
+    </select>
+
 </mapper>

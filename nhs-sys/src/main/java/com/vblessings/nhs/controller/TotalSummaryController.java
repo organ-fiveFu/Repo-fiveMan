@@ -1,5 +1,6 @@
 package com.vblessings.nhs.controller;
 
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.po.QuerySourcePO;
 import com.vblessings.nhs.model.po.QuerySummaryPO;
 import com.vblessings.nhs.model.result.ResultBody;
@@ -35,6 +36,7 @@ public class TotalSummaryController {
 
     @ApiOperation("查询汇总信息")
     @PostMapping("/select")
+    @IgnoreUserToken
     public ResultBody<QuerySummaryVO> selectTotalByTime(@RequestBody QuerySummaryPO querySummaryPO){
      log.info("查询汇总信息:"+querySummaryPO);
 

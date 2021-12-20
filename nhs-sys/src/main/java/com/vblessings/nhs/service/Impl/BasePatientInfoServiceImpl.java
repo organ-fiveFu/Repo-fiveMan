@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -92,5 +92,15 @@ public class BasePatientInfoServiceImpl implements BasePatientInfoService {
             return basePatientInfoMapper.baseArchiveListCopy(name);
         }
         return null;
+    }
+
+    @Override
+    public PageInfo<BasePatientInfo> baseArchivePageOut(QueryBasePatientPO queryBasePatientPO) {
+        PageHelper.startPage(queryBasePatientPO.getPageNum(), queryBasePatientPO.getPageSize());
+        List<BasePatientInfo> basePatientInfoList = basePatientInfoMapper.selectBy(queryBasePatientPO);
+        basePatientInfoList = basePatientInfoList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
+                () -> new TreeSet<>(Comparator.comparing(BasePatientInfo::getId))), ArrayList::new));
+        PageInfo pageInfo = new PageInfo(basePatientInfoList);
+        return pageInfo;
     }
 }

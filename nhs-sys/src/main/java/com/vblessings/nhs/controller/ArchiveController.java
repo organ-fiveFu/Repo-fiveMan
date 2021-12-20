@@ -2,6 +2,7 @@ package com.vblessings.nhs.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.base.BasePatientInfo;
 import com.vblessings.nhs.model.po.QueryBasePatientPO;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -55,6 +56,15 @@ public class ArchiveController {
     @PostMapping("/baseArchivePage")
     public ResultBody<PageInfo<BasePatientInfo>> baseArchivePage(@RequestBody QueryBasePatientPO queryBasePatientPO){
        return ResultBody.newSuccessInstance(basePatientInfoService.selectPage(queryBasePatientPO));
+    }
+
+    /**
+     * 查询未入科的老人基础档案
+     */
+    @ApiOperation("查询未入科的老人基础档案")
+    @PostMapping("/baseArchivePageOut")
+    public ResultBody<PageInfo<BasePatientInfo>> baseArchivePageOut(@RequestBody QueryBasePatientPO queryBasePatientPO){
+        return ResultBody.newSuccessInstance(basePatientInfoService.baseArchivePageOut(queryBasePatientPO));
     }
 
     /**

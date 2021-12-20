@@ -36,4 +36,6 @@ public interface BasePatientInfoService {
     void del(String ids);
 
     List<BasePatientInfo> baseArchiveList(String name);
+
+    PageInfo<BasePatientInfo> baseArchivePageOut(QueryBasePatientPO queryBasePatientPO);
 }
