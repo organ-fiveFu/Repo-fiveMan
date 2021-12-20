@@ -161,7 +161,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
             criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
             if(busHospitalRecord1.getBedCode()!=null){
-                criteria.andEqualTo("bedCode", busHospitalRecord1.getBedCode());
+                criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
             }
             criteria.andEqualTo("isDel", 0);
             criteria.andEqualTo("useFlag", "1");
