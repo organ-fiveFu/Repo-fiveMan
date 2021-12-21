@@ -71,7 +71,7 @@
           t1.bed_code AS "bedCode",
           t1.name AS "bedName",
           t1.room_code AS "roomCode",
-          t1.room_name AS "roomName",
+          t2.name AS "roomName",
           t1.floor_code AS "floorCode",
           t1.floor_name AS "floorName",
           t1.building_code AS "buildingCode",

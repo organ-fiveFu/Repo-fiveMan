@@ -53,6 +53,15 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
 
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
+        //查看是否已经在院了
+        Example e= new Example(SysBedInfo.class);
+        Example.Criteria c = e.createCriteria();
+        c.andEqualTo("status",0).andEqualTo("archiveId",busHospitalRecord.getArchiveId()).
+                andEqualTo("isDel",0);
+        List<BusHospitalRecord> list = busHospitalRecordMapper.selectByExample(e);
+        if(list!=null && list.size()>0){
+            throw ResponseEnum.DATA_NOT_FOUND.newException("该老人已入院，无法再次入院");
+        }
         Long id = snowflakeComponent.getInstance().nextId();
         OperateUtil.onSaveNew(busHospitalRecord, userInfo, id);
         //入院时间
@@ -161,7 +170,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             criteria.andEqualTo("floorCode", busHospitalRecord.getFloorCode());
             criteria.andEqualTo("roomCode", busHospitalRecord.getRoomCode());
             if(busHospitalRecord1.getBedCode()!=null){
-                criteria.andEqualTo("bedCode", busHospitalRecord1.getBedCode());
+                criteria.andEqualTo("bedCode", busHospitalRecord.getBedCode());
             }
             criteria.andEqualTo("isDel", 0);
             criteria.andEqualTo("useFlag", "1");
@@ -198,15 +207,17 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         Example example = new Example(BusHospitalRecord.class);
         example.selectProperties("status", "nursingLevel", "dischargeTime", "admissionTime", "bedCode");
         example.createCriteria().andEqualTo("isDel", 0);
-        //所有记录list
+        //查询出所有的没有被删除的在院和不在院的信息
         List<BusHospitalRecord> busHospitalRecordList = busHospitalRecordMapper.selectByExample(example);
         Example example1 = new Example(BusTakeMedicineRecord.class);
         example1.selectProperties("businessNo","createTime");
         Example.Criteria criteria1 = example1.createCriteria();
         criteria1.andEqualTo("isDel",0).andEqualTo("isTaken",0);
+        //查询出所有带药信息
         List<BusTakeMedicineRecord> busTakeMedicineRecordList = busTakeMedicineRecordMapper.selectByExample(example1);
 
 
+        //初始化值
         QuerySummaryVO querySummaryVO = new QuerySummaryVO();
         querySummaryVO.setStayHospitalNum(0);
         querySummaryVO.setOriginalNum(0);
@@ -221,9 +232,9 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             List<BusHospitalRecord> OriginalList = new ArrayList<>();
             List<BusHospitalRecord> OutHospitalList = busHospitalRecordList.stream().filter(e -> e.getDischargeTime() != null).collect(Collectors.toList());
             List<BusHospitalRecord> INHospitalList = new ArrayList<>();
-            //时间条件过滤一遍
+            //时间条件过滤一遍,开始时间和结束时间都有
             if (querySummaryPO.getStartTime() != null && querySummaryPO.getEndTime() != null) {
-                //原有病人list
+                //原有病人list（比开始时间小，且在院的人）
                 OriginalList = busHospitalRecordList.stream().filter(e -> e.getAdmissionTime().compareTo(querySummaryPO.getStartTime()) < 0).
                         filter(e -> e.getStatus().equals("0")).collect(Collectors.toList());
                 //入院病人list
@@ -236,12 +247,15 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
                         .stream().filter(e -> e.getDischargeTime().compareTo(querySummaryPO.getEndTime()) <= 0).collect(Collectors.toList());
             }
 
+            //开始时间为空，有结束时间
             if (querySummaryPO.getStartTime() == null && querySummaryPO.getEndTime() != null) {
+                //那么原有人数则为0
                 INHospitalList = INHospitalList.stream().filter(e -> e.getAdmissionTime().compareTo(querySummaryPO.getEndTime()) <= 0).collect(Collectors.toList());
 
                 OutHospitalList = OutHospitalList.stream().filter(e -> e.getDischargeTime().compareTo(querySummaryPO.getEndTime()) <= 0).collect(Collectors.toList());
 
             }
+            //有开始时间
             if (querySummaryPO.getStartTime() != null && querySummaryPO.getEndTime() == null) {
 
                 OriginalList = busHospitalRecordList.stream().filter(e -> e.getAdmissionTime().compareTo(querySummaryPO.getStartTime()) < 0).

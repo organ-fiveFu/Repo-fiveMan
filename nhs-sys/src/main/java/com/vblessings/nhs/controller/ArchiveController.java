@@ -52,11 +52,19 @@ public class ArchiveController {
     /**
      * 查询老人基础档案
      */
-    @IgnoreUserToken
     @ApiOperation("老人基本档案分页")
     @PostMapping("/baseArchivePage")
     public ResultBody<PageInfo<BasePatientInfo>> baseArchivePage(@RequestBody QueryBasePatientPO queryBasePatientPO){
        return ResultBody.newSuccessInstance(basePatientInfoService.selectPage(queryBasePatientPO));
+    }
+
+    /**
+     * 查询未入科的老人基础档案
+     */
+    @ApiOperation("查询未入科的老人基础档案")
+    @PostMapping("/baseArchivePageOut")
+    public ResultBody<PageInfo<BasePatientInfo>> baseArchivePageOut(@RequestBody QueryBasePatientPO queryBasePatientPO){
+        return ResultBody.newSuccessInstance(basePatientInfoService.baseArchivePageOut(queryBasePatientPO));
     }
 
     /**
