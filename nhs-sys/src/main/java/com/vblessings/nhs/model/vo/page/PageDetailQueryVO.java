@@ -11,6 +11,9 @@ import java.util.List;
 @ApiModel(value = "首页查询详情出参")
 public class PageDetailQueryVO implements Serializable {
 
+    @ApiModelProperty(value = "id")
+    private Long id;
+
     @ApiModelProperty(value = "住院号")
     private String businessNo;
 

@@ -10,11 +10,11 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     password: WufuDB@123
-    url: jdbc:mysql://10.133.2.62:3306/nursing_home?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://118.31.54.70:3306/nursing_home?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
   ## redis��������
   redis:
-    host: 10.133.2.61
+    host: 120.27.222.210
     password: 123456
     port: 6379
 
@@ -45,8 +45,8 @@ jwt:
 
 # ftp����
 ftp:
-  access-path: 10.133.2.61:8088/f
-  host: 10.133.2.61
+  access-path: 120.27.222.210:8088/f
+  host: 120.27.222.210
   password: Wufu@ftp
   port: 21
   user: ftpuser
