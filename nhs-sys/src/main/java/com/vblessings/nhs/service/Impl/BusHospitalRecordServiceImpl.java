@@ -54,7 +54,7 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
     @Override
     public void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo) {
         //查看是否已经在院了
-        Example e= new Example(SysBedInfo.class);
+        Example e= new Example(BusHospitalRecord.class);
         Example.Criteria c = e.createCriteria();
         c.andEqualTo("status",0).andEqualTo("archiveId",busHospitalRecord.getArchiveId()).
                 andEqualTo("isDel",0);
