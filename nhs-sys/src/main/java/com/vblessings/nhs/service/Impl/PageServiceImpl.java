@@ -19,6 +19,7 @@ import com.vblessings.nhs.service.BedService;
 import com.vblessings.nhs.service.PageService;
 import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.DateUtils;
+import com.vblessings.nhs.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -134,6 +138,8 @@ public class PageServiceImpl implements PageService {
         });
         List<String> roomCodeList = sysRoomInfoList.stream().map(SysRoomInfo::getRoomCode).collect(Collectors.toList());
         List<PageDetailQueryVO> pageDetailQueryVOList = sysBedInfoMapper.queryPatient(pageQueryPO.getBuildingCode(), floorCodeList, roomCodeList);
+        //过滤
+        pageDetailQueryVOList = pageDetailQueryVOList.stream().filter(ListUtil.distinctByKey(PageDetailQueryVO::getId)).collect(Collectors.toList());
         Map<String, List<PageRoomQueryVO>> map = pageRoomQueryVOList.stream().collect(Collectors.groupingBy(PageRoomQueryVO::getFloorCode));
         Map<String, List<PageDetailQueryVO>> roomMap = pageDetailQueryVOList.stream().collect(Collectors.groupingBy(PageDetailQueryVO::getRoomCode));
         //字典code -> name
