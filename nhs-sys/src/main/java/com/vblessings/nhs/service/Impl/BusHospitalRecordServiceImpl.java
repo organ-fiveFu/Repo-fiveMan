@@ -64,8 +64,10 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
         }
         Long id = snowflakeComponent.getInstance().nextId();
         OperateUtil.onSaveNew(busHospitalRecord, userInfo, id);
-        //入院时间
+        //入院时间 如果前端没有传则设为当前时间
+        if(busHospitalRecord.getAdmissionTime()==null){
         busHospitalRecord.setAdmissionTime(new Date());
+        }
         //住院号
         busHospitalRecord.setBusinessNo(BusinessNoUtil.generateBusinessNo());
         //设置费用到期状态 默认是0
