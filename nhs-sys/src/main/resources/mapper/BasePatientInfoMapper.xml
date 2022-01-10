@@ -95,7 +95,7 @@
         where
         a.is_del = 0
         and
-        b.status != 0
+        IFNULL(b.status,1) != 0
         <if test="name != null and name !=''">
             and
             a.name LIKE CONCAT('%',#{name},'%')

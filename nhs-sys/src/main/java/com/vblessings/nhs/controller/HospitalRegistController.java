@@ -2,6 +2,7 @@ package com.vblessings.nhs.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
 import com.vblessings.nhs.result.UserInfoToken;
