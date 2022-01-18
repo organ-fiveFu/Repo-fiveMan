@@ -74,7 +74,7 @@
           AND t2.time_point = #{timePoint}
         WHERE t1.is_del = 0
           AND t1.status = 0
-        ORDER BY t1.name
+        ORDER BY t1.building_name, t1.floor_name, t1.room_name, t1.bed_name
     </select>
 
 </mapper>
