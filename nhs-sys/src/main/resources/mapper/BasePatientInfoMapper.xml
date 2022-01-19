@@ -88,6 +88,7 @@
             OR t2.business_no LIKE CONCAT('%',#{keyWords},'%')
             )
         </if>
+        and t2.status = 1
     </select>
     <select id="selectBy" resultType="com.vblessings.nhs.model.entity.base.BasePatientInfo">
         select * from base_patient_info a
