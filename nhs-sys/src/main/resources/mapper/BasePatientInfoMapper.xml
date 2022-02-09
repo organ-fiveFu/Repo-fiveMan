@@ -80,7 +80,6 @@
           AND t2.floor_code = t3.floor_code AND t2.room_code = t3.room_code
           AND t2.bed_code = t3.bed_code AND t3.is_del = 0 AND t3.use_flag = '1'
         WHERE t1.is_del = 0
-        and t2.status = 0
         AND t2.is_del = 0
         <if test="keyWords != null and keyWords !=''">
             AND (
@@ -88,7 +87,7 @@
             OR t2.business_no LIKE CONCAT('%',#{keyWords},'%')
             )
         </if>
-        and t2.status = 1
+        and t2.status = 0
     </select>
     <select id="selectBy" resultType="com.vblessings.nhs.model.entity.base.BasePatientInfo">
         select * from base_patient_info a

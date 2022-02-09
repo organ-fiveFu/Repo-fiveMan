@@ -141,7 +141,7 @@ public class PageServiceImpl implements PageService {
         //过滤
         pageDetailQueryVOList = pageDetailQueryVOList.stream().filter(ListUtil.distinctByKey(PageDetailQueryVO::getId)).collect(Collectors.toList());
         Map<String, List<PageRoomQueryVO>> map = pageRoomQueryVOList.stream().collect(Collectors.groupingBy(PageRoomQueryVO::getFloorCode));
-        Map<String, List<PageDetailQueryVO>> roomMap = pageDetailQueryVOList.stream().collect(Collectors.groupingBy(PageDetailQueryVO::getRoomCode));
+        Map<String, List<PageDetailQueryVO>> floorCodeMap = pageDetailQueryVOList.stream().collect(Collectors.groupingBy(pageDetailQueryVO -> pageDetailQueryVO.getFloorCode() + pageDetailQueryVO.getRoomCode()));
         //字典code -> name
         List<String> nursingLevelNameList = new ArrayList<>();
         List<String> sexNameList = new ArrayList<>();
@@ -172,7 +172,7 @@ public class PageServiceImpl implements PageService {
         });
         pageRoomQueryVOList.forEach(pageRoomQueryVO -> {
             pageRoomQueryVO.setRoomTypeName(roomTypeNameMap.get(pageRoomQueryVO.getRoomType()));
-            pageRoomQueryVO.setPageDetailQueryVOS(roomMap.get(pageRoomQueryVO.getRoomCode()));
+            pageRoomQueryVO.setPageDetailQueryVOS(floorCodeMap.get(pageRoomQueryVO.getFloorCode() + pageRoomQueryVO.getRoomCode()));
         });
         pageQueryVOList.forEach(pageQueryVO -> {
             pageQueryVO.setPageRoomQueryVOList(map.get(pageQueryVO.getFloorCode()));
