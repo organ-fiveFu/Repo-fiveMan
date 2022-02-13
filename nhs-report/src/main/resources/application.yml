@@ -27,7 +27,7 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     password: WufuDB@123
-    url: jdbc:mysql://118.31.54.70:3306/nursing_home?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://118.31.54.70:3306/nursing_home?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
   ## redis��������
   redis:
