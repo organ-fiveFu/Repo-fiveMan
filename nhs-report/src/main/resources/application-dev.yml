@@ -1,0 +1,62 @@
+##�˿�
+server:
+  port: 8081
+  ##ѩ������ȡֵ����1-31
+  dataCenterId: 1
+  workId: 1
+
+spring:
+  ## ����Դ����
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    password: WufuDB@123
+    url: jdbc:mysql://118.31.54.70:3306/nursing_home?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+  ## redis��������
+  redis:
+    host: 120.27.222.210
+    password: 123456
+    port: 6379
+
+##mybatis����
+mybatis:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.vblessings.nhs.model
+
+##mybatia-plus����
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.vblessings.nhs.model
+
+## ����̨��ӡsql����
+logging:
+  level:
+    com:
+      vblessings:
+        nhs:
+          mapper: debug
+
+jwt:
+  ## ����ʱ�䣨һ�죩
+  expire: 86400
+  rsa-secret: adewdaw
+
+# ftp����
+ftp:
+  access-path: 120.27.222.210:8088/f
+  host: 120.27.222.210
+  password: Wufu@ftp
+  port: 21
+  user: ftpuser
+  workspace: /home/vsftpd/nhs/data
+  # 5M
+  limit-size: 5242880
+  allow-type:
+    - pdf
+    - jpg
+    - png
+
+
+
