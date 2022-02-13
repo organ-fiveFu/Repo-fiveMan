@@ -3,9 +3,11 @@ package com.vblessings.nhs.controller.bed;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.bed.*;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BedService;
@@ -330,5 +332,13 @@ public class BedController {
     public ResultBody<List<SysBedInfoAllQueryVO>> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("获取床位下拉列表");
         return ResultBody.newSuccessInstance(bedService.querySysBedInfoGetList(sysBedInfoAllQueryPO, userInfoToken));
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/building/get-list/no-token")
+    @ApiOperation(value = "获取楼宇下拉列表-notoken")
+    public ReportData<List<SysBuildingInfoQueryVO>> querySysBuildingInfoGetListNoToken(){
+        List<SysBuildingInfoQueryVO> sysBuildingInfoQueryVOS = bedService.querySysBuildingInfoGetListNoToken();
+        return ReportData.data(sysBuildingInfoQueryVOS);
     }
 }

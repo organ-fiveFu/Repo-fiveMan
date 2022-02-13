@@ -46,7 +46,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/doc.html/**")
-                .excludePathPatterns("/swagger-ui.html/**");
+                .excludePathPatterns("/swagger-ui.html/**")
+//                .excludePathPatterns("/jmreport/**")
+        ;
     }
 
     @Override

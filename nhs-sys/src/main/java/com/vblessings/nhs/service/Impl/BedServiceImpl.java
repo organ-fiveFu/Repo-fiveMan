@@ -769,4 +769,17 @@ public class BedServiceImpl implements BedService {
         });
         return sysBedInfoAllQueryVOList;
     }
+
+    @Override
+    public List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken() {
+        Example example = new Example(SysBuildingInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel", 0);
+        example.orderBy("buildingCode");
+        List<SysBuildingInfo> sysBuildingInfoList = sysBuildingInfoMapper.selectByExample(example);
+        if(CollectionUtil.isEmpty(sysBuildingInfoList)) {
+            return new ArrayList<>();
+        }
+        return BeanHelper.copyWithCollection(sysBuildingInfoList, SysBuildingInfoQueryVO.class);
+    }
 }

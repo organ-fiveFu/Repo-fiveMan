@@ -208,4 +208,6 @@ public interface BedService {
     List<Tree<String>> queryBedTree(UserInfoToken userInfoToken);
 
     List<SysBedInfoAllQueryVO> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, UserInfoToken userInfoToken);
+
+    List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken();
 }

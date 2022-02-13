@@ -1,0 +1,88 @@
+server:
+  port: 8082
+  dataCenterId: 1
+  workId: 1
+
+spring:
+  #配置freemarker
+  freemarker:
+    # 设置模板后缀名
+    suffix: .ftl
+    # 设置文档类型
+    content-type: text/html
+    # 设置页面编码格式
+    charset: UTF-8
+    # 设置页面缓存
+    cache: false
+    prefer-file-system-access: false
+    # 设置ftl文件路径
+    template-loader-path:
+      - classpath:/templates
+  # 设置静态文件路径，js,css等
+  mvc:
+    static-path-pattern: /**
+  resource:
+    static-locations: classpath:/static/,classpath:/public/
+  ## ����Դ����
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    password: WufuDB@123
+    url: jdbc:mysql://118.31.54.70:3306/nursing_home?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+  ## redis��������
+  redis:
+    host: 120.27.222.210
+    password: 123456
+    port: 6379
+
+##mybatis����
+mybatis:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.vblessings.nhs.model
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.vblessings.nhs.model
+
+logging:
+  level:
+    com:
+      vblessings:
+        nhs:
+          mapper: debug
+
+jwt:
+  ## ����ʱ�䣨һ�죩
+  expire: 86400
+  rsa-secret: adewdaw
+#jeecg专用配置
+jeecg:
+  # 本地：local\Minio：minio\阿里云：alioss
+  uploadType: local
+  path:
+    #文件上传根目录 设置
+    upload: D://opt//upFiles
+    #webapp文件路径
+    webapp: D://opt//webapp
+  #阿里云oss存储配置
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    accessKey: ??
+    secretKey: ??
+    bucketName: jeecgos
+    staticDomain: ??
+  # minio文件上传
+  minio:
+    minio_url: http://minio.jeecg.com
+    minio_name: ??
+    minio_pass: ??
+    bucketName: otatest
+  #大屏报表参数设置
+  jmreport:
+    mode: dev
+    #是否需要校验token
+    is_verify_token: false
+    #必须校验方法
+    verify_methods: remove,delete,save,add,update
