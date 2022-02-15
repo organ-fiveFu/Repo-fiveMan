@@ -1,5 +1,6 @@
 package com.vblessings.nhs.service.Impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -12,10 +13,12 @@ import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.mapper.BusTakeMedicineRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.ExportDispensingVO;
 import com.vblessings.nhs.model.vo.business.ExportTakeMedicineVO;
+import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusTakeMedicineRecordService;
@@ -234,6 +237,27 @@ public class BusTakeMedicineRecordServiceImpl implements BusTakeMedicineRecordSe
 
 
     }
+
+    /**
+     * 带药记录报表-notoken
+     * @author linxiazhu
+     * @date 14:04 2022/2/15
+     * @param timeQueryPO   入参
+     * @return  java.util.List<com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO>
+     */
+    @Override
+    public List<TakeMedicineReportQueryVO> queryTakeMedicineNoToken(TimeQueryPO timeQueryPO) {
+        List<TakeMedicineReportQueryVO> takeMedicineReportQueryVOS = busTakeMedicineRecordMapper.queryTakeMedicineNoToken(timeQueryPO);
+        if(CollectionUtil.isEmpty(takeMedicineReportQueryVOS)){
+            return new ArrayList<>();
+        }
+        takeMedicineReportQueryVOS.forEach(takeMedicineReportQueryVO -> {
+            takeMedicineReportQueryVO.setSpliceBedName(takeMedicineReportQueryVO.getBuildingName() + "-" + takeMedicineReportQueryVO.getFloorName() +
+                    "-" + takeMedicineReportQueryVO.getRoomName() + "-" + takeMedicineReportQueryVO.getBedName());
+        });
+        return takeMedicineReportQueryVOS;
+    }
+
     public  List<List<String>> getTakeDispensing(String bigTitle, BusTakeMedicineRecord busTakeMedicineRecord){
         String sex = "";
         if (busTakeMedicineRecord.getSex()!=null){

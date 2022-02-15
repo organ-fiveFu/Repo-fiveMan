@@ -2,12 +2,17 @@ package com.vblessings.nhs.controller.nurse;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarInsertPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarQueryPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarUpdatePO;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
+import com.vblessings.nhs.model.vo.bed.SysBuildingInfoQueryVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO;
+import com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BloodSugarService;
 import io.swagger.annotations.Api;
@@ -19,6 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/blood-sugar")
@@ -61,5 +67,13 @@ public class BloodSugarController {
     @GetMapping("/export")
     public void exportBloodSugar(String  ids, HttpServletResponse response) throws IOException {
         bloodSugarService.exportBloodSugar(ids,response);
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/query/no-token")
+    @ApiOperation(value = "血糖记录报表-notoken")
+    public ReportData<List<BloodSugarReportQueryVO>> queryBloodSugarNoToken(TimeQueryPO timeQueryPO){
+        List<BloodSugarReportQueryVO> bloodSugarReportQueryVOS = bloodSugarService.queryBloodSugarNoToken(timeQueryPO);
+        return ReportData.data(bloodSugarReportQueryVOS);
     }
 }

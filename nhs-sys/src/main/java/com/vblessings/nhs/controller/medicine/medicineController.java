@@ -1,12 +1,17 @@
 package com.vblessings.nhs.controller.medicine;
 
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.BusMedicationRecord;
 import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryMedicineRecordPO;
 import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
+import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
+import com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusMedicationRecordService;
 import com.vblessings.nhs.service.BusTakeMedicineRecordService;
@@ -19,6 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 药物相关api
@@ -71,6 +77,14 @@ public class medicineController {
     @GetMapping("/exportTakeMedicine")
     public void exportTakeMedicine(String  ids, HttpServletResponse response) throws IOException {
         busTakeMedicineRecordService.exportTakeMedicine(ids,response);
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/queryTakeMedicine/no-token")
+    @ApiOperation(value = "带药记录报表-notoken")
+    public ReportData<List<TakeMedicineReportQueryVO>> queryTakeMedicineNoToken(TimeQueryPO timeQueryPO){
+        List<TakeMedicineReportQueryVO> takeMedicineReportQueryVOS = busTakeMedicineRecordService.queryTakeMedicineNoToken(timeQueryPO);
+        return ReportData.data(takeMedicineReportQueryVOS);
     }
 
     @ApiOperation("导出代配药记录")

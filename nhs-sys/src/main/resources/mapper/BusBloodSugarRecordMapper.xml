@@ -21,5 +21,29 @@
         <result property="isDel" column="is_del"/>
         <result property="bloodGlucoseValue" column="blood_glucose_value"/>
     </resultMap>
+    <select id="queryBloodSugarNoToken" resultType="com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO">
+        SELECT
+          t1.business_no AS businessNo,
+          t1.patient_name AS patientName,
+          DATE_FORMAT(t1.sampling_time,'%Y-%m-%d %H:%i:%s') AS samplingTime,
+          t1.sampling_status AS samplingStatus,
+          t1.blood_glucose_value AS bloodGlucoseValue,
+          t2.building_name AS buildingName,
+          t2.floor_name AS floorName,
+          t2.room_name AS roomName,
+          t2.bed_name AS bedName
+        FROM bus_blood_sugar_record t1
+        LEFT JOIN bus_hospital_record t2 ON t1.business_no = t2.business_no
+          AND t2.is_del = 0 AND t2.status = '0'
+        WHERE
+         t1.is_del = 0
+        <if test="startTime !=null and startTime != ''">
+            AND t1.sampling_time <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND t1.sampling_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ORDER BY t2.building_code, t2.floor_code, t2.bed_code,t1.sampling_time
+    </select>
 
 </mapper>

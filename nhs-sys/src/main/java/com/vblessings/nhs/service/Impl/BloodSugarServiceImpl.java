@@ -15,12 +15,14 @@ import com.vblessings.nhs.enums.DictTypeEnum;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusBloodSugarRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusBloodSugarRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarInsertPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarQueryPO;
 import com.vblessings.nhs.model.po.nurse.BloodSugarUpdatePO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarExcelVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO;
+import com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BloodSugarService;
 import com.vblessings.nhs.service.SysDictDataService;
@@ -231,6 +233,28 @@ public class BloodSugarServiceImpl implements BloodSugarService {
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(22))
                 .registerWriteHandler(new CustomCellWriteHandler())
                 .sheet("血糖记录表").doWrite(bloodSugarExcelVOList);
+    }
+
+    /**
+     * 血糖记录报表-notoken
+     * @author linxiazhu
+     * @date 10:17 2022/2/15
+     * @param timeQueryPO   入参
+     * @return  java.util.List<com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO>
+     */
+    @Override
+    public List<BloodSugarReportQueryVO> queryBloodSugarNoToken(TimeQueryPO timeQueryPO) {
+        List<BloodSugarReportQueryVO> bloodSugarReportQueryVOS = busBloodSugarRecordMapper.queryBloodSugarNoToken(timeQueryPO);
+        if(CollectionUtil.isEmpty(bloodSugarReportQueryVOS)){
+            return new ArrayList<>();
+        }
+        Map<String, String> samplingStatusMap = sysDictDataService.getDictName(DictTypeEnum.BLOOD_SAMPLING_STATUS.getCode(), null);
+        bloodSugarReportQueryVOS.forEach(bloodSugarReportQueryVO -> {
+            bloodSugarReportQueryVO.setSamplingStatusName(samplingStatusMap.get(bloodSugarReportQueryVO.getSamplingStatus()));
+            bloodSugarReportQueryVO.setSpliceBedName(bloodSugarReportQueryVO.getBuildingName() + "-" + bloodSugarReportQueryVO.getFloorName() +
+                    "-" + bloodSugarReportQueryVO.getRoomName() + "-" + bloodSugarReportQueryVO.getBedName());
+        });
+        return bloodSugarReportQueryVOS;
     }
 
     /**

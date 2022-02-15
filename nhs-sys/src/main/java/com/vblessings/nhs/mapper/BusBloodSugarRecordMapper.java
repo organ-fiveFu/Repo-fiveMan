@@ -1,8 +1,12 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.business.BusBloodSugarRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
+import com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * Copyright (c) 2017 Choice, Inc.
@@ -16,5 +20,6 @@ import tk.mybatis.mapper.common.Mapper;
  */
 @Repository
 public interface BusBloodSugarRecordMapper extends Mapper<BusBloodSugarRecord> {
-	
+
+    List<BloodSugarReportQueryVO> queryBloodSugarNoToken(TimeQueryPO timeQueryPO);
 }
