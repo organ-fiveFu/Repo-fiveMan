@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service;
 
 import cn.hutool.core.lang.tree.Tree;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.bed.*;
@@ -209,5 +210,5 @@ public interface BedService {
 
     List<SysBedInfoAllQueryVO> querySysBedInfoGetList(SysBedInfoAllQueryPO sysBedInfoAllQueryPO, UserInfoToken userInfoToken);
 
-    List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken();
+    List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken(TimeQueryPO timeQueryPO);
 }

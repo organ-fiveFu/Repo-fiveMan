@@ -66,5 +66,21 @@
         FROM sys_building_info
         WHERE is_del = 0
     </select>
+    <select id="querySysBuildingInfoGetListNoToken"
+            resultType="com.vblessings.nhs.model.vo.bed.SysBuildingInfoQueryVO">
+        select
+          id AS id,
+          buildingCode AS buildingCode,
+          name AS name
+        from sys_building_info
+        where
+          is_del = 0
+        <if test="startTime !=null and startTime != ''">
+            AND create_time <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND create_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+    </select>
 
 </mapper>

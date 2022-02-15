@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -15,6 +16,7 @@ import com.vblessings.nhs.model.entity.bed.SysBuildingInfo;
 import com.vblessings.nhs.model.entity.bed.SysFloorInfo;
 import com.vblessings.nhs.model.entity.bed.SysRoomInfo;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.bed.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.bed.*;
@@ -771,12 +773,28 @@ public class BedServiceImpl implements BedService {
     }
 
     @Override
-    public List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken() {
+    public List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken(TimeQueryPO timeQueryPO) {
+        //1.tk方式
+        Date startTime;
+        Date endTime;
+        Date start = null;
+        Date end = null;
+        if(!StringUtils.isEmpty(timeQueryPO.getStartTime()) && !StringUtils.isEmpty(timeQueryPO.getEndTime())){
+            startTime = DateUtil.parse(timeQueryPO.getStartTime(), "yyyy/MM/dd");
+            endTime = DateUtil.parse(timeQueryPO.getEndTime(), "yyyy/MM/dd");
+            start = DateUtil.beginOfDay(startTime);
+            end = DateUtil.endOfDay(endTime);
+        }
         Example example = new Example(SysBuildingInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel", 0);
+        if(!StringUtils.isEmpty(timeQueryPO.getStartTime()) && !StringUtils.isEmpty(timeQueryPO.getEndTime())){
+            criteria.andBetween("createTime", start, end);
+        }
         example.orderBy("buildingCode");
         List<SysBuildingInfo> sysBuildingInfoList = sysBuildingInfoMapper.selectByExample(example);
+        //2.sql
+        List<SysBuildingInfoQueryVO> sysBuildingInfoQueryVOS = sysBuildingInfoMapper.querySysBuildingInfoGetListNoToken(timeQueryPO);
         if(CollectionUtil.isEmpty(sysBuildingInfoList)) {
             return new ArrayList<>();
         }

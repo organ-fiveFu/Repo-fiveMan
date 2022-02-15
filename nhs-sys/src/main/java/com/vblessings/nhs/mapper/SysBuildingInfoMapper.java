@@ -1,7 +1,9 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.bed.SysBuildingInfo;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.vo.bed.BedTreeVO;
+import com.vblessings.nhs.model.vo.bed.SysBuildingInfoQueryVO;
 import tk.mybatis.mapper.common.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +29,6 @@ public interface SysBuildingInfoMapper extends Mapper<SysBuildingInfo> {
      * @return  java.util.List<com.vblessings.nhs.model.vo.bed.BedTreeVO>
      */
     List<BedTreeVO> queryBedTree();
+
+    List<SysBuildingInfoQueryVO> querySysBuildingInfoGetListNoToken(TimeQueryPO timeQueryPO);
 }
