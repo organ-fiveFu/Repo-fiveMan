@@ -40,4 +40,13 @@ public class BloodSugarQueryVO {
 
     @ApiModelProperty(value = "血糖值", required = false)
     private String bloodGlucoseValue;
+
+    @ApiModelProperty(value = "楼宇名称")
+    private String buildingName;
+
+    @ApiModelProperty(value = "楼层名称")
+    private String floorName;
+
+    @ApiModelProperty(value = "房间名称")
+    private String roomName;
 }

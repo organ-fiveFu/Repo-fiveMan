@@ -45,5 +45,45 @@
         </if>
         ORDER BY t2.building_code, t2.floor_code, t2.bed_code,t1.sampling_time
     </select>
+    <select id="queryBloodSugar" resultType="com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO">
+        SELECT
+          t1.id AS id,
+          t1.business_no AS businessNo,
+          t1.patient_name AS patientName,
+          t1.hospital_diagnosis AS hospitalDiagnosis,
+          DATE_FORMAT(t1.blood_sugar_record_date,'%Y-%m-%d %H:%i:%s') AS bloodSugarRecordDate,
+          t1.sampling_status AS samplingStatus,
+          DATE_FORMAT(t1.sampling_time,'%Y-%m-%d %H:%i:%s') AS samplingTime,
+          t1.sampling_signature AS samplingSignature,
+          t1.blood_glucose_value AS bloodGlucoseValue,
+          t2.building_name AS buildingName,
+          t2.floor_name AS floorName,
+          t2.room_name AS roomName,
+          t2.bed_name AS bedName
+        FROM bus_blood_sugar_record t1
+        LEFT JOIN bus_hospital_record t2 ON t1.business_no = t2.business_no
+          AND t2.is_del = 0 AND t2.status = '0'
+        WHERE
+          t1.is_del = 0
+        <if test="id !=null and id !=''">
+            AND t1.id = #{id}
+        </if>
+        <if test="businessNo !=null and businessNo !=''">
+            and t1.business_no = #{businessNo}
+        </if>
+        <if test="patientName !=null and patientName !=''">
+            and t1.patient_name like concat('%',#{patientName},'%')
+        </if>
+        <if test="samplingStatus !=null and samplingStatus !=''">
+            and t1.sampling_status = #{samplingStatus}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            AND t1.blood_sugar_record_date <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND t1.blood_sugar_record_date <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ORDER BY t2.building_code, t2.floor_code, t2.bed_code, t1.blood_sugar_record_date
+    </select>
 
 </mapper>
