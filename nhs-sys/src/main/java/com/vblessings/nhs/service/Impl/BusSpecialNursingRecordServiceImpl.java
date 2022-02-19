@@ -60,7 +60,7 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
         Example example = new Example(BusSpecialNursingRecord.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDel",0);
-        List<BusSpecialNursingRecord> busSpecialNursingRecordList = new ArrayList<>();
+        List<BusSpecialNursingRecord> busSpecialNursingRecordList;
 
         if(Strings.isNotBlank(querySpecialNursingPO.getName())){
             criteria.andLike("patientName","%"+querySpecialNursingPO.getName()+"%");

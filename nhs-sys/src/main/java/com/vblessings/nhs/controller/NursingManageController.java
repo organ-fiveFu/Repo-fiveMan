@@ -2,10 +2,12 @@ package com.vblessings.nhs.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
 import com.vblessings.nhs.model.vo.nurse.VitalSignRecordVO;
@@ -60,6 +62,16 @@ public class NursingManageController {
     @PostMapping("/pageSpecialNursing")
     public ResultBody<PageVO<BusSpecialNursingRecord>> pageSpecialNursing(@RequestBody QuerySpecialNursingPO querySpecialNursingPO){
         return ResultBody.newSuccessInstance(busSpecialNursingRecordService.pageSpecialNursing(querySpecialNursingPO));
+    }
+
+    /**
+     * 查询特级护理记录-no-token
+     */
+    @IgnoreUserToken
+    @ApiOperation("查询特级护理记录-no-token")
+    @GetMapping("/pageSpecialNursing/no-token")
+    public ReportData<List<BusSpecialNursingRecord>> pageSpecialNursingNoToken(QuerySpecialNursingPO querySpecialNursingPO){
+        return ReportData.data(busSpecialNursingRecordService.pageSpecialNursing(querySpecialNursingPO).getList());
     }
 
     /**
@@ -129,6 +141,16 @@ public class NursingManageController {
     @PostMapping("/batchQueryNursingRecord")
     public ResultBody<List<BusNursingRecordQueryVO>> batchQueryNursingRecord(@RequestBody QueryBatchVitalSignPO queryBatchVitalSignPO){
         return ResultBody.newSuccessInstance(busNursingRecordService.batchQueryNursingRecord(queryBatchVitalSignPO));
+    }
+
+    /**
+     * 批量插入——查询当前时间点护理记录列表-no-token
+     */
+    @IgnoreUserToken
+    @ApiOperation("批量插入——查询当前时间点护理记录列表-no-token")
+    @GetMapping("/batchQueryNursingRecord/no-token")
+    public ReportData<List<BusNursingRecordQueryVO>> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO){
+        return ReportData.data(busNursingRecordService.batchQueryNursingRecord(queryBatchVitalSignPO));
     }
 
     /**
