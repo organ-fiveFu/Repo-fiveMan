@@ -56,6 +56,29 @@
             and is_del = 0
         </where>
     </select>
+    <select id="queryTakeMedicationListGetListNoToken"
+            resultType="com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO">
+        select b.name as name,
+          b.drug_name as drugName,
+          b.measure as measure,
+          b.dosage as dosage,
+          h.building_name AS buildingName,
+          h.floor_name AS floorName,
+          h.room_name AS roomName,
+          h.bed_name AS bedName
+         from bus_take_medicine_record b left join bus_hospital_record h on
+        b.business_no = h.business_no
+        where b.is_del = 0
+        AND h.is_del = 0 AND h.status = '0'
+        and b.is_taken = 1
+        <if test="startTime !=null and startTime != ''">
+            AND b.create_time <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND b.create_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ORDER BY h.building_code, h.floor_code, h.bed_code
+    </select>
     <select id="queryTakeMedicineNoToken"
             resultType="com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO">
         SELECT

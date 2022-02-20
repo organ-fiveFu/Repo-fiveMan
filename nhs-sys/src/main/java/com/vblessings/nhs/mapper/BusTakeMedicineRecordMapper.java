@@ -4,6 +4,7 @@ import com.vblessings.nhs.base.BaseRepository;
 import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
+import com.vblessings.nhs.model.vo.medicine.TakeMedicineQueryVO;
 import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface BusTakeMedicineRecordMapper extends BaseRepository<BusTakeMedic
     void del(String[] id);
 
     List<TakeMedicineReportQueryVO> queryTakeMedicineNoToken(TimeQueryPO timeQueryPO);
+
+    List<TakeMedicineReportQueryVO> queryTakeMedicationListGetListNoToken(TimeQueryPO timeQueryPO);
 }

@@ -2,6 +2,7 @@ package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;
@@ -11,17 +12,22 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.mapper.BusTakeMedicineRecordMapper;
+import com.vblessings.nhs.model.entity.bed.SysBuildingInfo;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
 import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.bed.SysBuildingInfoQueryVO;
 import com.vblessings.nhs.model.vo.business.ExportDispensingVO;
 import com.vblessings.nhs.model.vo.business.ExportTakeMedicineVO;
+import com.vblessings.nhs.model.vo.business.MedicineRecordReportQueryVO;
+import com.vblessings.nhs.model.vo.medicine.TakeMedicineQueryVO;
 import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusTakeMedicineRecordService;
+import com.vblessings.nhs.util.BeanHelper;
 import com.vblessings.nhs.util.OperateUtil;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -237,6 +243,21 @@ public class BusTakeMedicineRecordServiceImpl implements BusTakeMedicineRecordSe
 
 
     }
+
+    @Override
+    public List<TakeMedicineReportQueryVO> queryTakeMedicationListGetListNoToken(TimeQueryPO timeQueryPO) {
+        List<TakeMedicineReportQueryVO> takeMedicineQueryVOS = busTakeMedicineRecordMapper.queryTakeMedicationListGetListNoToken(timeQueryPO);
+        if(CollectionUtil.isEmpty(takeMedicineQueryVOS)) {
+            return new ArrayList<>();
+        }
+        takeMedicineQueryVOS.forEach(takeMedicineReportQueryVO -> {
+            takeMedicineReportQueryVO.setSpliceBedName(takeMedicineReportQueryVO.getBuildingName() + "-" + takeMedicineReportQueryVO.getFloorName() +
+                    "-" + takeMedicineReportQueryVO.getRoomName() + "-" + takeMedicineReportQueryVO.getBedName());
+        });
+        return takeMedicineQueryVOS;
+    }
+
+
 
     /**
      * 带药记录报表-notoken

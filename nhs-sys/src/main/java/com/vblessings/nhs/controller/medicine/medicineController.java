@@ -10,6 +10,10 @@ import com.vblessings.nhs.model.po.business.QueryTakeMedicineRecord;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.ReportData;
+import com.vblessings.nhs.model.vo.bed.SysBuildingInfoQueryVO;
+import com.vblessings.nhs.model.vo.business.MedicineRecordReportQueryVO;
+import com.vblessings.nhs.model.vo.medicine.TakeMedicineQueryVO;
+import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import com.vblessings.nhs.model.vo.nurse.BloodSugarReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
@@ -128,6 +132,23 @@ public class medicineController {
     @GetMapping("/exportMedicationRecord")
     public void exportMedicationRecord(String  ids, HttpServletResponse response) throws IOException {
         busMedicationRecordService.exportMedicationRecord(ids,response);
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/get-takeMedicationList/no-token")
+    @ApiOperation(value = "代配药导出-notoken")
+    public ReportData<List<TakeMedicineReportQueryVO>> queryTakeMedicationListGetListNoToken(TimeQueryPO timeQueryPO){
+        List<TakeMedicineReportQueryVO> takeMedicineQueryVOS = busTakeMedicineRecordService.queryTakeMedicationListGetListNoToken(timeQueryPO);
+        return ReportData.data(takeMedicineQueryVOS);
+    }
+
+
+    @IgnoreUserToken
+    @GetMapping("/get-MedicationRecordList/no-token")
+    @ApiOperation(value = "用药导出-notoken")
+    public ReportData<List<MedicineRecordReportQueryVO>> queryMedicationRecordListGetListNoToken(TimeQueryPO timeQueryPO){
+        List<MedicineRecordReportQueryVO> medicineRecordReportQueryVOS = busMedicationRecordService.queryMedicationRecordListGetListNoToken(timeQueryPO);
+        return ReportData.data(medicineRecordReportQueryVOS);
     }
 
 

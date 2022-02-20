@@ -29,5 +29,27 @@
             #{id}
         </foreach>
     </update>
+    <select id="queryMedicationRecordListGetListNoToken"
+            resultType="com.vblessings.nhs.model.vo.business.MedicineRecordReportQueryVO">
+        select b.name as name,
+         b.drug_specification as drugSpecification,
+         b.measure as measure,
+         b.frequency as frequency,
+        h.building_name AS buildingName,
+        h.floor_name AS floorName,
+        h.room_name AS roomName,
+        h.bed_name AS bedName
+         from bus_medication_record b left join bus_hospital_record h on
+        b.business_no = h.business_no
+        where b.is_del =0
+        AND h.is_del = 0 AND h.status = '0'
+        <if test="startTime !=null and startTime != ''">
+            AND b.create_time <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND b.create_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ORDER BY h.building_code, h.floor_code, h.bed_code
+    </select>
 
 </mapper>

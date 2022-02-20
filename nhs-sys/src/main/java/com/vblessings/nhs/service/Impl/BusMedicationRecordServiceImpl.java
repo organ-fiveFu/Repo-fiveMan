@@ -1,5 +1,6 @@
 package com.vblessings.nhs.service.Impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -12,10 +13,13 @@ import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.mapper.BusMedicationRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusMedicationRecord;
 import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryMedicineRecordPO;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.ExportDispensingVO;
 import com.vblessings.nhs.model.vo.business.ExportMedicationRecordVO;
+import com.vblessings.nhs.model.vo.business.MedicineRecordReportQueryVO;
+import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusMedicationRecordService;
 import com.vblessings.nhs.util.OperateUtil;
@@ -125,6 +129,20 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
 
 
     }
+
+    @Override
+    public List<MedicineRecordReportQueryVO> queryMedicationRecordListGetListNoToken(TimeQueryPO timeQueryPO) {
+        List<MedicineRecordReportQueryVO> medicineRecordReportQueryVOS = busMedicationRecordMapper.queryMedicationRecordListGetListNoToken(timeQueryPO);
+        if(CollectionUtil.isEmpty(medicineRecordReportQueryVOS)) {
+            return new ArrayList<>();
+        }
+        medicineRecordReportQueryVOS.forEach(medicineRecordReportQueryVO -> {
+            medicineRecordReportQueryVO.setSpliceBedName(medicineRecordReportQueryVO.getBuildingName() + "-" + medicineRecordReportQueryVO.getFloorName() +
+                    "-" + medicineRecordReportQueryVO.getRoomName() + "-" + medicineRecordReportQueryVO.getBedName());
+        });
+        return medicineRecordReportQueryVOS;
+    }
+
     public  List<List<String>> getMedicationRecord(String bigTitle, BusMedicationRecord busMedicationRecord){
         String secondTitle =" 床号:"+busMedicationRecord.getBedCode()+" 姓名:"+busMedicationRecord.getName()+
                 " 病区:"+busMedicationRecord.getWard();
