@@ -1,5 +1,6 @@
 package com.vblessings.nhs.service.Impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -8,11 +9,12 @@ import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
-import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusSpecialNursingRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.business.BusSpecialNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusSpecialNursingRecordService;
@@ -20,10 +22,7 @@ import com.vblessings.nhs.util.OperateUtil;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -194,5 +193,18 @@ public class BusSpecialNursingRecordServiceImpl implements BusSpecialNursingReco
          OutputStream out = response.getOutputStream();
             EasyExcel.write(out,ExportSpecialNursingVO.class).excelType(ExcelTypeEnum.XLSX).head(getSpecialNursing(bigTitle.toString(),busSpecialNursingRecord1)).registerWriteHandler(horizontalCellStyleStrategy).registerWriteHandler(new CustomCellWriteHandler()).sheet("特级护理").doWrite(exportSpecialNursingVOList);
 
+    }
+
+    @Override
+    public List<BusSpecialNursingRecordQueryVO> pageSpecialNursingNoToken(TimeQueryPO timeQueryPO) {
+        List<BusSpecialNursingRecordQueryVO> busSpecialNursingRecordQueryVOS = busSpecialNursingRecordMapper.pageSpecialNursingNoToken(timeQueryPO);
+        if(CollectionUtil.isEmpty(busSpecialNursingRecordQueryVOS)) {
+            return new ArrayList<>();
+        }
+        busSpecialNursingRecordQueryVOS.forEach(busSpecialNursingRecordQueryVO -> {
+            busSpecialNursingRecordQueryVO.setSpliceBedName(busSpecialNursingRecordQueryVO.getBuildingName() + "-" + busSpecialNursingRecordQueryVO.getFloorName() +
+                    "-" + busSpecialNursingRecordQueryVO.getRoomName() + "-" + busSpecialNursingRecordQueryVO.getBedName());
+        });
+        return busSpecialNursingRecordQueryVOS;
     }
 }

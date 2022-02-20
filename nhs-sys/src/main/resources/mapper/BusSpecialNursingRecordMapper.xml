@@ -34,5 +34,37 @@
             #{id}
         </foreach>
     </update>
+    <select id="pageSpecialNursingNoToken"
+            resultType="com.vblessings.nhs.model.vo.business.BusSpecialNursingRecordQueryVO">
+        SELECT
+          t1.id AS id,
+          t1.business_no AS businessNo,
+          t1.patient_name AS patientName,
+          t1.allergy AS allergy,
+          date_format(t1.nursing_time, '%Y-%m-%d %H:%i:%s') AS nursingTime,
+          t1.is_morning_care AS isMorningCare,
+          t1.is_pressure_ulcers_care AS isPressureUlcersCare,
+          t1.is_evening_care AS isEveningCare,
+          t1.output AS output,
+          t1.input AS input,
+          t1.mental_state AS mentalState,
+          t1.person_in_charge AS personInCharge,
+          t1.hospital_diagnosis AS hospitalDiagnosis,
+          t2.building_name AS buildingName,
+          t2.floor_name	AS floorName,
+          t2.room_name AS roomName,
+          t2.bed_name AS bedName
+        FROM bus_special_nursing_record t1
+        LEFT JOIN bus_hospital_record t2 ON t1.business_no = t2.business_no
+          AND t2.is_del = 0 AND t2.status = '0'
+        WHERE t1.is_del = 0
+        <if test="startTime !=null and startTime != ''">
+            AND t1.nursing_time <![CDATA[>=]]> to_timestamp(#{startTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND t1.nursing_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ORDER BY t2.building_code, t2.floor_code, t2.room_code, t2.bed_code
+    </select>
 
 </mapper>

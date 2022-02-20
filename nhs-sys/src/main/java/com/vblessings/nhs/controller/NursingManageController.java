@@ -4,17 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.BusSpecialNursingRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.po.businessVO.QuerySpecialNursingPO;
+import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
+import com.vblessings.nhs.model.vo.business.BusSpecialNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordQueryVO;
 import com.vblessings.nhs.model.vo.nurse.VitalSignRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.service.BusSpecialNursingRecordService;
-import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.service.BusVitalSignRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,8 +72,8 @@ public class NursingManageController {
     @IgnoreUserToken
     @ApiOperation("查询特级护理记录-no-token")
     @GetMapping("/pageSpecialNursing/no-token")
-    public ReportData<List<BusSpecialNursingRecord>> pageSpecialNursingNoToken(QuerySpecialNursingPO querySpecialNursingPO){
-        return ReportData.data(busSpecialNursingRecordService.pageSpecialNursing(querySpecialNursingPO).getList());
+    public ReportData<List<BusSpecialNursingRecordQueryVO>> pageSpecialNursingNoToken(TimeQueryPO timeQueryPO){
+        return ReportData.data(busSpecialNursingRecordService.pageSpecialNursingNoToken(timeQueryPO));
     }
 
     /**

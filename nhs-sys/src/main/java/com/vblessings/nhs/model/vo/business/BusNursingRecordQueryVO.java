@@ -187,4 +187,7 @@ public class BusNursingRecordQueryVO {
 	@ApiModelProperty(value = "创建人")
 	private Long creatorId;
 
+	@ApiModelProperty(value = "记录日期+记录时间点")
+	private String recordPointTime;
+
 }

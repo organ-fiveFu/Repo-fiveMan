@@ -1,6 +1,7 @@
 package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -28,7 +29,9 @@ import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
 import com.google.common.base.Strings;
+import com.vblessings.nhs.util.StringUtil;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -206,7 +209,15 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
 
     @Override
     public List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO) {
-        return busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime());
+        List<BusNursingRecordQueryVO> busNursingRecordQueryVOS = busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime());
+        if(CollectionUtil.isNotEmpty(busNursingRecordQueryVOS)){
+            busNursingRecordQueryVOS.forEach(busNursingRecordQueryVO -> {
+                if(StringUtils.isNotBlank(busNursingRecordQueryVO.getRecordTime()) && StringUtils.isNotBlank(busNursingRecordQueryVO.getTimePoint())){
+                    busNursingRecordQueryVO.setRecordPointTime(busNursingRecordQueryVO.getRecordTime() + " " + busNursingRecordQueryVO.getTimePoint());
+                }
+            });
+        }
+        return busNursingRecordQueryVOS;
     }
 
     @Override
