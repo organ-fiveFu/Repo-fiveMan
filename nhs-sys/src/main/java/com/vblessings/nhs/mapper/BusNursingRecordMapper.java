@@ -24,4 +24,6 @@ public interface BusNursingRecordMapper extends Mapper<BusNursingRecord> {
     void batchDel(String[] id);
 
     List<BusNursingRecordQueryVO> batchQueryNursingRecord(@Param("recordTime") String recordTime);
+
+    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(@Param("recordTime") String recordTime);
 }

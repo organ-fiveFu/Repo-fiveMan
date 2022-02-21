@@ -8,7 +8,6 @@ import com.vblessings.nhs.result.UserInfoToken;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface BusNursingRecordService {
@@ -29,4 +28,6 @@ public interface BusNursingRecordService {
     List<BusNursingRecordPO> nursingRecordByTimePoint(QueryNursingRecordByTimePO queryNursingRecordByTimePO);
 
     void exportNursingRecord(String ids, HttpServletResponse response) throws IOException;
+
+    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO);
 }

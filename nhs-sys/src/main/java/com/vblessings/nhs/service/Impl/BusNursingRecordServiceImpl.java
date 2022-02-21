@@ -10,26 +10,23 @@ import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.base.Strings;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
 import com.vblessings.nhs.mapper.BusNursingRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
-import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignRecordVO;
 import com.vblessings.nhs.model.vo.business.BusVitalSignVO;
 import com.vblessings.nhs.model.vo.business.ExportNursingRecordVO;
-import com.vblessings.nhs.model.vo.nurse.ExportSpecialNursingVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusNursingRecordService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
-import com.google.common.base.Strings;
-import com.vblessings.nhs.util.StringUtil;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -42,7 +39,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -209,15 +205,7 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
 
     @Override
     public List<BusNursingRecordQueryVO> batchQueryNursingRecord(QueryBatchVitalSignPO queryBatchVitalSignPO) {
-        List<BusNursingRecordQueryVO> busNursingRecordQueryVOS = busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime());
-        if(CollectionUtil.isNotEmpty(busNursingRecordQueryVOS)){
-            busNursingRecordQueryVOS.forEach(busNursingRecordQueryVO -> {
-                if(StringUtils.isNotBlank(busNursingRecordQueryVO.getRecordTime()) && StringUtils.isNotBlank(busNursingRecordQueryVO.getTimePoint())){
-                    busNursingRecordQueryVO.setRecordPointTime(busNursingRecordQueryVO.getRecordTime() + " " + busNursingRecordQueryVO.getTimePoint());
-                }
-            });
-        }
-        return busNursingRecordQueryVOS;
+        return busNursingRecordMapper.batchQueryNursingRecord(queryBatchVitalSignPO.getRecordTime());
     }
 
     @Override
@@ -347,6 +335,20 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
                 .sheet("老人自带药品记录表").doWrite(exportNursingRecordVOList);
 
     }
+
+    @Override
+    public List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO) {
+        List<BusNursingRecordQueryVO> busNursingRecordQueryVOS = busNursingRecordMapper.batchQueryNursingRecordNoToken(queryBatchVitalSignPO.getRecordTime());
+        if(CollectionUtil.isNotEmpty(busNursingRecordQueryVOS)){
+            busNursingRecordQueryVOS.forEach(busNursingRecordQueryVO -> {
+                if(StringUtils.isNotBlank(busNursingRecordQueryVO.getRecordTime()) && StringUtils.isNotBlank(busNursingRecordQueryVO.getTimePoint())){
+                    busNursingRecordQueryVO.setRecordPointTime(busNursingRecordQueryVO.getRecordTime() + " " + busNursingRecordQueryVO.getTimePoint());
+                }
+            });
+        }
+        return busNursingRecordQueryVOS;
+    }
+
     public  List<List<String>> getNursingRecord(String bigTitle, BusNursingRecord busNursingRecord){
         String secondTitle ="住院号:"+busNursingRecord.getBusinessNo()+" 姓名:"+busNursingRecord.getName();
         List<List<String>> head = new ArrayList<List<String>>();
