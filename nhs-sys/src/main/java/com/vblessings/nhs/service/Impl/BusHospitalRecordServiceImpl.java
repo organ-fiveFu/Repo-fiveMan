@@ -283,12 +283,12 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
             List<BusHospitalRecord> withoutTime = busHospitalRecordList.stream().filter(e -> e.getStatus().equals("0")).collect(Collectors.toList());
             //实际占用床位数
             querySummaryVO.setTakeUpBed(withoutTime.stream().filter(e -> e.getBedCode() != null).collect(Collectors.toList()).size());
-            //完全失能老人数
-            querySummaryVO.setDisabilityNum(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0001")).collect(Collectors.toList()).size());
+            //自理老人数
+            querySummaryVO.setProvideForOneself(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0001")).collect(Collectors.toList()).size());
             //部分失能老人数
             querySummaryVO.setPartialDisability(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0002")).collect(Collectors.toList()).size());
-            //自理老人数
-            querySummaryVO.setProvideForOneself(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0003")).collect(Collectors.toList()).size());
+            //完全失能老人数
+            querySummaryVO.setDisabilityNum(withoutTime.stream().filter(e -> e.getNursingLevel().equals("0003")).collect(Collectors.toList()).size());
 
         }
 
