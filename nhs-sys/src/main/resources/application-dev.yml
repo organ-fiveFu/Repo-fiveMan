@@ -59,4 +59,8 @@ ftp:
     - png
 
 
-
+#pagehelper
+pagehelper:
+  reasonable: true
+  pageSizeZero: true
+  rowBoundsWithCount: true
