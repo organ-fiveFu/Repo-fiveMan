@@ -65,6 +65,7 @@
         <foreach collection="roomCodeList" item="item" open="(" separator="," close=")" >
             #{item}
         </foreach>
+        ORDER BY t1.building_code, t1.floor_code, t1.room_code, t1.bed_code
     </select>
     <select id="querySysBedInfoGetList" resultType="com.vblessings.nhs.model.vo.bed.SysBedInfoAllQueryVO">
         SELECT
