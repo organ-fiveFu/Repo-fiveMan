@@ -151,8 +151,8 @@ public class NursingManageController {
     @IgnoreUserToken
     @ApiOperation("批量插入——查询当前时间点护理记录列表-no-token")
     @GetMapping("/batchQueryNursingRecord/no-token")
-    public ReportData<List<BusNursingRecordQueryVO>> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO){
-        return ReportData.data(busNursingRecordService.batchQueryNursingRecordNoToken(queryBatchVitalSignPO));
+    public ReportData<List<BusNursingRecordQueryVO>> batchQueryNursingRecordNoToken(TimeQueryPO timeQueryPO){
+        return ReportData.data(busNursingRecordService.batchQueryNursingRecordNoToken(timeQueryPO));
     }
 
     /**

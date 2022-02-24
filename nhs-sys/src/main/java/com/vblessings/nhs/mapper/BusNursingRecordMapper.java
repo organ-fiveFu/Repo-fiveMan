@@ -1,10 +1,11 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
 import org.springframework.data.repository.query.Param;
-import tk.mybatis.mapper.common.Mapper;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -25,5 +26,5 @@ public interface BusNursingRecordMapper extends Mapper<BusNursingRecord> {
 
     List<BusNursingRecordQueryVO> batchQueryNursingRecord(@Param("recordTime") String recordTime);
 
-    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(@Param("recordTime") String recordTime);
+    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(TimeQueryPO timeQueryPO);
 }

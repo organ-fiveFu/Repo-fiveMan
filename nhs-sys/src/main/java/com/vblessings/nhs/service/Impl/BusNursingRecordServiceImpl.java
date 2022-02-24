@@ -17,6 +17,7 @@ import com.vblessings.nhs.mapper.BusHospitalRecordMapper;
 import com.vblessings.nhs.mapper.BusNursingRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.entity.business.BusNursingRecord;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
@@ -337,8 +338,8 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
     }
 
     @Override
-    public List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO) {
-        List<BusNursingRecordQueryVO> busNursingRecordQueryVOS = busNursingRecordMapper.batchQueryNursingRecordNoToken(queryBatchVitalSignPO.getRecordTime());
+    public List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(TimeQueryPO timeQueryPO) {
+        List<BusNursingRecordQueryVO> busNursingRecordQueryVOS = busNursingRecordMapper.batchQueryNursingRecordNoToken(timeQueryPO);
         if(CollectionUtil.isNotEmpty(busNursingRecordQueryVOS)){
             busNursingRecordQueryVOS.forEach(busNursingRecordQueryVO -> {
                 if(StringUtils.isNotBlank(busNursingRecordQueryVO.getRecordTime()) && StringUtils.isNotBlank(busNursingRecordQueryVO.getTimePoint())){

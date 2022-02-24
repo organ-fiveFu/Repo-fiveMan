@@ -12,14 +12,11 @@ import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.mapper.BusMedicationRecordMapper;
 import com.vblessings.nhs.model.entity.business.BusMedicationRecord;
-import com.vblessings.nhs.model.entity.business.BusTakeMedicineRecord;
 import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.QueryMedicineRecordPO;
 import com.vblessings.nhs.model.vo.PageVO;
-import com.vblessings.nhs.model.vo.business.ExportDispensingVO;
 import com.vblessings.nhs.model.vo.business.ExportMedicationRecordVO;
 import com.vblessings.nhs.model.vo.business.MedicineRecordReportQueryVO;
-import com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusMedicationRecordService;
 import com.vblessings.nhs.util.OperateUtil;
@@ -33,12 +30,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,15 +60,7 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
     @Override
     public PageVO<BusMedicationRecord> pageMedicationRecord(QueryMedicineRecordPO queryMedicineRecordPO) {
         Page<BusMedicationRecord> result = PageHelper.startPage(queryMedicineRecordPO.getPageNum(), queryMedicineRecordPO.getPageSize());
-        Example example = new Example(BusMedicationRecord.class);
-        Example.Criteria C = example.createCriteria();
-        if(queryMedicineRecordPO.getName()!=null){
-        C.andLike("name","%"+queryMedicineRecordPO.getName()+"%");}
-        if(queryMedicineRecordPO.getBusinessNo()!=null){
-            C.andEqualTo("businessNo",queryMedicineRecordPO.getBusinessNo());
-        }
-        C.andEqualTo("isDel",0);
-        List<BusMedicationRecord> busMedicationRecordList = busMedicationRecordMapper.selectByExample(example);
+        List<BusMedicationRecord> busMedicationRecordList = busMedicationRecordMapper.pageMedicationRecord(queryMedicineRecordPO);
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busMedicationRecordList);
     }
 

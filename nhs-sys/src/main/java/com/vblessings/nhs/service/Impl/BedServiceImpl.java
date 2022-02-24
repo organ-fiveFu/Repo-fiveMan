@@ -686,16 +686,14 @@ public class BedServiceImpl implements BedService {
      */
     @Override
     public List<SysFloorInfoQueryVO> querySysFloorInfoGetList(String buildingCode, UserInfoToken userInfoToken) {
-        Example example = new Example(SysFloorInfo.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDel", 0);
-        criteria.andEqualTo("buildingCode", buildingCode);
-        example.orderBy("floorCode");
-        List<SysFloorInfo> sysFloorInfoList = sysFloorInfoMapper.selectByExample(example);
-        if(CollectionUtil.isEmpty(sysFloorInfoList)) {
+        List<SysFloorInfoQueryVO> sysFloorInfoQueryVOS = sysFloorInfoMapper.querySysFloorInfoGetList(buildingCode);
+        if(CollectionUtil.isEmpty(sysFloorInfoQueryVOS)) {
             return new ArrayList<>();
         }
-        return BeanHelper.copyWithCollection(sysFloorInfoList, SysFloorInfoQueryVO.class);
+        sysFloorInfoQueryVOS.forEach(sysFloorInfoQueryVO -> {
+            sysFloorInfoQueryVO.setBuildingFloorName(sysFloorInfoQueryVO.getBuildingName() + "-" + sysFloorInfoQueryVO.getName());
+        });
+        return sysFloorInfoQueryVOS;
     }
 
     /**

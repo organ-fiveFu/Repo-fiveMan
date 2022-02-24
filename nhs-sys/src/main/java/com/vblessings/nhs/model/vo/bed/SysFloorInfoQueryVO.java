@@ -19,4 +19,10 @@ public class SysFloorInfoQueryVO {
 
     @ApiModelProperty(value = "楼层名称")
     private String name;
+
+    @ApiModelProperty(value = "楼宇名称")
+    private String buildingName;
+
+    @ApiModelProperty(value = "楼宇+楼层名称")
+    private String buildingFloorName;
 }

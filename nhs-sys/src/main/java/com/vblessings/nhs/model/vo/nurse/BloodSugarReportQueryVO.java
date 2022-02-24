@@ -15,8 +15,11 @@ public class BloodSugarReportQueryVO {
     @ApiModelProperty(value = "病人姓名")
     private String patientName;
 
-    @ExcelProperty(value = "采样日期")
+    @ExcelProperty(value = "采样时间")
     private String samplingTime;
+
+    @ExcelProperty(value = "采样日期")
+    private String bloodSugarRecordDate;
 
     @ExcelProperty(value = "采样状态")
     private String samplingStatus;

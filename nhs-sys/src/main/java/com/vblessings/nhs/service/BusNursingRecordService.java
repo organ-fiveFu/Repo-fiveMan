@@ -1,5 +1,6 @@
 package com.vblessings.nhs.service;
 
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.business.*;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusNursingRecordQueryVO;
@@ -29,5 +30,5 @@ public interface BusNursingRecordService {
 
     void exportNursingRecord(String ids, HttpServletResponse response) throws IOException;
 
-    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(QueryBatchVitalSignPO queryBatchVitalSignPO);
+    List<BusNursingRecordQueryVO> batchQueryNursingRecordNoToken(TimeQueryPO timeQueryPO);
 }

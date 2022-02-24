@@ -15,5 +15,21 @@
         <result property="updateTime" column="update_time"/>
         <result property="isDel" column="is_del"/>
     </resultMap>
+    <select id="querySysFloorInfoGetList" resultType="com.vblessings.nhs.model.vo.bed.SysFloorInfoQueryVO">
+        select
+          t1.id AS id,
+          t1.floor_code AS floorCode,
+          t1.building_code AS buildingCode,
+          t1.name AS name,
+          t2.name AS buildingName
+        from sys_floor_info t1
+        left join sys_building_info t2 ON t1.building_code = t2.building_code
+          and t2.is_del = 0
+        where t1.is_del = 0
+        <if test="buildingCode !=null and buildingCode !=''">
+            and t1.building_code = #{buildingCode}
+        </if>
+        order by t1.floor_code
+    </select>
 
 </mapper>

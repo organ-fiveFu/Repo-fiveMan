@@ -25,7 +25,8 @@
         SELECT
           t1.business_no AS businessNo,
           t1.patient_name AS patientName,
-          DATE_FORMAT(t1.sampling_time,'%Y-%m-%d %H:%i:%s') AS samplingTime,
+          DATE_FORMAT(t1.blood_sugar_record_date,'%Y-%m-%d') AS bloodSugarRecordDate,
+          DATE_FORMAT(t1.sampling_time,'%H:%i:%s') AS samplingTime,
           t1.sampling_status AS samplingStatus,
           t1.blood_glucose_value AS bloodGlucoseValue,
           t2.building_name AS buildingName,
@@ -43,7 +44,10 @@
         <if test="endTime !=null and endTime != ''">
             AND t1.sampling_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
         </if>
-        ORDER BY t2.building_code, t2.floor_code, t2.bed_code,t1.sampling_time
+        <if test="businessNo !=null and businessNo !=''">
+            and t1.business_no = #{businessNo}
+        </if>
+        ORDER BY t2.building_code desc, t2.floor_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
     </select>
     <select id="queryBloodSugar" resultType="com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO">
         SELECT
@@ -83,7 +87,7 @@
         <if test="endTime !=null and endTime != ''">
             AND t1.blood_sugar_record_date <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
         </if>
-        ORDER BY t2.building_code, t2.floor_code, t2.bed_code, t1.blood_sugar_record_date
+        ORDER BY t2.building_code desc, t2.floor_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
     </select>
 
 </mapper>

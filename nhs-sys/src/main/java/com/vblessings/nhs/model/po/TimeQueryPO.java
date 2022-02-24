@@ -14,4 +14,13 @@ public class TimeQueryPO {
 
     @ApiModelProperty(value = "结束时间")
     private String endTime;
+
+    @ApiModelProperty(value = "楼宇code")
+    private String buildingCode;
+
+    @ApiModelProperty(value = "楼层code")
+    private String floorCode;
+
+    @ApiModelProperty(value = "住院号")
+    private String businessNo;
 }
