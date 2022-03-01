@@ -21,6 +21,7 @@ import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusMedicationRecordService;
 import com.vblessings.nhs.util.OperateUtil;
 import com.vblessings.nhs.writeHandler.CustomCellWriteHandler;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -119,6 +120,9 @@ public class BusMedicationRecordServiceImpl implements BusMedicationRecordServic
 
     @Override
     public List<MedicineRecordReportQueryVO> queryMedicationRecordListGetListNoToken(TimeQueryPO timeQueryPO) {
+        if(StringUtils.isNotEmpty(timeQueryPO.getBusinessNo())){
+            timeQueryPO.setBusinessNos(Arrays.asList(timeQueryPO.getBusinessNo().split(",")));
+        }
         List<MedicineRecordReportQueryVO> medicineRecordReportQueryVOS = busMedicationRecordMapper.queryMedicationRecordListGetListNoToken(timeQueryPO);
         if(CollectionUtil.isEmpty(medicineRecordReportQueryVOS)) {
             return new ArrayList<>();

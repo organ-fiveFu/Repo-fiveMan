@@ -18,11 +18,11 @@ import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
 import com.vblessings.nhs.model.vo.PeopleSourceVO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
 import com.vblessings.nhs.model.vo.TempData;
+import com.vblessings.nhs.model.vo.business.BusHospitalRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusHospitalRecordService;
 import com.vblessings.nhs.util.BusinessNoUtil;
 import com.vblessings.nhs.util.OperateUtil;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -99,31 +99,10 @@ public class BusHospitalRecordServiceImpl implements BusHospitalRecordService {
      * @return
      */
     @Override
-    public PageInfo<BusHospitalRecord> select(BusHospitalRecordPO busHospitalRecordPO, UserInfoToken userInfo) {
+    public PageInfo<BusHospitalRecordVO> select(BusHospitalRecordPO busHospitalRecordPO, UserInfoToken userInfo) {
         PageHelper.startPage(busHospitalRecordPO.getPageNum(), busHospitalRecordPO.getPageSize());
-        Example example = new Example(BusHospitalRecord.class);
-        Example.Criteria C = example.createCriteria();
-        if (Strings.isNotBlank(busHospitalRecordPO.getName())) {
-            C.andLike("name", "%" + busHospitalRecordPO.getName() + "%");
-        }
-        if (Strings.isNotBlank(busHospitalRecordPO.getBusinessNo())) {
-            C.andEqualTo("businessNo", busHospitalRecordPO.getBusinessNo());
-        }
-        if (Strings.isNotBlank(busHospitalRecordPO.getBuildingCode())) {
-            C.andEqualTo("buildingCode", busHospitalRecordPO.getBuildingCode());
-        }
-        if (Strings.isNotBlank(busHospitalRecordPO.getFloorCode())) {
-            C.andEqualTo("floorCode", busHospitalRecordPO.getFloorCode());
-        }
-        if (Strings.isNotBlank(busHospitalRecordPO.getRoomCode())) {
-            C.andEqualTo("roomCode", busHospitalRecordPO.getRoomCode());
-        }
-        if (Strings.isNotBlank(busHospitalRecordPO.getBedCode())) {
-            C.andEqualTo("bedCode", busHospitalRecordPO.getBedCode());
-        }
-        C.andEqualTo("isDel", 0).andEqualTo("status", busHospitalRecordPO.getStatus());
-        List<BusHospitalRecord> busHospitalRecords = busHospitalRecordMapper.selectByExample(example);
-        PageInfo pageInfo = new PageInfo(busHospitalRecords);
+        List<BusHospitalRecordVO> busHospitalRecordVOS = busHospitalRecordMapper.queryHospitalRecordList(busHospitalRecordPO);
+        PageInfo pageInfo = new PageInfo(busHospitalRecordVOS);
         return pageInfo;
     }
 

@@ -9,6 +9,7 @@ import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
 import com.vblessings.nhs.model.vo.PeopleSourceVO;
 import com.vblessings.nhs.model.vo.QuerySummaryVO;
 import com.vblessings.nhs.model.vo.TempData;
+import com.vblessings.nhs.model.vo.business.BusHospitalRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
 import java.text.ParseException;
@@ -19,7 +20,7 @@ public interface BusHospitalRecordService {
 
     void add(BusHospitalRecord busHospitalRecord, UserInfoToken userInfo);
 
-    PageInfo<BusHospitalRecord> select(BusHospitalRecordPO busHospitalRecordPO, UserInfoToken userInfo);
+    PageInfo<BusHospitalRecordVO> select(BusHospitalRecordPO busHospitalRecordPO, UserInfoToken userInfo);
 
     void out(String businessNo,String to);
 

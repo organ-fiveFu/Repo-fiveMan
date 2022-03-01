@@ -157,5 +157,70 @@
         and  nursing_level = 0001
         GROUP BY DATE_FORMAT(admission_time,"%Y")
     </select>
+    <select id="queryHospitalRecordList" resultType="com.vblessings.nhs.model.vo.business.BusHospitalRecordVO">
+        select
+          t1.id AS id,
+            t1.archive_id AS archiveId,
+            t1.business_no AS businessNo,
+            date_format(t1.discharge_time, '%Y-%m-%d %H:%i:%s') AS dischargeTime,
+            date_format(t1.admission_time, '%Y-%m-%d %H:%i:%s') AS admissionTime,
+            t1.status AS status,
+            t1.creator_id AS creatorId,
+            t1.updater_id AS updaterId,
+            date_format(t1.create_time, '%Y-%m-%d %H:%i:%s') AS createTime,
+            date_format(t1.update_time, '%Y-%m-%d %H:%i:%s') AS updateTime,
+            t1.is_del AS isDel,
+            t1.nursing_level AS nursingLevel,
+            t1.admission_reason AS admissionReason,
+            t1.hospital_diagnosis AS hospitalDiagnosis,
+            t1.is_sign_notification AS isSignNotification,
+            t1.name AS name,
+            t1.sex AS sex,
+            t1.age AS age,
+            t1.id_card AS idCard,
+            t1.contact_address AS contactAddress,
+            t1.relation_name AS relationName,
+            t1.contact_number AS contactNumber,
+            t1.relation AS relation,
+            t1.bed_code AS bedCode,
+            t1.floor_code AS floorCode,
+            t1.allergy AS allergy,
+            t1.previous_history AS previousHistory,
+            date_format(t1.fees_due_date, '%Y-%m-%d %H:%i:%s') AS feesDueDate,
+            t1.fees_due_statue AS feesDueStatue,
+            t1.building_code as buildingCode,
+            t1.room_code AS roomCode,
+            t1.people_from AS peopleFrom,
+            t1.people_to AS peopleTo,
+            t1.building_name AS buildingName,
+            t1.room_name AS roomName,
+            t1.bed_name AS bedName,
+            t1.floor_name AS floorName,
+            t2.guardian_id_card AS guardianIdCard
+        from bus_hospital_record t1
+        left join base_patient_info t2 ON t1.archive_id = t2.id
+        where t1.is_del = 0
+        <if test="status !=null and status !=''">
+            and t1.status = #{status, jdbcType=INTEGER}
+        </if>
+        <if test="businessNo !=null and businessNo !=''">
+            and t1.business_no = #{businessNo}
+        </if>
+        <if test="buildingCode !=null and buildingCode !=''">
+            and t1.building_code = #{buildingCode}
+        </if>
+        <if test="floorCode !=null and floorCode !=''">
+            and t1.floor_code = #{floorCode}
+        </if>
+        <if test="roomCode !=null and roomCode !=''">
+            and t1.room_code = #{roomCode}
+        </if>
+        <if test="bedCode !=null and bedCode !=''">
+            and t1. bed_code = #{bedCode}
+        </if>
+        <if test="name !=null and name !=''">
+            and t1.name like concat('%',#{name},'%')
+        </if>
+    </select>
 
 </mapper>

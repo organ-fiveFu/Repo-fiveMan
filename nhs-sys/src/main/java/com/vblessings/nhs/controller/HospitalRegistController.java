@@ -2,15 +2,13 @@ package com.vblessings.nhs.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.vblessings.nhs.annoation.CurrentUser;
-import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.BusHospitalRecord;
 import com.vblessings.nhs.model.po.business.BusHospitalRecordPO;
+import com.vblessings.nhs.model.result.ResultBody;
+import com.vblessings.nhs.model.vo.business.BusHospitalRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusHospitalRecordService;
-import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class HospitalRegistController {
 
     @ApiOperation("入院登记搜索")
     @PostMapping("/select")
-    public ResultBody<PageInfo<BusHospitalRecord>> select(@RequestBody BusHospitalRecordPO busHospitalRecordPO, @ApiIgnore @CurrentUser UserInfoToken userInfo) {
+    public ResultBody<PageInfo<BusHospitalRecordVO>> select(@RequestBody BusHospitalRecordPO busHospitalRecordPO, @ApiIgnore @CurrentUser UserInfoToken userInfo) {
         return ResultBody.newSuccessInstance(busHospitalRecordService.select(busHospitalRecordPO,userInfo));
     }
 

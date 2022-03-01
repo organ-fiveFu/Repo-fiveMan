@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 
 @ApiModel(value = "报表时间查询入参")
 @Data
@@ -23,4 +25,7 @@ public class TimeQueryPO {
 
     @ApiModelProperty(value = "住院号")
     private String businessNo;
+
+    @ApiModelProperty(value = "住院号集合")
+    private List<String> businessNos;
 }

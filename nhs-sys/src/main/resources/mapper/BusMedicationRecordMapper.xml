@@ -55,8 +55,11 @@
         <if test="floorCode !=null and floorCode !=''">
             and h.floor_code = #{floorCode}
         </if>
-        <if test="businessNo !=null and businessNo !=''">
-            and b.business_no = #{businessNo}
+        <if test="businessNos != null and businessNos.size()>0">
+            AND b.business_no not IN
+            <foreach collection="businessNos" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         ORDER BY h.building_code desc, h.floor_code desc, h.bed_code desc, b.medication_date asc
     </select>
