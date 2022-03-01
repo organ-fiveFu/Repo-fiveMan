@@ -56,7 +56,7 @@
             and h.floor_code = #{floorCode}
         </if>
         <if test="businessNos != null and businessNos.size()>0">
-            AND b.business_no not IN
+            AND b.business_no IN
             <foreach collection="businessNos" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
