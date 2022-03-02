@@ -201,7 +201,7 @@
         left join base_patient_info t2 ON t1.archive_id = t2.id
         where t1.is_del = 0
         <if test="status !=null and status !=''">
-            and t1.status = #{status, jdbcType=INTEGER}
+            and t1.status = #{status}
         </if>
         <if test="businessNo !=null and businessNo !=''">
             and t1.business_no = #{businessNo}
