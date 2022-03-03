@@ -55,11 +55,17 @@ public class BusNursingRecordQueryVO {
 	@ApiModelProperty(value = "是否洗头理发")
 	private Boolean isHaircut;
 
+	@ApiModelProperty(value = "是否洗头理发名称")
+	private String isHaircutName = "";
+
 	/**
 	 * 是否修剪指甲
 	 */
 	@ApiModelProperty(value = "是否修剪指甲")
 	private Boolean isManicure;
+
+	@ApiModelProperty(value = "是否修剪指甲名称")
+	private String isManicureName = "";
 
 	/**
 	 * 是否清洗便器
@@ -67,11 +73,17 @@ public class BusNursingRecordQueryVO {
 	@ApiModelProperty(value = "是否清洗便器")
 	private Boolean isCleanToilet;
 
+	@ApiModelProperty(value = "是否清洗便器名称")
+	private String isCleanToiletName = "";
+
 	/**
 	 * 是否晾晒衣服
 	 */
 	@ApiModelProperty(value = "是否晾晒衣服")
 	private Boolean isHangClothes;
+
+	@ApiModelProperty(value = "是否晾晒衣服名称")
+	private String isHangClothesName = "";
 
 	/**
 	 * 是否打扫房间
@@ -79,17 +91,27 @@ public class BusNursingRecordQueryVO {
 	@ApiModelProperty(value = "是否打扫房间")
 	private Boolean isCleanRoom;
 
+	@ApiModelProperty(value = "是否打扫房间名称")
+	private String isCleanRoomName = "";
+
 	/**
 	 * 是否进餐送餐
 	 */
 	@ApiModelProperty(value = "是否进餐送餐")
 	private Boolean isMeals;
 
+	@ApiModelProperty(value = "是否进餐送餐名称")
+	private String isMealsName = "";
+
+
 	/**
 	 * 是否送开水
 	 */
 	@ApiModelProperty(value = "是否送开水")
 	private Boolean isWashGargle;
+
+	@ApiModelProperty(value = "是否送开水名称")
+	private String isWashGargleName = "";
 
 	/**
 	 * 身心状况观察处理

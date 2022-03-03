@@ -345,6 +345,27 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
                 if(StringUtils.isNotBlank(busNursingRecordQueryVO.getRecordTime()) && StringUtils.isNotBlank(busNursingRecordQueryVO.getTimePoint())){
                     busNursingRecordQueryVO.setRecordPointTime(busNursingRecordQueryVO.getRecordTime() + " " + busNursingRecordQueryVO.getTimePoint());
                 }
+                if(Objects.equals(busNursingRecordQueryVO.getIsHaircut(), true)){
+                    busNursingRecordQueryVO.setIsHaircutName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsManicure(), true)){
+                    busNursingRecordQueryVO.setIsManicureName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsCleanToilet(), true)){
+                    busNursingRecordQueryVO.setIsCleanToiletName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsHangClothes(), true)){
+                    busNursingRecordQueryVO.setIsHangClothesName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsCleanRoom(), true)){
+                    busNursingRecordQueryVO.setIsCleanRoomName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsMeals(), true)){
+                    busNursingRecordQueryVO.setIsMealsName("√");
+                }
+                if(Objects.equals(busNursingRecordQueryVO.getIsWashGargle(), true)){
+                    busNursingRecordQueryVO.setIsWashGargleName("√");
+                }
             });
         }
         return busNursingRecordQueryVOS;
