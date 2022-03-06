@@ -70,7 +70,7 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
         }
         OperateUtil.onSaveNew(busNursingRecord, userInfo, id);
         try {
-            busNursingRecordMapper.insert(busNursingRecord);
+            busNursingRecordMapper.insertSelective(busNursingRecord);
         } catch (DuplicateKeyException e) {
             throw ResponseEnum.DATA_ALREADY_EXISTS.newException("数据已存在");
         }
@@ -135,7 +135,7 @@ public class BusNursingRecordServiceImpl implements BusNursingRecordService {
     @Override
     public void batchUpdateNursingRecord(List<BusNursingRecordPO> busNursingRecordPOS, UserInfoToken userInfo) {
         busNursingRecordPOS.forEach(busNursingRecordPO -> {
-            if (busNursingRecordPO.getId() != null) {
+            if (!org.springframework.util.StringUtils.isEmpty(busNursingRecordPO.getId())) {
                 updateNursingRecord(busNursingRecordPO, userInfo);
             } else {
                 addNursingRecord(busNursingRecordPO, userInfo);

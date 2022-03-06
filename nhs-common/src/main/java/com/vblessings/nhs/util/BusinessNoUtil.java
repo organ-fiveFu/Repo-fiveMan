@@ -11,7 +11,7 @@ import java.util.Date;
 public class BusinessNoUtil {
     public static String generateBusinessNo()
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         Date date = new Date();
         String dateStr = sdf.format(date);
         if(dateStr.indexOf("-")!=-1){
