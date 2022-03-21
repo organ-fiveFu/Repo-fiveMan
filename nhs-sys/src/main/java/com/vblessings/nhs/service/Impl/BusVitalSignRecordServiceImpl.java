@@ -307,14 +307,25 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
             weightList.add("");
             bloodOxygenList.add("");
         } else {
-            int breathCount = 0;
-            boolean xyFlag = false;
+            // 标记参数是否成功赋值
+            boolean xyFlagAm = false;
+            boolean xyFlagPm = false;
             boolean intakeFlag = false;
             boolean outputFlag = false;
             boolean urineFlag = false;
             boolean defecateFlag = false;
             boolean weightFlag = false;
             boolean bloodOxygenFlag = false;
+
+            // 设置上午血压空值
+            vitalSignRecordVO.getXyList().add("");
+
+            // 呼吸每天6条数据，初始化为空
+            List<String> breadList = new ArrayList<>();
+            for (int j = 0; j < 6; j++) {
+                breadList.add("");
+            }
+
             for (BusVitalSignRecord busVitalSignRecord : dayRecordList) {
                 VitalSignRecord mb = new VitalSignRecord();
                 VitalSignRecord wd = new VitalSignRecord();
@@ -336,15 +347,37 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                 mbList.add(mb);
                 wdList.add(wd);
                 // 呼吸
-                if (breathCount < 6 && busVitalSignRecord.getBreathing() != null) {
-                    vitalSignRecordVO.getBreathingList().add(StringUtil.intToString(busVitalSignRecord.getBreathing()));
-                    breathCount ++;
+                if (busVitalSignRecord.getBreathing() != null) {
+                    int hour = Integer.parseInt(busVitalSignRecord.getTimePoint().split(":")[0]);
+                    // 每天2、6、10、14、18、22点记录一次
+                    if ((hour + 2) % 4 == 0) {
+                        int index = (hour + 2) / 4 - 1;
+                        if (breadList.get(index).isEmpty()) {
+                            breadList.set(index, StringUtil.intToString(busVitalSignRecord.getBreathing()));
+                        }
+                    }
                 }
-                // 血压
-                if (!xyFlag && busVitalSignRecord.getLowBloodPressure() != null && busVitalSignRecord.getHighBloodPressure() != null) {
-                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getLowBloodPressure()));
-                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getHighBloodPressure()));
-                    xyFlag = true;
+                // 血压上午
+                if (!xyFlagAm
+                        // 高低压不为空
+                        && busVitalSignRecord.getLowBloodPressure() != null && busVitalSignRecord.getHighBloodPressure() != null
+                        // 12点之前为上午
+                        && Integer.parseInt(busVitalSignRecord.getTimePoint().split(":")[0]) < 12) {
+                    // 上午有值时先移除预设的空值
+                    vitalSignRecordVO.getXyList().remove(vitalSignRecordVO.getXyList().size() - 1);
+                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getHighBloodPressure()) +
+                            "/" + StringUtil.intToString(busVitalSignRecord.getLowBloodPressure()));
+                    xyFlagAm = true;
+                }
+                // 血压下午
+                if (!xyFlagPm
+                        // 高低压不为空
+                        && busVitalSignRecord.getLowBloodPressure() != null && busVitalSignRecord.getHighBloodPressure() != null
+                        // 12点之后为下午
+                        && Integer.parseInt(busVitalSignRecord.getTimePoint().split(":")[0]) >= 12) {
+                    vitalSignRecordVO.getXyList().add(StringUtil.intToString(busVitalSignRecord.getHighBloodPressure()) +
+                            "/" + StringUtil.intToString(busVitalSignRecord.getLowBloodPressure()));
+                    xyFlagPm = true;
                 }
                 // 入量
                 if (!intakeFlag && busVitalSignRecord.getIntake() != null) {
@@ -377,12 +410,8 @@ public class BusVitalSignRecordServiceImpl implements BusVitalSignRecordService 
                     bloodOxygenFlag = true;
                 }
             }
-            while (breathCount < 6) {
-                vitalSignRecordVO.getBreathingList().add("");
-                breathCount ++;
-            }
-            if (!xyFlag) {
-                vitalSignRecordVO.getXyList().add("");
+            vitalSignRecordVO.getBreathingList().addAll(breadList);
+            if (!xyFlagPm) {
                 vitalSignRecordVO.getXyList().add("");
             }
             if (!intakeFlag) {
