@@ -2,6 +2,7 @@ package com.vblessings.nhs.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.po.business.BusMenuBatchUpdatePO;
 import com.vblessings.nhs.model.po.business.BusMenuSelectPO;
 import com.vblessings.nhs.model.vo.business.BusMenuSelectVO;
@@ -52,5 +53,17 @@ public class MenuController {
     public ResultBody<List<BusMenuSelectVO>> selectMenuInfo(BusMenuSelectPO busMenuSelectPO, @ApiIgnore @CurrentUser UserInfoToken userInfo){
         log.info("查询菜谱PO： " + JSON.toJSONString(busMenuSelectPO));
         return ResultBody.newSuccessInstance(menuService.selectMenuInfo(busMenuSelectPO,userInfo));
+    }
+
+    /**
+     * 查询菜谱-no-token
+     * @param busMenuSelectPO           查询菜谱入参
+     */
+    @IgnoreUserToken
+    @ApiOperation("查询菜谱-no-token")
+    @GetMapping("/select/no-token")
+    public ResultBody<List<BusMenuSelectVO>> selectMenuInfoNoToken(BusMenuSelectPO busMenuSelectPO){
+        log.info("查询菜谱PO： " + JSON.toJSONString(busMenuSelectPO));
+        return ResultBody.newSuccessInstance(menuService.selectMenuInfo(busMenuSelectPO, null));
     }
 }

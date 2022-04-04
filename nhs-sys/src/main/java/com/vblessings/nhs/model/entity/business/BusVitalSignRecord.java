@@ -140,7 +140,14 @@ public class BusVitalSignRecord implements Serializable {
 	@ApiModelProperty(value = "体重")
     @Column(name = "weight")
     private BigDecimal weight;
-	
+
+	/**
+	 * 护士签名
+	 */
+	@ApiModelProperty(value = "护士签名")
+	@Column(name = "nurse_sign")
+	private String nurseSign;
+
 		/**
 	 * 创建人
 	 */

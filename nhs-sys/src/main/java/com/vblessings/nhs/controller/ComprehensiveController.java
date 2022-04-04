@@ -212,6 +212,17 @@ public class ComprehensiveController {
     }
 
     /**
+     * 查询护工考核（根据姓名时间）no-token
+     *
+     */
+    @IgnoreUserToken
+    @ApiOperation("查询护工考核（根据姓名时间）no-token")
+    @GetMapping("/pageCheck/no-token")
+    public ResultBody<PageVO<BusCarerCheckVO>> pageCheckNoToken(QueryCheckVO queryCheckVO){
+        return ResultBody.newSuccessInstance(busCarerCheckService.pageCheck(queryCheckVO));
+    }
+
+    /**
      * 更新护工考核记录
      */
     @ApiOperation("更新护工考核记录")

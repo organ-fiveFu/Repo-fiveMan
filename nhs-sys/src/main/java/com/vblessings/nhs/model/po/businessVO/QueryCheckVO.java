@@ -9,9 +9,9 @@ import java.util.Date;
 public class QueryCheckVO extends PageParam {
     private String name;
 
-    private Date startTime;
+    private String startTime;
 
-    private Date endTime;
+    private String endTime;
 
 
 }

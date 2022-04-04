@@ -106,6 +106,12 @@ public class BusVitalSignRecordPO {
     private String defecatePattern;
 
     /**
+     * 护士签名
+     */
+    @ApiModelProperty(value = "护士签名")
+    private String nurseSign;
+
+    /**
      * 体重
      */
     @ApiModelProperty(value = "体重")

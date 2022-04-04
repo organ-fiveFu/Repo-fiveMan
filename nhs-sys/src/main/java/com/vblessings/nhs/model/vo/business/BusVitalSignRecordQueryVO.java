@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 
 @Data
@@ -126,6 +127,12 @@ public class BusVitalSignRecordQueryVO {
 	 */
 	@ApiModelProperty(value = "体重")
 	private BigDecimal weight;
+
+	/**
+	 * 护士签名
+	 */
+	@ApiModelProperty(value = "护士签名")
+	private String nurseSign;
 
 	/**
 	 * 血氧饱和度
