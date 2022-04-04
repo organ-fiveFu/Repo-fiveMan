@@ -65,4 +65,19 @@ public class BusInterestGroupRecordServiceImpl implements BusInterestGroupRecord
         String[] id = ids.split(",");
         busInterestGroupRecordMapper.delInterestGroup(id);
     }
+
+    @Override
+    public List<BusInterestGroupRecordVO> queryInterestGroupNoToken(QueryInterestGroupVO queryInterestGroupVO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<BusInterestGroupRecord> busInterestGroupRecordList =busInterestGroupRecordMapper.selectByTime(queryInterestGroupVO);
+        List<BusInterestGroupRecordVO> busInterestGroupRecordVOList = new ArrayList<>();
+        for (BusInterestGroupRecord busInterestGroupRecord:
+                busInterestGroupRecordList) {
+            BusInterestGroupRecordVO busInterestGroupRecordVO = new BusInterestGroupRecordVO();
+            BeanUtils.copyProperties(busInterestGroupRecord,busInterestGroupRecordVO);
+            busInterestGroupRecordVO.setActivityDate(sdf.format(busInterestGroupRecord.getActivityDate()));
+            busInterestGroupRecordVOList.add(busInterestGroupRecordVO);
+        }
+        return busInterestGroupRecordVOList;
+    }
 }

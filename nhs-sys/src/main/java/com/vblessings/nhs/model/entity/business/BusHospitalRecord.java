@@ -250,5 +250,12 @@ public class BusHospitalRecord implements Serializable {
     @ApiModelProperty(value = "楼层名称", required = false)
     @Column(name = "floor_name")
     private String floorName;
+
+    /**
+     * 护士签名
+     */
+    @ApiModelProperty(value = "护士签名", required = false)
+    @Column(name = "nurse_sign")
+    private String nurseSign;
 }
 

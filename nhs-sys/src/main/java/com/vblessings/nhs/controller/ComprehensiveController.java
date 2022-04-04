@@ -5,15 +5,14 @@ import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.*;
 import com.vblessings.nhs.model.po.BusInterestGroupRecordPO;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
 import com.vblessings.nhs.model.po.businessVO.QueryComplaintVO;
 import com.vblessings.nhs.model.po.businessVO.QueryDonationPO;
 import com.vblessings.nhs.model.po.businessVO.QueryInterestGroupVO;
 import com.vblessings.nhs.model.vo.PageVO;
-import com.vblessings.nhs.model.vo.business.BusCarerCheckVO;
-import com.vblessings.nhs.model.vo.business.BusComplaintsRecordVO;
-import com.vblessings.nhs.model.vo.business.BusDonationRecordVO;
-import com.vblessings.nhs.model.vo.business.BusInterestGroupRecordVO;
+import com.vblessings.nhs.model.vo.ReportData;
+import com.vblessings.nhs.model.vo.business.*;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.*;
 import com.vblessings.nhs.model.result.ResultBody;
@@ -111,6 +110,20 @@ public class ComprehensiveController {
         return ResultBody.newSuccessInstance("删除成功");
     }
 
+
+    /**
+     * 导出捐款记录
+     */
+    @IgnoreUserToken
+    @GetMapping("/queryDonation/no-token")
+    @ApiOperation(value = "捐款记录报表-notoken")
+    public ReportData<List<BusDonationRecordVO>> queryDonationNoToken(QueryDonationPO queryDonationPO){
+        List<BusDonationRecordVO> busDonationRecordVOList = busDonationRecordService.queryInterestGroupNoToken(queryDonationPO);
+        return ReportData.data(busDonationRecordVOList);
+    }
+
+
+
     /**
      * 新增兴趣小组记录
      */
@@ -150,6 +163,17 @@ public class ComprehensiveController {
         return ResultBody.newSuccessInstance("删除成功");
     }
 
+    /**
+     * 导出兴趣小组
+     */
+    @IgnoreUserToken
+    @GetMapping("/queryInterestGroup/no-token")
+    @ApiOperation(value = "兴趣小组记录报表-notoken")
+    public ReportData<List<BusInterestGroupRecordVO>> queryInterestGroupNoToken(QueryInterestGroupVO queryInterestGroupVO){
+        List<BusInterestGroupRecordVO> takeMedicineReportQueryVOS = busInterestGroupRecordService.queryInterestGroupNoToken(queryInterestGroupVO);
+        return ReportData.data(takeMedicineReportQueryVOS);
+    }
+
 
     /**
      * 新增投诉记录
@@ -169,6 +193,17 @@ public class ComprehensiveController {
     @PostMapping("/pageComplaint")
     public ResultBody<PageVO<BusComplaintsRecordVO>> pageComplaint(@RequestBody QueryComplaintVO queryComplaintVO){
         return ResultBody.newSuccessInstance(busComplaintsRecordService.pageComplaint(queryComplaintVO));
+    }
+
+    /**
+     * 导出投诉记录
+     */
+    @IgnoreUserToken
+    @GetMapping("/queryComplaint/no-token")
+    @ApiOperation(value = "投诉记录报表-notoken")
+    public ReportData<List<BusComplaintsRecordVO>> queryComplaintNoToken(QueryComplaintVO queryComplaintVO){
+        List<BusComplaintsRecordVO> busComplaintsRecordVOList = busComplaintsRecordService.queryComplaintNoToken(queryComplaintVO);
+        return ReportData.data(busComplaintsRecordVOList);
     }
 
     /**

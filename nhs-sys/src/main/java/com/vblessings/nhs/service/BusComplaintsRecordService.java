@@ -6,6 +6,8 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusComplaintsRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
+
 public interface BusComplaintsRecordService {
     void addComplaint(BusComplaintsRecord busComplaintsRecord, UserInfoToken userInfo);
 
@@ -14,4 +16,6 @@ public interface BusComplaintsRecordService {
     void updateComplaint(BusComplaintsRecord busComplaintsRecord, UserInfoToken userInfo);
 
     void delComplaint(String ids);
+
+    List<BusComplaintsRecordVO> queryComplaintNoToken(QueryComplaintVO queryComplaintVO);
 }

@@ -20,6 +20,7 @@
         <result property="isDel" column="is_del"/>
         <result property="businessNo" column="business_no"/>
         <result property="ward" column="ward"/>
+        <result property="nurseSign" column="nurse_sign"/>
     </resultMap>
     <update id="del">
         update bus_medication_record

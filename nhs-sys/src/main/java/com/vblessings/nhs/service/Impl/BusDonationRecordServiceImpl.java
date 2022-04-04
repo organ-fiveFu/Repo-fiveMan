@@ -82,4 +82,26 @@ public class BusDonationRecordServiceImpl implements BusDonationRecordService {
         busDonationRecordMapper.delDonation(id);
     }
 
+    @Override
+    public List<BusDonationRecordVO> queryInterestGroupNoToken(QueryDonationPO queryDonationPO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Example example = new Example(BusDonationRecord.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel",0);
+        List<BusDonationRecord> busDonationRecordList = new ArrayList<>();
+        if(Strings.isNotBlank(queryDonationPO.getSearch())){
+            criteria.andLike("donor","%"+queryDonationPO.getSearch()+"%");
+        }
+        busDonationRecordList = busDonationRecordMapper.selectByExample(example);
+        List<BusDonationRecordVO> busDonationRecordVOList = new ArrayList<>();
+        for (BusDonationRecord busDonationRecord:
+                busDonationRecordList) {
+            BusDonationRecordVO busDonationRecordVO = new BusDonationRecordVO();
+            BeanUtils.copyProperties(busDonationRecord, busDonationRecordVO);
+            busDonationRecordVO.setDonationDate(sdf.format(busDonationRecord.getDonationDate()));
+            busDonationRecordVOList.add(busDonationRecordVO);
+        }
+        return busDonationRecordVOList;
+    }
+
 }

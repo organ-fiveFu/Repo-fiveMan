@@ -75,4 +75,26 @@ public class BusComplaintsRecordServiceImpl implements BusComplaintsRecordServic
         busComplaintsRecordMapper.delComplaint(id);
         }
 
+    @Override
+    public List<BusComplaintsRecordVO> queryComplaintNoToken(QueryComplaintVO queryComplaintVO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Example example = new Example(BusComplaintsRecord.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel",0);
+        List<BusComplaintsRecord> busComplaintsRecordList = new ArrayList<>();
+        List<BusComplaintsRecordVO> busComplaintsRecordVOList = new ArrayList<>();
+        if(Strings.isNotBlank(queryComplaintVO.getSearch())){
+            criteria.andLike("theme","%"+queryComplaintVO.getSearch()+"%");
+        }
+        busComplaintsRecordList = busComplaintsRecordMapper.selectByExample(example);
+        for (BusComplaintsRecord busComplaintsRecord:
+                busComplaintsRecordList) {
+            BusComplaintsRecordVO busComplaintsRecordVO = new BusComplaintsRecordVO();
+            BeanUtils.copyProperties(busComplaintsRecord, busComplaintsRecordVO);
+            busComplaintsRecordVO.setComplaintDate(sdf.format(busComplaintsRecord.getComplaintDate()));
+            busComplaintsRecordVOList.add(busComplaintsRecordVO);
+        }
+        return busComplaintsRecordVOList;
+    }
+
 }

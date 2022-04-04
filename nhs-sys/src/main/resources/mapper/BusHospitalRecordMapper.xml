@@ -42,6 +42,7 @@
         <result property="buildingName" column="building_name"/>
         <result property="bedName" column="bed_name"/>
         <result property="floorName" column="floor_name"/>
+        <result property="nurseSign" column="nurse_sign"/>
     </resultMap>
     <update id="out">
     update bus_hospital_record

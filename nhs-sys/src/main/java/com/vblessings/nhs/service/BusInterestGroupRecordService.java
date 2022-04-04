@@ -7,6 +7,8 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusInterestGroupRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
+
 public interface BusInterestGroupRecordService {
     void addInterestGroup(BusInterestGroupRecord busInterestGroupRecord, UserInfoToken userInfo);
 
@@ -15,4 +17,6 @@ public interface BusInterestGroupRecordService {
     void updateInterestGroup(BusInterestGroupRecord busInterestGroupRecord, UserInfoToken userInfo);
 
     void delInterestGroup(String ids);
+
+    List<BusInterestGroupRecordVO> queryInterestGroupNoToken(QueryInterestGroupVO queryInterestGroupVO);
 }

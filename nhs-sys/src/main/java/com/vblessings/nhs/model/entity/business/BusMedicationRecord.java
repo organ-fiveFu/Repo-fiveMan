@@ -116,6 +116,14 @@ public class BusMedicationRecord implements Serializable {
     @Column(name = "ward")
     private String ward;
 
+    /**
+     * 护士签名
+     */
+    @ApiModelProperty(value = "护士签名", required = false)
+    @Column(name = "nurse_sign")
+    private String nurseSign;
+
+
 
 }
 
