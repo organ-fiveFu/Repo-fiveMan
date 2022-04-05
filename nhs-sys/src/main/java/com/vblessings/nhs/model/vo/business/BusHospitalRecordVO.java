@@ -121,4 +121,7 @@ public class BusHospitalRecordVO {
 
     @ApiModelProperty(value = "监护人身份证号码")
     private String guardianIdCard;
+
+    @ApiModelProperty(value = "护士签名", required = false)
+    private String nurseSign;
 }

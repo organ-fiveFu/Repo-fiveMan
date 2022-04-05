@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.enums.DictTypeEnum;
 import com.vblessings.nhs.mapper.BusCarerCheckMapper;
 import com.vblessings.nhs.model.entity.business.BusCarerCheck;
 import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
@@ -11,6 +12,7 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusCarerCheckVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.BusCarerCheckService;
+import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.OperateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BusCarerCheckServiceImpl implements BusCarerCheckService {
@@ -28,6 +31,9 @@ public class BusCarerCheckServiceImpl implements BusCarerCheckService {
 
     @Resource
     private BusCarerCheckMapper busCarerCheckMapper;
+
+    @Resource
+    private SysDictDataService sysDictDataService;
 
     @Override
     public void addCheck(BusCarerCheck busCarerCheck, UserInfoToken userInfo) {
@@ -42,11 +48,13 @@ public class BusCarerCheckServiceImpl implements BusCarerCheckService {
         Page<BusCarerCheckVO> result = PageHelper.startPage(queryCheckVO.getPageNum(), queryCheckVO.getPageSize());
         List<BusCarerCheck> busCarerChecks =busCarerCheckMapper.selectByTime(queryCheckVO);
         List<BusCarerCheckVO> busCarerCheckVOList = new ArrayList<>();
+        Map<String, String> departmentMap = sysDictDataService.getDictName(DictTypeEnum.DEPARTMENT.getCode(), null);
         for (BusCarerCheck busCarerCheck:
         busCarerChecks) {
             BusCarerCheckVO busCarerCheckVO = new BusCarerCheckVO();
             BeanUtils.copyProperties(busCarerCheck,busCarerCheckVO);
             busCarerCheckVO.setInspectionTime(sdf.format(busCarerCheck.getInspectionTime()));
+            busCarerCheckVO.setDepartment(departmentMap.get(busCarerCheckVO.getDepartment()));
             busCarerCheckVOList.add(busCarerCheckVO);
         }
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), busCarerCheckVOList);
@@ -66,4 +74,20 @@ public class BusCarerCheckServiceImpl implements BusCarerCheckService {
         busCarerCheckMapper.delCheck(id);
     }
 
+    @Override
+    public List<BusCarerCheckVO> pageCheckNoToken(QueryCheckVO queryCheckVO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<BusCarerCheck> busCarerChecks =busCarerCheckMapper.selectByTime(queryCheckVO);
+        List<BusCarerCheckVO> busCarerCheckVOList = new ArrayList<>();
+        Map<String, String> departmentMap = sysDictDataService.getDictName(DictTypeEnum.DEPARTMENT.getCode(), null);
+        for (BusCarerCheck busCarerCheck:
+                busCarerChecks) {
+            BusCarerCheckVO busCarerCheckVO = new BusCarerCheckVO();
+            BeanUtils.copyProperties(busCarerCheck,busCarerCheckVO);
+            busCarerCheckVO.setInspectionTime(sdf.format(busCarerCheck.getInspectionTime()));
+            busCarerCheckVO.setDepartment(departmentMap.get(busCarerCheckVO.getDepartment()));
+            busCarerCheckVOList.add(busCarerCheckVO);
+        }
+        return busCarerCheckVOList;
+    }
 }

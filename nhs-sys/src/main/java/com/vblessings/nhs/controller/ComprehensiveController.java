@@ -4,18 +4,19 @@ package com.vblessings.nhs.controller;
 import com.vblessings.nhs.annoation.CurrentUser;
 import com.vblessings.nhs.annoation.IgnoreUserToken;
 import com.vblessings.nhs.model.entity.business.*;
-import com.vblessings.nhs.model.po.BusInterestGroupRecordPO;
-import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.businessVO.QueryCheckVO;
 import com.vblessings.nhs.model.po.businessVO.QueryComplaintVO;
 import com.vblessings.nhs.model.po.businessVO.QueryDonationPO;
 import com.vblessings.nhs.model.po.businessVO.QueryInterestGroupVO;
+import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.ReportData;
-import com.vblessings.nhs.model.vo.business.*;
+import com.vblessings.nhs.model.vo.business.BusCarerCheckVO;
+import com.vblessings.nhs.model.vo.business.BusComplaintsRecordVO;
+import com.vblessings.nhs.model.vo.business.BusDonationRecordVO;
+import com.vblessings.nhs.model.vo.business.BusInterestGroupRecordVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.*;
-import com.vblessings.nhs.model.result.ResultBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -253,8 +254,9 @@ public class ComprehensiveController {
     @IgnoreUserToken
     @ApiOperation("查询护工考核（根据姓名时间）no-token")
     @GetMapping("/pageCheck/no-token")
-    public ResultBody<PageVO<BusCarerCheckVO>> pageCheckNoToken(QueryCheckVO queryCheckVO){
-        return ResultBody.newSuccessInstance(busCarerCheckService.pageCheck(queryCheckVO));
+    public ReportData<List<BusCarerCheckVO>> pageCheckNoToken(QueryCheckVO queryCheckVO){
+        List<BusCarerCheckVO> busCarerCheckVOS = busCarerCheckService.pageCheckNoToken(queryCheckVO);
+        return ReportData.data(busCarerCheckVOS);
     }
 
     /**

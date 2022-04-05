@@ -2,11 +2,14 @@ package com.vblessings.nhs.controller.comprehensive;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftInsertPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftUpdatePO;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.comprehensive.ChangeShiftQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.ChangeShiftService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/change-shift")
@@ -53,5 +57,13 @@ public class ChangeShiftController {
     public ResultBody<Boolean> deleteChangeShift(Long id, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("删除交接班,id:" + id);
         return ResultBody.newSuccessInstance(changeShiftService.deleteChangeShift(id, userInfoToken));
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/query/no-token")
+    @ApiOperation(value = "交接班报表-notoken")
+    public ReportData<List<ChangeShiftQueryVO>> queryChangeShiftNoToken(TimeQueryPO timeQueryPO){
+        List<ChangeShiftQueryVO> changeShiftQueryVOList = changeShiftService.queryChangeShiftNoToken(timeQueryPO);
+        return ReportData.data(changeShiftQueryVOList);
     }
 }

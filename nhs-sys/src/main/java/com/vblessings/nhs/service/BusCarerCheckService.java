@@ -7,6 +7,8 @@ import com.vblessings.nhs.model.vo.PageVO;
 import com.vblessings.nhs.model.vo.business.BusCarerCheckVO;
 import com.vblessings.nhs.result.UserInfoToken;
 
+import java.util.List;
+
 public interface BusCarerCheckService {
 
     void addCheck(BusCarerCheck busCarerCheck, UserInfoToken userInfo);
@@ -16,4 +18,6 @@ public interface BusCarerCheckService {
     void updateCheck(BusCarerCheck busCarerCheck, UserInfoToken userInfo);
 
     void delCheck(String ids);
+
+    List<BusCarerCheckVO> pageCheckNoToken(QueryCheckVO queryCheckVO);
 }

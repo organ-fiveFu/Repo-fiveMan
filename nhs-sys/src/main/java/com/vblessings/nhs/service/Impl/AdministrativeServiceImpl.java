@@ -8,6 +8,7 @@ import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusAdministrativeWardRoundMapper;
 import com.vblessings.nhs.model.entity.business.BusAdministrativeWardRound;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeInsertPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeUpdatePO;
@@ -123,5 +124,36 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             throw ResponseEnum.DATA_NOT_FOUND.newException("删除行政查房失败");
         }
         return true;
+    }
+
+    @Override
+    public List<AdministrativeQueryVO> queryAdministrativeListNoToken(TimeQueryPO timeQueryPO) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Example example = new Example(BusAdministrativeWardRound.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(timeQueryPO.getStartTime()) && !StringUtils.isEmpty(timeQueryPO.getEndTime())) {
+            try {
+                Date startTime = simpleDateFormat.parse(timeQueryPO.getStartTime());
+                Date endTime = simpleDateFormat.parse(timeQueryPO.getEndTime() + " 23:59:59");
+                criteria.andBetween("wardRoundTime", startTime, endTime);
+            } catch (Exception e) {
+                throw ResponseEnum.ABNORMAL_DATA_VERIFICATION.newException("日期格式错误");
+            }
+        }
+        criteria.andEqualTo("isDel", 0);
+        List<BusAdministrativeWardRound> busAdministrativeWardRoundList = busAdministrativeWardRoundMapper.selectByExample(example);
+        if(CollectionUtil.isEmpty(busAdministrativeWardRoundList)){
+            return new ArrayList<>();
+        }
+        List<AdministrativeQueryVO> administrativeQueryVOS = new ArrayList<>();
+        busAdministrativeWardRoundList.forEach(busAdministrativeWardRound -> {
+            AdministrativeQueryVO administrativeQueryVO = new AdministrativeQueryVO();
+            BeanUtils.copyProperties(busAdministrativeWardRound, administrativeQueryVO);
+            String wardRoundTime = null == busAdministrativeWardRound.getWardRoundTime() ? "" :
+                    DateFormatUtils.format(busAdministrativeWardRound.getWardRoundTime(), "yyyy-MM-dd HH:mm:ss");
+            administrativeQueryVO.setWardRoundTime(wardRoundTime);
+            administrativeQueryVOS.add(administrativeQueryVO);
+        });
+        return administrativeQueryVOS;
     }
 }

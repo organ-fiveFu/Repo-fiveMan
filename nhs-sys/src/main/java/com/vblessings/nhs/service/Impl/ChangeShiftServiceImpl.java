@@ -10,6 +10,7 @@ import com.vblessings.nhs.component.SnowflakeComponent;
 import com.vblessings.nhs.exception.ResponseEnum;
 import com.vblessings.nhs.mapper.BusChangeShiftsMapper;
 import com.vblessings.nhs.model.entity.business.BusChangeShifts;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftInsertPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.ChangeShiftUpdatePO;
@@ -178,5 +179,42 @@ public class ChangeShiftServiceImpl implements ChangeShiftService {
             throw ResponseEnum.FILE_DELETE_FAIL.newException("删除交接班失败");
         }
         return true;
+    }
+
+    @Override
+    public List<ChangeShiftQueryVO> queryChangeShiftNoToken(TimeQueryPO timeQueryPO) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Example example = new Example(BusChangeShifts.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(timeQueryPO.getStartTime()) && !StringUtils.isEmpty(timeQueryPO.getEndTime())) {
+            try {
+                Date startTime = simpleDateFormat.parse(timeQueryPO.getStartTime());
+                Date endTime = simpleDateFormat.parse(timeQueryPO.getEndTime() + " 23:59:59");
+                criteria.andBetween("shiftHandoverStartTime", startTime, endTime);
+            } catch (Exception e) {
+                throw ResponseEnum.ABNORMAL_DATA_VERIFICATION.newException("日期格式错误");
+            }
+        }
+        criteria.andEqualTo("isDel", 0);
+        List<BusChangeShifts> busChangeShiftsList = busChangeShiftsMapper.selectByExample(example);
+        if(CollectionUtil.isEmpty(busChangeShiftsList)){
+            return new ArrayList<>();
+        }
+        List<ChangeShiftQueryVO> changeShiftQueryVOList = new ArrayList<>();
+        busChangeShiftsList.forEach(busChangeShifts -> {
+            ChangeShiftQueryVO changeShiftQueryVO = new ChangeShiftQueryVO();
+            BeanUtils.copyProperties(busChangeShifts, changeShiftQueryVO);
+            String submissionTime = null == busChangeShifts.getSubmissionTime() ? "" :
+                    DateFormatUtils.format(busChangeShifts.getSubmissionTime(), "yyyy-MM-dd HH:mm:ss");
+            String shiftHandoverStartTime = null == busChangeShifts.getShiftHandoverStartTime() ? "" :
+                    DateFormatUtils.format(busChangeShifts.getShiftHandoverStartTime(), "yyyy-MM-dd HH:mm:ss");
+            String shiftHandoverEndTime = null == busChangeShifts.getShiftHandoverEndTime() ? "" :
+                    DateFormatUtils.format(busChangeShifts.getShiftHandoverEndTime(), "yyyy-MM-dd HH:mm:ss");
+            changeShiftQueryVO.setSubmissionTime(submissionTime);
+            changeShiftQueryVO.setShiftHandoverStartTime(shiftHandoverStartTime);
+            changeShiftQueryVO.setShiftHandoverEndTime(shiftHandoverEndTime);
+            changeShiftQueryVOList.add(changeShiftQueryVO);
+        });
+        return changeShiftQueryVOList;
     }
 }

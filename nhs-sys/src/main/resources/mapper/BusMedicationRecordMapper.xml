@@ -76,7 +76,8 @@
           t1.frequency AS frequency,
           t1.medication_time AS medicationTime,
           t1.business_no AS businessNo,
-          t1.ward AS ward
+          t1.ward AS ward,
+          t1.nurse_sign AS nurseSign
         from bus_medication_record t1 left join bus_hospital_record t2 on
         t1.business_no = t2.business_no
         where t1.is_del =0

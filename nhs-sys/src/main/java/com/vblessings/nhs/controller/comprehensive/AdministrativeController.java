@@ -2,11 +2,14 @@ package com.vblessings.nhs.controller.comprehensive;
 
 import com.alibaba.fastjson.JSON;
 import com.vblessings.nhs.annoation.CurrentUser;
+import com.vblessings.nhs.annoation.IgnoreUserToken;
+import com.vblessings.nhs.model.po.TimeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeInsertPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeQueryPO;
 import com.vblessings.nhs.model.po.comprehensive.AdministrativeUpdatePO;
 import com.vblessings.nhs.model.result.ResultBody;
 import com.vblessings.nhs.model.vo.PageVO;
+import com.vblessings.nhs.model.vo.ReportData;
 import com.vblessings.nhs.model.vo.comprehensive.AdministrativeQueryVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.AdministrativeService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/administrative")
@@ -53,5 +57,13 @@ public class AdministrativeController {
     public ResultBody<Boolean> deleteAdministrative(Long id, @ApiIgnore @CurrentUser UserInfoToken userInfoToken){
         log.info("删除行政查房,id:" + id);
         return ResultBody.newSuccessInstance(administrativeService.deleteAdministrative(id, userInfoToken));
+    }
+
+    @IgnoreUserToken
+    @GetMapping("/query/no-token")
+    @ApiOperation(value = "行政查房报表-notoken")
+    public ReportData<List<AdministrativeQueryVO>> queryAdministrativeListNoToken(TimeQueryPO timeQueryPO){
+        List<AdministrativeQueryVO> administrativeQueryVOS = administrativeService.queryAdministrativeListNoToken(timeQueryPO);
+        return ReportData.data(administrativeQueryVOS);
     }
 }
