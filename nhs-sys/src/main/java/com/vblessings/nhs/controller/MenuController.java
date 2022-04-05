@@ -64,6 +64,6 @@ public class MenuController {
     @GetMapping("/select/no-token")
     public ResultBody<List<BusMenuSelectVO>> selectMenuInfoNoToken(BusMenuSelectPO busMenuSelectPO){
         log.info("查询菜谱PO： " + JSON.toJSONString(busMenuSelectPO));
-        return ResultBody.newSuccessInstance(menuService.selectMenuInfo(busMenuSelectPO, null));
+        return ResultBody.newSuccessInstance(menuService.selectMenuInfoNoToken(busMenuSelectPO));
     }
 }

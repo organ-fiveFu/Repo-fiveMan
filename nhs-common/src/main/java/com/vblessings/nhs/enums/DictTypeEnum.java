@@ -8,6 +8,8 @@ public enum DictTypeEnum {
     BLOOD_SAMPLING_STATUS("0006", "血糖采样状态"),
     ALLERGY("0008", "过敏史"),
     NURSING_LEVEL("0011", "护理级别"),
+    MENU_STAPLE_FOOD("0012", "菜谱（主食）"),
+    MENU_DISHES("0013", "菜谱（菜品）"),
     ;
 
     private String code;

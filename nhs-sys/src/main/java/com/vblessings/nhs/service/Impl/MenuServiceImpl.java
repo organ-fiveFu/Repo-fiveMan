@@ -2,6 +2,7 @@ package com.vblessings.nhs.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.vblessings.nhs.component.SnowflakeComponent;
+import com.vblessings.nhs.enums.DictTypeEnum;
 import com.vblessings.nhs.mapper.BusMenuInfoMapper;
 import com.vblessings.nhs.model.entity.business.BusMenuInfo;
 import com.vblessings.nhs.model.po.business.BusMenuBatchUpdatePO;
@@ -9,6 +10,7 @@ import com.vblessings.nhs.model.po.business.BusMenuSelectPO;
 import com.vblessings.nhs.model.vo.business.BusMenuSelectVO;
 import com.vblessings.nhs.result.UserInfoToken;
 import com.vblessings.nhs.service.MenuService;
+import com.vblessings.nhs.service.SysDictDataService;
 import com.vblessings.nhs.util.DateUtils;
 import com.vblessings.nhs.util.OperateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +20,8 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,6 +32,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Resource
     private SnowflakeComponent snowflakeComponent;
+
+    @Resource
+    private SysDictDataService sysDictDataService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -111,6 +114,31 @@ public class MenuServiceImpl implements MenuService {
         });
 
         return handleCirculationDate(start, end, busMenuSelectVOS);
+    }
+
+    /**
+     * 查询菜谱
+     * @param busMenuSelectPO           查询菜谱入参
+     */
+    @Override
+    public List<BusMenuSelectVO> selectMenuInfoNoToken(BusMenuSelectPO busMenuSelectPO) {
+        List<BusMenuSelectVO> busMenuSelectVOS = selectMenuInfo(busMenuSelectPO, null);
+        List<String> menuList = new ArrayList<>();
+        Map<String,String> stapleFoodDictMap = sysDictDataService.getDictName(DictTypeEnum.MENU_STAPLE_FOOD.getCode(), menuList);
+        Map<String,String> dishesDictMap = sysDictDataService.getDictName(DictTypeEnum.MENU_DISHES.getCode(), menuList);
+        busMenuSelectVOS.forEach(busMenuSelectVO -> {
+            busMenuSelectVO.setBreakfastMenu(setMenuName(busMenuSelectVO.getBreakfastMenu(), dishesDictMap));
+            busMenuSelectVO.setLunchMenu(setMenuName(busMenuSelectVO.getLunchMenu(), dishesDictMap));
+            busMenuSelectVO.setDinnerMeun(setMenuName(busMenuSelectVO.getDinnerMeun(), dishesDictMap));
+            busMenuSelectVO.setBreakfastStapleFood(setMenuName(busMenuSelectVO.getBreakfastStapleFood(), stapleFoodDictMap));
+            busMenuSelectVO.setLunchStapleFood(setMenuName(busMenuSelectVO.getLunchStapleFood(), stapleFoodDictMap));
+            busMenuSelectVO.setDinnerStapleFood(setMenuName(busMenuSelectVO.getDinnerStapleFood(), stapleFoodDictMap));
+        });
+        return busMenuSelectVOS;
+    }
+
+    private List<String> setMenuName(List<String> menuList, Map<String,String> foodMap) {
+        return menuList.stream().map(menu -> foodMap.getOrDefault(menu, menu)).collect(Collectors.toList());
     }
 
     public List<BusMenuSelectVO> handleCirculationDate(Date startTime, Date endTime, List<BusMenuSelectVO> busMenuSelectVOS) {

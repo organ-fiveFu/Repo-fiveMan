@@ -24,4 +24,10 @@ public interface MenuService {
      * @param userInfo                  token
      */
     List<BusMenuSelectVO> selectMenuInfo(BusMenuSelectPO busMenuSelectPO, UserInfoToken userInfo);
+
+    /**
+     * 查询菜谱-no-token
+     * @param busMenuSelectPO           查询菜谱入参
+     */
+    List<BusMenuSelectVO> selectMenuInfoNoToken(BusMenuSelectPO busMenuSelectPO);
 }
