@@ -55,6 +55,7 @@
             </if>
             and is_del = 0
         </where>
+        order by take_medicine_date
     </select>
     <select id="queryTakeMedicationListGetListNoToken"
             resultType="com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO">
@@ -77,7 +78,7 @@
         <if test="endTime !=null and endTime != ''">
             AND b.create_time <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
         </if>
-        ORDER BY h.building_code, h.floor_code, h.bed_code
+        ORDER BY h.building_code, h.floor_code, h.room_code, h.bed_code
     </select>
     <select id="queryTakeMedicineNoToken"
             resultType="com.vblessings.nhs.model.vo.business.TakeMedicineReportQueryVO">
@@ -103,7 +104,7 @@
         <if test="endTime !=null and endTime != ''">
             AND t1.take_medicine_date <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
         </if>
-        ORDER BY t2.building_code, t2.floor_code, t2.bed_code
+        ORDER BY t2.building_code, t2.floor_code, t2.room_code, t2.bed_code
     </select>
 
 </mapper>

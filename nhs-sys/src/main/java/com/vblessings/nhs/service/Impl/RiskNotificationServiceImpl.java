@@ -118,31 +118,10 @@ public class RiskNotificationServiceImpl implements RiskNotificationService {
     @Override
     public PageVO<RiskNotificationQueryVO> queryRiskNotification(RiskNotificationQueryPO riskNotificationQueryPO) {
         Page<RiskNotificationQueryVO> result = PageHelper.startPage(riskNotificationQueryPO.getPageNum(), riskNotificationQueryPO.getPageSize());
-        Example example = new Example(BusRiskNotification.class);
-        Example.Criteria criteria = example.createCriteria();
-        if(!StringUtils.isEmpty(riskNotificationQueryPO.getName())){
-            criteria.andLike("name", "%" + riskNotificationQueryPO.getName() + "%");
-        }
-        if(!StringUtils.isEmpty(riskNotificationQueryPO.getBusinessNo())){
-            criteria.andEqualTo("businessNo", riskNotificationQueryPO.getBusinessNo());
-        }
-        criteria.andEqualTo("isDel", 0);
-        List<BusRiskNotification> busRiskNotificationList = busRiskNotificationMapper.selectByExample(example);
-        if(CollectionUtil.isEmpty(busRiskNotificationList)){
+        List<RiskNotificationQueryVO> riskNotificationQueryVOList = busRiskNotificationMapper.queryRiskNotification(riskNotificationQueryPO);
+        if(CollectionUtil.isEmpty(riskNotificationQueryVOList)){
             return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), new ArrayList<>());
         }
-        List<RiskNotificationQueryVO> riskNotificationQueryVOList = new ArrayList<>();
-        busRiskNotificationList.forEach(busRiskNotification -> {
-            RiskNotificationQueryVO riskNotificationQueryVO = new RiskNotificationQueryVO();
-            BeanUtils.copyProperties(busRiskNotification, riskNotificationQueryVO);
-            String informerTime = null == busRiskNotification.getInformerTime() ? "" :
-                    DateFormatUtils.format(busRiskNotification.getInformerTime(), "yyyy-MM-dd HH:mm:ss");
-            String guardianTime = null == busRiskNotification.getGuardianTime() ? "" :
-                    DateFormatUtils.format(busRiskNotification.getGuardianTime(), "yyyy-MM-dd HH:mm:ss");
-            riskNotificationQueryVO.setInformerTime(informerTime);
-            riskNotificationQueryVO.setGuardianTime(guardianTime);
-            riskNotificationQueryVOList.add(riskNotificationQueryVO);
-        });
         return new PageVO<>(result.getPageNum(), result.getPageSize(), result.getTotal(), result.getPages(), riskNotificationQueryVOList);
     }
 }

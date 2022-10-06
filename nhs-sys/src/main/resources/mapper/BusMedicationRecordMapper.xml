@@ -62,7 +62,7 @@
                 #{item}
             </foreach>
         </if>
-        ORDER BY h.building_code desc, h.floor_code desc, h.bed_code desc, b.medication_date asc
+        ORDER BY h.building_code desc, h.floor_code desc, h.room_code desc, h.bed_code desc, b.medication_date asc
     </select>
     <select id="pageMedicationRecord"
             resultType="com.vblessings.nhs.model.entity.business.BusMedicationRecord">
@@ -94,7 +94,7 @@
         <if test="name !=null and name !=''">
             and t1.name like concat('%',#{name},'%')
         </if>
-        ORDER BY t2.building_code desc, t2.floor_code desc, t2.bed_code desc, t1.medication_date asc
+        ORDER BY t2.building_code desc, t2.floor_code desc, t2.room_code desc, t2.bed_code desc, t1.medication_date asc
     </select>
 
 </mapper>

@@ -47,7 +47,7 @@
         <if test="businessNo !=null and businessNo !=''">
             and t1.business_no = #{businessNo}
         </if>
-        ORDER BY t2.building_code desc, t2.floor_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
+        ORDER BY t2.building_code desc, t2.floor_code desc, t2.room_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
     </select>
     <select id="queryBloodSugar" resultType="com.vblessings.nhs.model.vo.nurse.BloodSugarQueryVO">
         SELECT
@@ -87,7 +87,7 @@
         <if test="endTime !=null and endTime != ''">
             AND t1.blood_sugar_record_date <![CDATA[<=]]> to_timestamp(#{endTime}, 'yyyy-MM-dd hh24:mi:ss')
         </if>
-        ORDER BY t2.building_code desc, t2.floor_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
+        ORDER BY t2.building_code desc, t2.floor_code desc, t2.room_code desc, t2.bed_code desc, t1.blood_sugar_record_date asc
     </select>
 
 </mapper>

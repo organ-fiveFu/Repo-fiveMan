@@ -1,8 +1,12 @@
 package com.vblessings.nhs.mapper;
 
 import com.vblessings.nhs.model.entity.business.BusRiskNotification;
+import com.vblessings.nhs.model.po.nurse.RiskNotificationQueryPO;
+import com.vblessings.nhs.model.vo.nurse.RiskNotificationQueryVO;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * Copyright (c) 2017 Choice, Inc.
@@ -16,5 +20,6 @@ import tk.mybatis.mapper.common.Mapper;
  */
 @Repository
 public interface BusRiskNotificationMapper extends Mapper<BusRiskNotification> {
-	
+
+    List<RiskNotificationQueryVO> queryRiskNotification(RiskNotificationQueryPO riskNotificationQueryPO);
 }

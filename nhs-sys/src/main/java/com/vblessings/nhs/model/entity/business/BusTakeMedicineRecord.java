@@ -1,17 +1,13 @@
 package com.vblessings.nhs.model.entity.business;
 
-import com.vblessings.nhs.model.typehandler.ListStringHandler;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Table(name = "bus_take_medicine_record")
@@ -93,7 +89,7 @@ public class BusTakeMedicineRecord implements Serializable {
      */
     @ApiModelProperty(value = "数量", required = false)
     @Column(name = "acount")
-    private BigDecimal acount;
+    private String acount;
 
     /**
      * 过期时间

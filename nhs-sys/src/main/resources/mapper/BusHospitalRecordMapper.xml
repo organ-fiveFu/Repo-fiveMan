@@ -223,6 +223,7 @@
         <if test="name !=null and name !=''">
             and t1.name like concat('%',#{name},'%')
         </if>
+        order by t1.building_code desc, t1.floor_code desc, t1.room_code desc, t1.bed_code desc
     </select>
 
 </mapper>

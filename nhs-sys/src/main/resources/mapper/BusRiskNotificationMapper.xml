@@ -21,5 +21,30 @@
         <result property="updateTime" column="update_time"/>
         <result property="isDel" column="is_del"/>
     </resultMap>
+    <select id="queryRiskNotification" resultType="com.vblessings.nhs.model.vo.nurse.RiskNotificationQueryVO">
+        select
+          t1.id,
+          t1.business_no as businessNo,
+          t1.name,
+          t1.sex,
+          t1.age,
+          t1.informer,
+          date_format(t1.informer_time, '%Y-%m-%d %H:%i:%s') as informerTime,
+          t1.guardian,
+          date_format(t1.guardian_time, '%Y-%m-%d %H:%i:%s') as guardianTime,
+          t1.is_sign_notification as isSignNotification
+        from bus_risk_notification t1
+        left join bus_hospital_record t2 on t1.business_no = t2.business_no
+          and t2.is_del = 0 and t2.status = '0'
+        WHERE
+          t1.is_del = 0
+        <if test="businessNo !=null and businessNo !=''">
+            and t1.business_no = #{businessNo}
+        </if>
+        <if test="name !=null and name !=''">
+            and t1.name like concat('%',#{name},'%')
+        </if>
+        order by t2.building_code desc, t2.floor_code desc, t2.room_code desc, t2.bed_code desc
+    </select>
 
 </mapper>
